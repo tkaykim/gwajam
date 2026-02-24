@@ -28,12 +28,12 @@ const BACK_PATCH_ORDER: PrintAreaKey[] = [
   "back_mid",
   "back_bottom",
 ];
-/** 인쇄 영역별 캔버스 내 상대 위치 (%, 점선 테두리용) */
+/** 인쇄 영역별 캔버스 내 상대 위치 (%, 점선 테두리용). 사용자 입장 왼/오른 = 의류 거울모드이므로 반대로 매핑 */
 const PRINT_AREA_BOXES: Record<string, { left: string; top: string; width: string; height: string }> = {
-  front_left_chest: { left: "12%", top: "30%", width: "24%", height: "20%" },
-  front_right_chest: { left: "64%", top: "30%", width: "24%", height: "20%" },
-  front_left_sleeve: { left: "2%", top: "28%", width: "26%", height: "45%" },
-  front_right_sleeve: { left: "72%", top: "28%", width: "26%", height: "45%" },
+  front_left_chest: { left: "64%", top: "30%", width: "24%", height: "20%" },
+  front_right_chest: { left: "12%", top: "30%", width: "24%", height: "20%" },
+  front_left_sleeve: { left: "72%", top: "28%", width: "26%", height: "45%" },
+  front_right_sleeve: { left: "2%", top: "28%", width: "26%", height: "45%" },
   back_top: { left: "28%", top: "18%", width: "44%", height: "22%" },
   back_top2: { left: "28%", top: "38%", width: "44%", height: "14%" },
   back_mid: { left: "22%", top: "50%", width: "56%", height: "28%" },
@@ -88,6 +88,8 @@ interface LayerPreviewProps {
   printAreas?: Record<PrintAreaKey, PrintAreaState>;
   /** 선택된 인쇄 영역 키 (해당 위치에 점선 테두리 표시) */
   activePrintArea?: PrintAreaKey | null;
+  /** 인쇄 영역 점선 박스 위치 오버라이드 (저장된 값, % 문자열) */
+  printAreaBoxOverrides?: Record<string, { left: string; top: string; width: string; height: string }>;
   /** Step2에서 한 면만 볼 때 크게 표시 */
   enlarged?: boolean;
   /** 관리자 상세 등에서 더 크게 표시 (enlarged일 때) */
@@ -117,6 +119,7 @@ export function LayerPreview({
   backColors,
   printAreas,
   activePrintArea,
+  printAreaBoxOverrides,
   enlarged = false,
   adminSize = false,
 }: LayerPreviewProps) {
@@ -131,7 +134,7 @@ export function LayerPreview({
       : BACK_PATCH_ORDER.includes(active));
   const boxStyle =
     isActiveForThisSide && active
-      ? PRINT_AREA_BOXES[active]
+      ? (printAreaBoxOverrides?.[active] ?? PRINT_AREA_BOXES[active])
       : null;
   const sizeClass =
     adminSize && enlarged
@@ -244,4 +247,4 @@ export function LayerPreview({
   );
 }
 
-export { FRONT_LAYER_ORDER, BACK_LAYER_ORDER, FRONT_PATCH_ORDER, BACK_PATCH_ORDER, LAYER_LABELS };
+export { FRONT_LAYER_ORDER, BACK_LAYER_ORDER, FRONT_PATCH_ORDER, BACK_PATCH_ORDER, LAYER_LABELS, PRINT_AREA_BOXES };

@@ -51,6 +51,8 @@ interface Step1ColorsProps {
   onFrontColorsChange: (c: FrontColors) => void;
   onBackColorsChange: (c: BackColors) => void;
   onLiningOzChange: (oz: LiningOz) => void;
+  /** 지정 시 해당 항목만 노출 (마이크로 스텝용) */
+  singleStep?: "body" | "sleeve" | "ribbing" | "button" | "lining";
 }
 
 type OpenKey = "body" | "sleeve" | "ribbing" | "button" | null;
@@ -191,8 +193,11 @@ export function Step1Colors({
   onFrontColorsChange,
   onBackColorsChange,
   onLiningOzChange,
+  singleStep,
 }: Step1ColorsProps) {
-  const [openKey, setOpenKey] = useState<OpenKey>(null);
+  const [openKey, setOpenKey] = useState<OpenKey>(
+    singleStep && singleStep !== "lining" ? singleStep : null
+  );
   const bodyColor = frontColors.front_body;
   const sleeveColor = frontColors.front_sleeves;
   const buttonColor = frontColors.front_buttons;
@@ -230,40 +235,57 @@ export function Step1Colors({
 
   const toggleOpen = (key: OpenKey) => setOpenKey((prev) => (prev === key ? null : key));
 
+  const showBody = !singleStep || singleStep === "body";
+  const showSleeve = !singleStep || singleStep === "sleeve";
+  const showRibbing = !singleStep || singleStep === "ribbing";
+  const showButton = !singleStep || singleStep === "button";
+  const showLining = !singleStep || singleStep === "lining";
+
   return (
     <div className="space-y-5">
       <Card className="overflow-hidden">
         <CardContent className="p-6">
+          {(showBody || showSleeve || showRibbing || showButton) && (
           <div className="flex flex-wrap items-center gap-3">
-            <ColorChipButton
-              label="몸통색"
-              value={bodyColor}
-              isOpen={openKey === "body"}
-              onClick={() => toggleOpen("body")}
-              presets={BODY_PRESETS}
-            />
-            <ColorChipButton
-              label="팔색"
-              value={sleeveColor}
-              isOpen={openKey === "sleeve"}
-              onClick={() => toggleOpen("sleeve")}
-              presets={SLEEVE_BUTTON_PRESETS}
-            />
-            <ColorChipButton
-              label="시보리색"
-              value={ribbingColor}
-              isOpen={openKey === "ribbing"}
-              onClick={() => toggleOpen("ribbing")}
-              presets={SLEEVE_BUTTON_PRESETS}
-            />
-            <ColorChipButton
-              label="단추"
-              value={buttonColor}
-              isOpen={openKey === "button"}
-              onClick={() => toggleOpen("button")}
-              presets={SLEEVE_BUTTON_PRESETS}
-            />
+            {showBody && (
+              <ColorChipButton
+                label="몸통색"
+                value={bodyColor}
+                isOpen={openKey === "body"}
+                onClick={() => toggleOpen("body")}
+                presets={BODY_PRESETS}
+              />
+            )}
+            {showSleeve && (
+              <ColorChipButton
+                label="팔색"
+                value={sleeveColor}
+                isOpen={openKey === "sleeve"}
+                onClick={() => toggleOpen("sleeve")}
+                presets={SLEEVE_BUTTON_PRESETS}
+              />
+            )}
+            {showRibbing && (
+              <ColorChipButton
+                label="시보리색"
+                value={ribbingColor}
+                isOpen={openKey === "ribbing"}
+                onClick={() => toggleOpen("ribbing")}
+                presets={SLEEVE_BUTTON_PRESETS}
+              />
+            )}
+            {showButton && (
+              <ColorChipButton
+                label="단추"
+                value={buttonColor}
+                isOpen={openKey === "button"}
+                onClick={() => toggleOpen("button")}
+                presets={SLEEVE_BUTTON_PRESETS}
+              />
+            )}
           </div>
+          )}
+          {showLining && (
           <div className="mt-5 pt-5 border-t border-border/60 flex flex-wrap items-center gap-3">
             <span className="text-muted-foreground text-sm font-medium">안감 두께</span>
             <div className="flex gap-2">
@@ -282,6 +304,7 @@ export function Step1Colors({
             </div>
             <p className="text-muted-foreground text-xs w-full">숫자가 높을수록 충전재가 많이 들어갑니다.</p>
           </div>
+          )}
           {openKey === "body" && (
             <ExpandPanel
               openKey="body"
