@@ -75,55 +75,99 @@ function ColorRow({
   onChange,
 }: {
   label: string;
-  value: string;
-  onChange: (hex: string) => void;
+  value: string | null;
+  onChange: (hex: string | null) => void;
 }) {
+  const [open, setOpen] = useState(false);
   const [showPicker, setShowPicker] = useState(false);
-  const isPreset = PRESETS.some((p) => p.hex.toLowerCase() === value?.toLowerCase());
+  const isNone = value == null || value === "";
+  const isPreset = !isNone && PRESETS.some((p) => p.hex.toLowerCase() === value.toLowerCase());
+  const displayLabel = isNone ? "색없음" : isPreset ? PRESETS.find((p) => p.hex.toLowerCase() === value?.toLowerCase())?.name ?? "기타" : "기타";
 
   return (
-    <div className="space-y-1.5">
+    <div className="space-y-1.5 relative">
       <span className="text-xs font-medium text-muted-foreground">{label}</span>
-      <div className="flex flex-wrap items-center gap-1.5">
-        {PRESETS.map((p) => (
-          <button
-            key={p.hex}
-            type="button"
-            onClick={() => onChange(p.hex)}
-            className={`w-7 h-7 rounded-md border-2 shrink-0 transition ${
-              value?.toLowerCase() === p.hex.toLowerCase()
-                ? "border-primary ring-1 ring-primary"
-                : "border-border hover:border-primary/50"
-            }`}
-            style={{ backgroundColor: p.hex }}
-            title={p.name}
-          />
-        ))}
-        <Button
+      <div className="flex items-center gap-2">
+        <button
           type="button"
-          variant={showPicker || (value && !isPreset) ? "default" : "outline"}
-          size="sm"
-          className="h-7 text-xs px-2"
-          onClick={() => setShowPicker((o) => !o)}
+          onClick={() => setOpen((o) => !o)}
+          className={`inline-flex items-center gap-1.5 rounded-lg border-2 px-2.5 py-1.5 text-sm font-medium transition shrink-0 ${
+            open ? "border-primary ring-1 ring-primary" : "border-border hover:border-primary/50"
+          }`}
         >
-          기타
-        </Button>
+          {isNone ? (
+            <span className="text-muted-foreground">색없음</span>
+          ) : (
+            <span
+              className="w-5 h-5 rounded border border-border shrink-0"
+              style={{ backgroundColor: value ?? undefined }}
+            />
+          )}
+          <span className="text-foreground">{displayLabel}</span>
+          <svg className="h-4 w-4 text-muted-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={open ? "M5 15l7-7 7 7" : "M19 9l-7 7-7-7"} />
+          </svg>
+        </button>
       </div>
-      {showPicker && (
-        <div className="pt-2 border-t border-border space-y-2">
-          <HexColorPicker
-            color={value || "#333333"}
-            onChange={onChange}
-            style={{ width: "100%" }}
-          />
-          <Input
-            type="text"
-            value={value || ""}
-            onChange={(e) => onChange(e.target.value)}
-            placeholder="#000000"
-            className="font-mono text-xs h-8"
-          />
-        </div>
+      {open && (
+        <>
+          <div className="flex flex-wrap items-center gap-1.5 pt-2 border-t border-border">
+            {PRESETS.map((p) => (
+              <button
+                key={p.hex}
+                type="button"
+                onClick={() => {
+                  onChange(p.hex);
+                  setShowPicker(false);
+                }}
+                className={`w-7 h-7 rounded-md border-2 shrink-0 transition ${
+                  !isNone && value?.toLowerCase() === p.hex.toLowerCase()
+                    ? "border-primary ring-1 ring-primary"
+                    : "border-border hover:border-primary/50"
+                }`}
+                style={{ backgroundColor: p.hex }}
+                title={p.name}
+              />
+            ))}
+            <Button
+              type="button"
+              variant={showPicker || (!isNone && !isPreset) ? "default" : "outline"}
+              size="sm"
+              className="h-7 text-xs px-2"
+              onClick={() => setShowPicker((o) => !o)}
+            >
+              기타
+            </Button>
+            <Button
+              type="button"
+              variant={isNone ? "default" : "outline"}
+              size="sm"
+              className="h-7 text-xs px-2"
+              onClick={() => {
+                onChange(null);
+                setShowPicker(false);
+              }}
+            >
+              색없음
+            </Button>
+          </div>
+          {showPicker && (
+            <div className="pt-2 border-t border-border space-y-2">
+              <HexColorPicker
+                color={value || "#333333"}
+                onChange={(hex) => onChange(hex)}
+                style={{ width: "100%" }}
+              />
+              <Input
+                type="text"
+                value={value ?? ""}
+                onChange={(e) => onChange(e.target.value || null)}
+                placeholder="#000000"
+                className="font-mono text-xs h-8"
+              />
+            </div>
+          )}
+        </>
       )}
     </div>
   );
@@ -239,12 +283,10 @@ export function Step2Memos({
     <div className="space-y-4">
       <p className="text-muted-foreground text-sm whitespace-pre-line">
         {side === "front"
-          ? "앞면 인쇄 영역을 설정해 주세요. 있음/없음, 면·테두리 색, 텍스트·이미지를 넣을 수 있습니다."
+          ? "앞면 인쇄 영역을 설정해 주세요.\n텍스트·이미지를 넣을 수 있습니다.\n이미지가 없는 경우 설명을 남겨주시면 담당자가 찾아 시안 작업을 도와드립니다."
           : side === "back"
-            ? "뒷면 인쇄 영역을 설정해 주세요. 있음/없음, 면·테두리 색, 텍스트·이미지를 넣을 수 있습니다."
-            : "각 위치에 인쇄 여부(있음/없음), 면·테두리 색, 넣고 싶은 텍스트·이미지를 설정해 주세요."}
-        {"\n"}
-        이미지가 없는 경우 설명을 남겨주시면 담당자가 찾아 시안 작업을 도와드립니다.
+            ? "뒷면 인쇄 영역을 설정해 주세요.\n텍스트·이미지를 넣을 수 있습니다.\n이미지가 없는 경우 설명을 남겨주시면 담당자가 찾아 시안 작업을 도와드립니다."
+            : "각 위치에 인쇄 영역을 설정해 주세요.\n텍스트·이미지를 넣을 수 있습니다.\n이미지가 없는 경우 설명을 남겨주시면 담당자가 찾아 시안 작업을 도와드립니다."}
       </p>
       <div className="space-y-2">
         {order.map((key) => {
@@ -258,6 +300,13 @@ export function Step2Memos({
               >
                 <span className="font-medium text-foreground">{PRINT_AREA_LABELS[key]}</span>
                 <span className="flex items-center gap-2 shrink-0">
+                  {area.imageUrl && (
+                    <img
+                      src={area.imageUrl}
+                      alt=""
+                      className="w-9 h-9 rounded-md object-cover border border-border shrink-0"
+                    />
+                  )}
                   <span
                     className={`inline-flex items-center rounded-md px-2 py-0.5 text-xs font-medium ${
                       area.visible ? "bg-primary/10 text-primary" : "bg-muted text-muted-foreground"
@@ -329,11 +378,11 @@ export function Step2Memos({
                       <textarea
                         value={area.text ?? ""}
                         onChange={(e) => updateArea(key, { text: e.target.value || null })}
-                        placeholder="텍스트 메모"
+                        placeholder="쓰일 텍스트, 또는 요청사항을 자유롭게 작성해주세요"
                         rows={2}
                         className="flex min-h-[80px] w-full rounded-lg border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 resize-none"
                       />
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-2 flex-wrap">
                         <input
                           ref={(el) => {
                             fileInputRefs.current[key] = el;
@@ -352,8 +401,13 @@ export function Step2Memos({
                           이미지 업로드
                         </Button>
                         {area.imageUrl && (
-                          <span className="text-xs text-green-600 truncate max-w-[120px]">
-                            업로드됨
+                          <span className="flex items-center gap-2">
+                            <img
+                              src={area.imageUrl}
+                              alt="업로드 미리보기"
+                              className="w-14 h-14 rounded-lg object-cover border border-border shrink-0"
+                            />
+                            <span className="text-xs text-green-600">업로드됨</span>
                           </span>
                         )}
                       </div>

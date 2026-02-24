@@ -47,6 +47,14 @@ export async function getInquiries(): Promise<InquiryRow[]> {
   return (data as InquiryRow[]) ?? [];
 }
 
+export async function getInquiryById(id: string): Promise<InquiryRow | null> {
+  if ((await isAdminAuthenticated()) !== true) return null;
+  const supabase = createAdminClient();
+  const { data, error } = await supabase.from("inquiries").select("*").eq("id", id).single();
+  if (error || !data) return null;
+  return data as InquiryRow;
+}
+
 export async function getMockupImages(): Promise<MockupImageRow[]> {
   if ((await isAdminAuthenticated()) !== true) return [];
   const supabase = createAdminClient();

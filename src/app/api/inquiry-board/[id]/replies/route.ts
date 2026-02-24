@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
-import crypto from "crypto";
+import { hashPassword } from "@/lib/password";
 
 const ADMIN_COOKIE = "admin_secret";
 
@@ -37,7 +37,7 @@ export async function POST(
         if (!password?.trim()) {
           return NextResponse.json({ error: "비밀번호를 입력해 주세요." }, { status: 400 });
         }
-        const hash = crypto.createHash("sha256").update(password.trim(), "utf8").digest("hex");
+        const hash = hashPassword(password.trim());
         if (hash !== post.password_hash) {
           return NextResponse.json({ error: "비밀번호가 일치하지 않습니다." }, { status: 403 });
         }

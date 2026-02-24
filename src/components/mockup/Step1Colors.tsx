@@ -3,7 +3,7 @@
 import { useState, useCallback } from "react";
 import { HexColorPicker } from "react-colorful";
 import type { FrontColors, BackColors } from "@/types/mockup";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
@@ -53,73 +53,134 @@ interface Step1ColorsProps {
   onLiningOzChange: (oz: LiningOz) => void;
 }
 
-function PresetOrCustom({
+type OpenKey = "body" | "sleeve" | "ribbing" | "button" | null;
+
+function ColorChipButton({
   label,
+  value,
+  isOpen,
+  onClick,
+  presets,
+}: {
+  label: string;
+  value: string | undefined;
+  isOpen: boolean;
+  onClick: () => void;
+  presets: readonly { name: string; hex: string }[];
+}) {
+  const isNone = value == null || value === "";
+  const isPreset = !isNone && presets.some((p) => p.hex.toLowerCase() === value?.toLowerCase());
+  const displayLabel = isNone
+    ? "색없음"
+    : isPreset
+      ? presets.find((p) => p.hex.toLowerCase() === value?.toLowerCase())?.name ?? "기타"
+      : "기타";
+
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`inline-flex items-center gap-2 rounded-xl border-2 px-3 py-2.5 text-sm font-medium transition shrink-0 ${
+        isOpen ? "border-primary ring-2 ring-primary/20" : "border-border hover:border-primary/40"
+      }`}
+    >
+      <span className="text-muted-foreground text-sm whitespace-nowrap">{label}</span>
+      {isNone ? (
+        <span className="text-muted-foreground text-sm">색없음</span>
+      ) : (
+        <span
+          className="w-5 h-5 rounded-md border border-border shrink-0"
+          style={{ backgroundColor: value ?? undefined }}
+        />
+      )}
+      <span className="text-foreground text-sm min-w-[2rem] text-left">{displayLabel}</span>
+      <svg className="h-4 w-4 text-muted-foreground shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={isOpen ? "M5 15l7-7 7 7" : "M19 9l-7 7-7-7"} />
+      </svg>
+    </button>
+  );
+}
+
+function ExpandPanel({
+  openKey,
   presets,
   value,
   onChange,
-  showOther = true,
+  extraButtons,
+  showOther,
 }: {
-  label: string;
+  openKey: OpenKey;
+  onClose?: () => void;
   presets: readonly { name: string; hex: string }[];
-  value: string;
-  onChange: (hex: string) => void;
+  value: string | undefined;
+  onChange: (hex: string | undefined) => void;
+  extraButtons?: { label: string; onClick: () => void }[];
   showOther?: boolean;
 }) {
   const [showPicker, setShowPicker] = useState(false);
-  const isPreset = presets.some((p) => p.hex.toLowerCase() === value?.toLowerCase());
+  const isNone = value == null || value === "";
+  const isPreset = !isNone && presets.some((p) => p.hex.toLowerCase() === value?.toLowerCase());
+
+  if (!openKey) return null;
 
   return (
-    <Card>
-      <CardHeader className="py-3">
-        <CardTitle className="text-base">{label}</CardTitle>
-      </CardHeader>
-      <CardContent className="space-y-3">
-        <div className="flex flex-wrap gap-2">
-          {presets.map((p) => (
-            <button
-              key={p.hex}
-              type="button"
-              onClick={() => onChange(p.hex)}
-              className={`w-9 h-9 rounded-lg border-2 shrink-0 transition ${
-                value?.toLowerCase() === p.hex.toLowerCase()
-                  ? "border-primary ring-2 ring-primary ring-offset-2"
-                  : "border-border hover:border-primary/50"
-              }`}
-              style={{ backgroundColor: p.hex }}
-              title={p.name}
-            />
-          ))}
-          {showOther && (
+    <div className="pt-5 mt-5 border-t border-border/60 space-y-4">
+      <div className="flex flex-wrap gap-2.5 items-center">
+        {presets.map((p) => (
+          <button
+            key={p.hex}
+            type="button"
+            onClick={() => { onChange(p.hex); setShowPicker(false); }}
+            className={`w-10 h-10 rounded-lg border-2 shrink-0 transition ${
+              !isNone && value?.toLowerCase() === p.hex.toLowerCase()
+                ? "border-primary ring-2 ring-primary/20"
+                : "border-border hover:border-primary/40"
+            }`}
+            style={{ backgroundColor: p.hex }}
+            title={p.name}
+          />
+        ))}
+        {extraButtons?.map((b) => (
+          <Button key={b.label} type="button" variant="outline" size="sm" className="h-9 px-3 text-sm" onClick={() => { b.onClick(); setShowPicker(false); }}>
+            {b.label}
+          </Button>
+        ))}
+        {showOther && (
+          <>
             <Button
               type="button"
-              variant={showPicker || (value && !isPreset) ? "default" : "outline"}
+              variant={showPicker || (!isNone && !isPreset) ? "default" : "outline"}
               size="sm"
-              className="h-9"
+              className="h-9 px-3 text-sm"
               onClick={() => setShowPicker((o) => !o)}
             >
               기타
             </Button>
-          )}
-        </div>
-        {showOther && showPicker && (
-          <div className="pt-2 border-t border-border space-y-2">
-            <HexColorPicker
-              color={value || "#333333"}
-              onChange={onChange}
-              style={{ width: "100%" }}
-            />
-            <Input
-              type="text"
-              value={value || ""}
-              onChange={(e) => onChange(e.target.value)}
-              placeholder="#000000"
-              className="font-mono text-sm h-10"
-            />
-          </div>
+            <Button
+              type="button"
+              variant={isNone ? "default" : "outline"}
+              size="sm"
+              className="h-9 px-3 text-sm"
+              onClick={() => { onChange(undefined); setShowPicker(false); }}
+            >
+              색없음
+            </Button>
+          </>
         )}
-      </CardContent>
-    </Card>
+      </div>
+      {showOther && showPicker && (
+        <div className="space-y-3">
+          <HexColorPicker color={value || "#333333"} onChange={onChange} style={{ width: "100%" }} />
+          <Input
+            type="text"
+            value={value ?? ""}
+            onChange={(e) => onChange(e.target.value || undefined)}
+            placeholder="#000000"
+            className="font-mono text-sm h-9"
+          />
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -131,13 +192,14 @@ export function Step1Colors({
   onBackColorsChange,
   onLiningOzChange,
 }: Step1ColorsProps) {
-  const bodyColor = frontColors.front_body ?? DEFAULT_BODY;
-  const sleeveColor = frontColors.front_sleeves ?? DEFAULT_SLEEVE;
-  const buttonColor = frontColors.front_buttons ?? DEFAULT_BUTTON;
-  const ribbingColor = frontColors.front_ribbing ?? "#ffffff";
+  const [openKey, setOpenKey] = useState<OpenKey>(null);
+  const bodyColor = frontColors.front_body;
+  const sleeveColor = frontColors.front_sleeves;
+  const buttonColor = frontColors.front_buttons;
+  const ribbingColor = frontColors.front_ribbing;
 
   const setBodyColor = useCallback(
-    (hex: string) => {
+    (hex: string | undefined) => {
       onFrontColorsChange({ ...frontColors, front_body: hex });
       onBackColorsChange({ ...backColors, back_body: hex });
     },
@@ -145,7 +207,7 @@ export function Step1Colors({
   );
 
   const setSleeveColor = useCallback(
-    (hex: string) => {
+    (hex: string | undefined) => {
       onFrontColorsChange({ ...frontColors, front_sleeves: hex });
       onBackColorsChange({ ...backColors, back_sleeves: hex });
     },
@@ -153,68 +215,122 @@ export function Step1Colors({
   );
 
   const setButtonColor = useCallback(
-    (hex: string) => {
+    (hex: string | undefined) => {
       onFrontColorsChange({ ...frontColors, front_buttons: hex });
     },
     [frontColors, onFrontColorsChange]
   );
 
   const setRibbingColor = useCallback(
-    (hex: string) => {
+    (hex: string | undefined) => {
       onFrontColorsChange({ ...frontColors, front_ribbing: hex });
     },
     [frontColors, onFrontColorsChange]
   );
 
+  const toggleOpen = (key: OpenKey) => setOpenKey((prev) => (prev === key ? null : key));
+
   return (
     <div className="space-y-5">
-      <PresetOrCustom
-        label="몸통색"
-        presets={BODY_PRESETS}
-        value={bodyColor}
-        onChange={setBodyColor}
-      />
-      <PresetOrCustom
-        label="팔색"
-        presets={SLEEVE_BUTTON_PRESETS}
-        value={sleeveColor}
-        onChange={setSleeveColor}
-      />
-      <PresetOrCustom
-        label="시보리색"
-        presets={[{ name: "흰색", hex: "#ffffff" }, ...SLEEVE_BUTTON_PRESETS]}
-        value={ribbingColor}
-        onChange={setRibbingColor}
-      />
-      <Card>
-        <CardHeader className="py-3">
-          <CardTitle className="text-base">안감 두께</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p className="text-muted-foreground text-xs mb-3">
-            숫자가 높을수록 충전재가 많이 들어갑니다.
+      <Card className="overflow-hidden">
+        <CardContent className="p-6">
+          <p className="text-muted-foreground text-sm mb-5 leading-relaxed">
+            정확한 색상을 모르시더라도 괜찮습니다.
+            <br />
+            담당자가 직접 확인 후 답변 드립니다.
           </p>
-          <div className="flex gap-2">
-            {LINING_OZ_OPTIONS.map((oz) => (
-              <Button
-                key={oz}
-                type="button"
-                variant={liningOz === oz ? "default" : "outline"}
-                className="flex-1"
-                onClick={() => onLiningOzChange(oz)}
-              >
-                {oz}온스
-              </Button>
-            ))}
+          <div className="flex flex-wrap items-center gap-3">
+            <ColorChipButton
+              label="몸통색"
+              value={bodyColor}
+              isOpen={openKey === "body"}
+              onClick={() => toggleOpen("body")}
+              presets={BODY_PRESETS}
+            />
+            <ColorChipButton
+              label="팔색"
+              value={sleeveColor}
+              isOpen={openKey === "sleeve"}
+              onClick={() => toggleOpen("sleeve")}
+              presets={SLEEVE_BUTTON_PRESETS}
+            />
+            <ColorChipButton
+              label="시보리색"
+              value={ribbingColor}
+              isOpen={openKey === "ribbing"}
+              onClick={() => toggleOpen("ribbing")}
+              presets={SLEEVE_BUTTON_PRESETS}
+            />
+            <ColorChipButton
+              label="단추"
+              value={buttonColor}
+              isOpen={openKey === "button"}
+              onClick={() => toggleOpen("button")}
+              presets={SLEEVE_BUTTON_PRESETS}
+            />
           </div>
+          <div className="mt-5 pt-5 border-t border-border/60 flex flex-wrap items-center gap-3">
+            <span className="text-muted-foreground text-sm font-medium">안감 두께</span>
+            <div className="flex gap-2">
+              {LINING_OZ_OPTIONS.map((oz) => (
+                <Button
+                  key={oz}
+                  type="button"
+                  variant={liningOz === oz ? "default" : "outline"}
+                  size="sm"
+                  className="h-10 px-4 text-sm rounded-lg"
+                  onClick={() => onLiningOzChange(oz)}
+                >
+                  {oz}oz
+                </Button>
+              ))}
+            </div>
+            <p className="text-muted-foreground text-xs w-full">숫자가 높을수록 충전재가 많이 들어갑니다.</p>
+          </div>
+          {openKey === "body" && (
+            <ExpandPanel
+              openKey="body"
+              onClose={() => setOpenKey(null)}
+              presets={BODY_PRESETS}
+              value={bodyColor}
+              onChange={setBodyColor}
+              showOther
+            />
+          )}
+          {openKey === "sleeve" && (
+            <ExpandPanel
+              openKey="sleeve"
+              onClose={() => setOpenKey(null)}
+              presets={SLEEVE_BUTTON_PRESETS}
+              value={sleeveColor}
+              onChange={setSleeveColor}
+              extraButtons={[{ label: "몸통색과 통일", onClick: () => setSleeveColor(bodyColor) }]}
+              showOther
+            />
+          )}
+          {openKey === "ribbing" && (
+            <ExpandPanel
+              openKey="ribbing"
+              onClose={() => setOpenKey(null)}
+              presets={SLEEVE_BUTTON_PRESETS}
+              value={ribbingColor}
+              onChange={setRibbingColor}
+              extraButtons={[{ label: "몸통색과 통일", onClick: () => setRibbingColor(bodyColor) }]}
+              showOther
+            />
+          )}
+          {openKey === "button" && (
+            <ExpandPanel
+              openKey="button"
+              onClose={() => setOpenKey(null)}
+              presets={SLEEVE_BUTTON_PRESETS}
+              value={buttonColor}
+              onChange={setButtonColor}
+              showOther
+            />
+          )}
         </CardContent>
       </Card>
-      <PresetOrCustom
-        label="단추"
-        presets={SLEEVE_BUTTON_PRESETS}
-        value={buttonColor}
-        onChange={setButtonColor}
-      />
     </div>
   );
 }

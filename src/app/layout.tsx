@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { FloatingMenu } from "@/components/FloatingMenu";
 import { Footer } from "@/components/Footer";
+import { Toaster } from "sonner";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -27,6 +28,7 @@ export default function RootLayout({
         <main className="flex-1">{children}</main>
         <Footer />
         <FloatingMenu />
+        <Toaster position="top-center" richColors closeButton />
       </body>
     </html>
   );

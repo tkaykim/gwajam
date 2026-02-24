@@ -17,7 +17,10 @@ export type PrintAreaKey =
   | "back_mid"
   | "back_bottom";
 
-export type LayerKey = FrontLayerKey | BackLayerKey | PrintAreaKey;
+/** 인쇄 영역별 테두리 전용 레이어 키 (관리자에서 업로드) */
+export type BorderLayerKey = `${PrintAreaKey}_border`;
+
+export type LayerKey = FrontLayerKey | BackLayerKey | PrintAreaKey | BorderLayerKey;
 
 export interface FrontColors {
   front_body?: string;
@@ -56,11 +59,11 @@ export interface MemoSection {
   imageUrl: string | null;
 }
 
-/** 인쇄 영역별 상태: 있음/없음, 면 색, 테두리 색, 내용 */
+/** 인쇄 영역별 상태: 있음/없음, 면 색, 테두리 색, 내용 (null = 색없음) */
 export interface PrintAreaState {
   visible: boolean;
-  faceColor: string;
-  borderColor: string;
+  faceColor: string | null;
+  borderColor: string | null;
   text: string | null;
   imageUrl: string | null;
 }
@@ -87,6 +90,8 @@ export interface InquiryPayload {
   group_name: string;
   representative_name: string;
   contact: string;
+  /** 이메일 (선택) */
+  email?: string | null;
   quantity: number;
   quantity_note: string | null;
   /** 수령 희망일 (YYYY-MM-DD) */
@@ -98,11 +103,11 @@ export interface InquiryPayload {
   lining_oz: 0 | 2 | 4;
 }
 
-/** API/DB용 인쇄 영역 상태 (snake_case) */
+/** API/DB용 인쇄 영역 상태 (snake_case, null = 색없음) */
 export interface PrintAreaStatePayload {
   visible: boolean;
-  face_color: string;
-  border_color: string;
+  face_color: string | null;
+  border_color: string | null;
   text: string | null;
   image_url: string | null;
 }

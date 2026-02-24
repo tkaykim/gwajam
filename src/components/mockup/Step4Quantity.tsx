@@ -7,9 +7,11 @@ import { Card, CardContent } from "@/components/ui/card";
 interface Step4QuantityProps {
   quantity: string;
   onQuantityChange: (v: string) => void;
+  /** 필수 항목 검증 시 해당 필드 아래 툴팁으로 표시 */
+  quantityError?: string;
 }
 
-export function Step4Quantity({ quantity, onQuantityChange }: Step4QuantityProps) {
+export function Step4Quantity({ quantity, onQuantityChange, quantityError }: Step4QuantityProps) {
   const numOnly = (v: string) => v.replace(/\D/g, "");
 
   return (
@@ -27,7 +29,14 @@ export function Step4Quantity({ quantity, onQuantityChange }: Step4QuantityProps
               value={quantity}
               onChange={(e) => onQuantityChange(numOnly(e.target.value))}
               placeholder="예: 50"
+              className={quantityError ? "border-destructive" : ""}
             />
+            {quantityError && (
+              <p className="text-destructive text-xs flex items-center gap-1" role="alert">
+                <span className="inline-block w-1 h-1 rounded-full bg-destructive" aria-hidden />
+                {quantityError}
+              </p>
+            )}
           </div>
           <p className="text-muted-foreground text-xs">
             제출 후 약간의 변동은 있어도 괜찮습니다.

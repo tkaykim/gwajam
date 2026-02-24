@@ -39,12 +39,6 @@ const LAYER_LABELS: Record<string, string> = {
   back_sleeves: "팔",
 };
 
-/** drop-shadow로 테두리 비슷하게: 8방향 2px 오프셋 */
-function outlineDropShadow(color: string, px: number = 2) {
-  const c = `drop-shadow(-${px}px -${px}px 0 ${color}) drop-shadow(${px}px -${px}px 0 ${color}) drop-shadow(-${px}px ${px}px 0 ${color}) drop-shadow(${px}px ${px}px 0 ${color}) drop-shadow(-${px}px 0 0 ${color}) drop-shadow(${px}px 0 0 ${color}) drop-shadow(0 -${px}px 0 ${color}) drop-shadow(0 ${px}px 0 ${color})`;
-  return c;
-}
-
 export function useMockupImages() {
   const [images, setImages] = useState<MockupImageRow[]>([]);
   const [loading, setLoading] = useState(true);
@@ -83,6 +77,8 @@ interface LayerPreviewProps {
   printAreas?: Record<PrintAreaKey, PrintAreaState>;
   /** Step2에서 한 면만 볼 때 크게 표시 */
   enlarged?: boolean;
+  /** 관리자 상세 등에서 더 크게 표시 (enlarged일 때) */
+  adminSize?: boolean;
 }
 
 export function LayerPreview({
@@ -92,16 +88,21 @@ export function LayerPreview({
   backColors,
   printAreas,
   enlarged = false,
+  adminSize = false,
 }: LayerPreviewProps) {
   const order = side === "front" ? FRONT_LAYER_ORDER : BACK_LAYER_ORDER;
   const colors = side === "front" ? frontColors : backColors;
   const patchOrder = side === "front" ? FRONT_PATCH_ORDER : BACK_PATCH_ORDER;
+  const sizeClass =
+    adminSize && enlarged
+      ? "max-w-[min(420px,50vw)]"
+      : enlarged
+        ? "max-w-[min(280px,75vw)]"
+        : "max-w-[min(200px,45vw)]";
 
   return (
     <div
-      className={`relative w-full aspect-[3/4] mx-auto bg-muted rounded-2xl overflow-hidden ${
-        enlarged ? "max-w-[min(280px,75vw)]" : "max-w-[min(200px,45vw)]"
-      }`}
+      className={`relative w-full aspect-[3/4] mx-auto rounded-2xl overflow-hidden bg-neutral-300 ${sizeClass}`}
     >
       {/* 1) 재킷 베이스 레이어 */}
       {order.map((key) => {
@@ -138,14 +139,17 @@ export function LayerPreview({
         );
       })}
 
-      {/* 2) 인쇄 영역 패치 레이어 (있음일 때만, 테두리 → 면 순) */}
+      {/* 2) 인쇄 영역 패치 레이어 (있음일 때만, 테두리 레이어 → 면 순) */}
       {printAreas &&
         patchOrder.map((key) => {
           const url = getImageByKey(images, key);
+          const borderUrl = getImageByKey(images, `${key}_border`);
           const area = printAreas[key];
           if (!url || !area?.visible) return null;
           const { faceColor, borderColor } = area;
-          const maskStyle = {
+          const hasBorderColor = borderColor != null && borderColor !== "";
+          const hasFaceColor = faceColor != null && faceColor !== "";
+          const patchMaskStyle = {
             maskImage: `url(${url})`,
             maskSize: "cover" as const,
             maskPosition: "center" as const,
@@ -155,25 +159,40 @@ export function LayerPreview({
             WebkitMaskPosition: "center" as const,
             WebkitMaskRepeat: "no-repeat" as const,
           };
+          const borderMaskStyle = borderUrl
+            ? {
+                maskImage: `url(${borderUrl})`,
+                maskSize: "cover" as const,
+                maskPosition: "center" as const,
+                maskRepeat: "no-repeat" as const,
+                WebkitMaskImage: `url(${borderUrl})`,
+                WebkitMaskSize: "cover" as const,
+                WebkitMaskPosition: "center" as const,
+                WebkitMaskRepeat: "no-repeat" as const,
+              }
+            : null;
           return (
             <div key={key} className="absolute inset-0 pointer-events-none" aria-hidden>
-              {/* 테두리: drop-shadow로 아웃라인 */}
-              <div
-                className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-                style={{
-                  ...maskStyle,
-                  backgroundColor: borderColor,
-                  filter: outlineDropShadow(borderColor, 2),
-                }}
-              />
-              {/* 면 채우기 */}
-              <div
-                className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-                style={{
-                  ...maskStyle,
-                  backgroundColor: faceColor,
-                }}
-              />
+              {/* 테두리: 전용 레이어 이미지 + 테두리색 (색없음이면 미표시) */}
+              {borderMaskStyle && hasBorderColor && (
+                <div
+                  className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+                  style={{
+                    ...borderMaskStyle,
+                    backgroundColor: borderColor,
+                  }}
+                />
+              )}
+              {/* 면 채우기 (색없음이면 미표시) */}
+              {hasFaceColor && (
+                <div
+                  className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+                  style={{
+                    ...patchMaskStyle,
+                    backgroundColor: faceColor,
+                  }}
+                />
+              )}
             </div>
           );
         })}

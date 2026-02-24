@@ -9,9 +9,11 @@ import {
   createCaseStudy,
   uploadCaseStudyPhoto,
   getInquiryBoardPostsAdmin,
+  getMockupImages,
 } from "./actions";
-import type { InquiryRow } from "@/types/mockup";
+import type { InquiryRow, MockupImageRow } from "@/types/mockup";
 import { UploadMockupForm } from "./UploadMockupForm";
+import { AdminInquiryDetail } from "./AdminInquiryDetail";
 
 type MainTab = "mockup" | "inquiry";
 type InquirySubTab = "inquiries" | "board" | "cases";
@@ -27,6 +29,7 @@ export function AdminContent() {
   const [boardPosts, setBoardPosts] = useState<
     { id: string; title: string; author_name: string; contact: string; created_at: string }[]
   >([]);
+  const [mockupImages, setMockupImages] = useState<MockupImageRow[]>([]);
 
   async function loadInquiries() {
     setLoading(true);
@@ -38,6 +41,7 @@ export function AdminContent() {
   useEffect(() => {
     if (mainTab === "inquiry" && inquirySubTab === "inquiries") {
       loadInquiries();
+      getMockupImages().then(setMockupImages);
     }
   }, [mainTab, inquirySubTab]);
 
@@ -84,6 +88,13 @@ export function AdminContent() {
 
   async function handleStatusChange(id: string, status: "pending" | "contacted" | "done") {
     await updateInquiryStatus(id, status);
+    loadInquiries();
+  }
+
+  async function handleAdminMemoChange(id: string, adminMemo: string) {
+    const row = inquiries.find((r) => r.id === id);
+    if (!row) return;
+    await updateInquiryStatus(id, row.status, adminMemo);
     loadInquiries();
   }
 
@@ -198,29 +209,13 @@ export function AdminContent() {
                         제작 수량: <strong>{row.quantity}</strong>벌
                       </p>
                       <details className="text-sm text-white/70">
-                        <summary className="cursor-pointer">상세 보기</summary>
-                        <pre className="mt-2 p-2 rounded bg-black/20 overflow-x-auto text-xs whitespace-pre-wrap">
-                          {JSON.stringify(
-                            {
-                              front_colors: row.front_colors,
-                              back_colors: row.back_colors,
-                              print_areas: row.print_areas,
-                              메모: {
-                                앞면_왼쪽가슴: row.front_left_chest_text || row.front_left_chest_image_url,
-                                앞면_오른쪽가슴: row.front_right_chest_text || row.front_right_chest_image_url,
-                                왼팔뚝: row.front_left_sleeve_text || row.front_left_sleeve_image_url,
-                                오른팔뚝: row.front_right_sleeve_text || row.front_right_sleeve_image_url,
-                                뒷면_상단: row.back_top_text || row.back_top_image_url,
-                                뒷면_중단: row.back_mid_text || row.back_mid_image_url,
-                                뒷면_하단: row.back_bottom_text || row.back_bottom_image_url,
-                              },
-                              수령희망일: row.desired_delivery_date,
-                              부가설명: row.additional_note_text || row.additional_note_image_url,
-                            },
-                            null,
-                            2
-                          )}
-                        </pre>
+                        <summary className="cursor-pointer py-2">상세 보기</summary>
+                        <AdminInquiryDetail
+                          row={row}
+                          images={mockupImages}
+                          onStatusChange={handleStatusChange}
+                          onAdminMemoChange={handleAdminMemoChange}
+                        />
                       </details>
                     </li>
                   ))}

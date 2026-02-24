@@ -10,10 +10,16 @@ export default async function InquiryBoardPage() {
   const supabase = await createServerSupabaseClient();
   const { data: posts } = await supabase
     .from("inquiry_board_posts")
-    .select("id, title, author_name, created_at")
+    .select("id, title, author_name, created_at, password_hash")
     .order("created_at", { ascending: false });
 
-  const postsList = posts || [];
+  const postsList = (posts || []).map((p) => ({
+    id: p.id,
+    title: p.title,
+    author_name: p.author_name,
+    created_at: p.created_at,
+    is_private: !!p.password_hash,
+  }));
 
   return (
     <main className="min-h-dvh bg-background pb-24">
@@ -42,7 +48,12 @@ export default async function InquiryBoardPage() {
                   href={`/inquiry-board/${p.id}`}
                   className="block rounded-xl border border-border bg-card p-4 hover:bg-muted/50"
                 >
-                  <h2 className="font-medium text-foreground">{p.title}</h2>
+                  <h2 className="font-medium text-foreground flex items-center gap-1.5">
+                    {p.is_private && (
+                      <span className="text-muted-foreground" title="비공개">🔒</span>
+                    )}
+                    {p.title}
+                  </h2>
                   <p className="mt-1 text-xs text-muted-foreground">
                     {p.author_name} · {new Date(p.created_at).toLocaleDateString("ko-KR")}
                   </p>

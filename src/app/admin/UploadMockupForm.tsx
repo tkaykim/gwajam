@@ -20,6 +20,14 @@ const LAYER_KEYS = [
   { key: "back_top2", label: "뒷면 상단2 (인쇄)" },
   { key: "back_mid", label: "뒷면 중단 (인쇄)" },
   { key: "back_bottom", label: "뒷면 하단 (인쇄)" },
+  { key: "front_left_chest_border", label: "왼쪽 가슴 테두리" },
+  { key: "front_right_chest_border", label: "오른쪽 가슴 테두리" },
+  { key: "front_left_sleeve_border", label: "왼팔 테두리" },
+  { key: "front_right_sleeve_border", label: "오른팔 테두리" },
+  { key: "back_top_border", label: "뒷면 상단 테두리" },
+  { key: "back_top2_border", label: "뒷면 상단2 테두리" },
+  { key: "back_mid_border", label: "뒷면 중단 테두리" },
+  { key: "back_bottom_border", label: "뒷면 하단 테두리" },
 ] as const;
 
 export function UploadMockupForm() {

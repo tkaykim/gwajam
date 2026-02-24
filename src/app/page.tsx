@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import { toast } from "sonner";
 import { LayerPreview, useMockupImages } from "@/components/mockup/LayerPreview";
 import { Step1Colors, DEFAULT_COLORS, type LiningOz } from "@/components/mockup/Step1Colors";
 import { Step2Memos, getDefaultPrintAreas } from "@/components/mockup/Step2Memos";
@@ -12,7 +13,9 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import type { FrontColors, BackColors, PrintAreaKey, PrintAreaState } from "@/types/mockup";
 import type { InquiryPayload, PrintAreaStatePayload } from "@/types/mockup";
-import { SiteLogo } from "@/components/SiteLogo";
+import { HeaderLogoMenu } from "@/components/HeaderLogoMenu";
+import { PHONE_NUMBER, KAKAO_CHAT_URL, HOMEPAGE_URL } from "@/components/QuickMenuPanel";
+import { Phone, MessageCircle, Home } from "lucide-react";
 
 const STEPS = [
   { id: 1, title: "색상 설정" },
@@ -100,12 +103,24 @@ export default function HomePage() {
   const [groupName, setGroupName] = useState("");
   const [representativeName, setRepresentativeName] = useState("");
   const [contact, setContact] = useState("");
+  const [contactEmail, setContactEmail] = useState("");
   const [quantity, setQuantity] = useState("");
   const [desiredDeliveryDate, setDesiredDeliveryDate] = useState("");
   const [additionalNoteText, setAdditionalNoteText] = useState("");
   const [additionalNoteImageUrl, setAdditionalNoteImageUrl] = useState<string | null>(null);
   const [submitStatus, setSubmitStatus] = useState<"idle" | "loading" | "done" | "error">("idle");
-  const [submitError, setSubmitError] = useState("");
+  /** 문의 접수 완료 팝업 표시 */
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  /** 개인정보 활용 동의 (필수) */
+  const [privacyConsentAgreed, setPrivacyConsentAgreed] = useState(false);
+  /** 필수 항목 검증 시 해당 섹션에 툴팁으로 표시 */
+  const [fieldErrors, setFieldErrors] = useState<{
+    groupName?: string;
+    representativeName?: string;
+    contact?: string;
+    quantity?: string;
+    privacyConsent?: string;
+  }>({});
 
   const handleImageUpload = useCallback(
     async (section: PrintAreaKey, file: File): Promise<string | null> => {
@@ -135,16 +150,26 @@ export default function HomePage() {
   const showOnlyBack = step === 3;
 
   const handleSubmit = async () => {
-    if (!groupName.trim() || !representativeName.trim() || !contact.trim()) {
-      setSubmitError("단체명, 대표자명, 연락처를 입력해 주세요.");
-      return;
-    }
+    setFieldErrors({});
+    const errors: typeof fieldErrors = {};
+
+    if (!groupName.trim()) errors.groupName = "단체명을 입력해 주세요.";
+    if (!representativeName.trim()) errors.representativeName = "대표자명을 입력해 주세요.";
+    if (!contact.trim()) errors.contact = "연락처를 입력해 주세요.";
     const qty = parseInt(quantity, 10);
     if (!Number.isInteger(qty) || qty < 1) {
-      setSubmitError("제작 수량을 1 이상 숫자로 입력해 주세요.");
+      errors.quantity = "제작 수량을 1 이상 숫자로 입력해 주세요.";
+    }
+    if (!privacyConsentAgreed) {
+      errors.privacyConsent = "개인정보 활용에 동의해 주세요.";
+    }
+
+    if (Object.keys(errors).length > 0) {
+      setFieldErrors(errors);
+      toast.error("필수 항목을 입력해 주세요.");
       return;
     }
-    setSubmitError("");
+
     setSubmitStatus("loading");
     try {
       const { print_areas, ...flat } = printAreasToPayload(printAreas);
@@ -156,6 +181,7 @@ export default function HomePage() {
         group_name: groupName.trim(),
         representative_name: representativeName.trim(),
         contact: contact.trim(),
+        email: contactEmail.trim() || null,
         quantity: qty,
         quantity_note: "제출 후 약간의 변동은 있어도 괜찮습니다.",
         desired_delivery_date: desiredDeliveryDate.trim() || null,
@@ -170,42 +196,91 @@ export default function HomePage() {
       });
       const data = await res.json();
       if (!res.ok) {
-        setSubmitError(data.error || "제출에 실패했습니다.");
+        toast.error(data.error || "제출에 실패했습니다.");
         setSubmitStatus("error");
         return;
       }
       setSubmitStatus("done");
+      setShowSuccessModal(true);
     } catch {
-      setSubmitError("네트워크 오류가 발생했습니다.");
+      toast.error("네트워크 오류가 발생했습니다.");
       setSubmitStatus("error");
     }
   };
 
-  if (submitStatus === "done") {
-    return (
-      <main className="min-h-dvh flex flex-col items-center justify-center p-6 bg-background">
-        <div className="text-center space-y-4 max-w-sm">
-          <h1 className="text-xl font-bold text-foreground">문의가 접수되었습니다</h1>
-          <p className="text-muted-foreground text-sm">
-            확인 후 입력하신 연락처로 연락드리겠습니다.
-          </p>
-        </div>
-      </main>
-    );
-  }
-
   return (
     <main className="min-h-dvh flex flex-col pb-28 bg-background">
+      {/* 문의 접수 완료 팝업 */}
+      {showSuccessModal && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="success-modal-title"
+        >
+          <div className="bg-background rounded-2xl shadow-xl max-w-sm w-full p-6 space-y-4 text-center">
+            <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto">
+              <svg className="w-6 h-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+            <h2 id="success-modal-title" className="text-lg font-bold text-foreground">
+              문의가 접수되었습니다
+            </h2>
+            <p className="text-muted-foreground text-sm">
+              곧 담당자가 연락드리겠습니다.
+            </p>
+            <div className="space-y-2 pt-2">
+              <a
+                href={`tel:${PHONE_NUMBER.replace(/-/g, "")}`}
+                className="flex items-center justify-center gap-2 w-full rounded-lg border border-border bg-background py-2.5 text-sm font-medium hover:bg-muted"
+                onClick={() => setShowSuccessModal(false)}
+              >
+                <Phone className="w-4 h-4 shrink-0" />
+                전화상담
+              </a>
+              <a
+                href={KAKAO_CHAT_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 w-full rounded-lg border border-border bg-background py-2.5 text-sm font-medium hover:bg-muted"
+                onClick={() => setShowSuccessModal(false)}
+              >
+                <MessageCircle className="w-4 h-4 shrink-0" />
+                카톡상담
+              </a>
+              <a
+                href={HOMEPAGE_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 w-full rounded-lg border border-border bg-background py-2.5 text-sm font-medium hover:bg-muted"
+                onClick={() => setShowSuccessModal(false)}
+              >
+                <Home className="w-4 h-4 shrink-0" />
+                홈페이지로 이동
+              </a>
+            </div>
+            <Button
+              variant="ghost"
+              className="w-full"
+              onClick={() => setShowSuccessModal(false)}
+            >
+              확인
+            </Button>
+          </div>
+        </div>
+      )}
+
       <header className="sticky top-0 z-10 bg-background/98 backdrop-blur-sm border-b border-border">
         <div className="px-4 py-3">
           <div className="flex items-center justify-between">
-            <SiteLogo height={32} />
+            <HeaderLogoMenu height={32} />
             <span className="text-muted-foreground text-sm tabular-nums">{step}/4</span>
           </div>
         </div>
       </header>
 
-      <section className="px-4 py-3 flex-shrink-0">
+      <section className="sticky top-14 z-[9] flex-shrink-0 px-4 py-3 bg-background border-b border-border/50">
         <div
           className={
             showOnlyFront || showOnlyBack
@@ -217,11 +292,11 @@ export default function HomePage() {
             <div>
               <p className="text-center text-muted-foreground text-xs mb-1">앞면</p>
               {imagesLoading ? (
-                <div className="aspect-[3/4] max-w-[200px] mx-auto rounded-2xl bg-muted flex items-center justify-center">
+                <div className="aspect-[3/4] max-w-[200px] mx-auto rounded-2xl bg-neutral-300 flex items-center justify-center">
                   <span className="text-muted-foreground text-sm">로딩 중</span>
                 </div>
               ) : imagesError ? (
-                <div className="aspect-[3/4] max-w-[200px] mx-auto rounded-2xl bg-muted flex items-center justify-center">
+                <div className="aspect-[3/4] max-w-[200px] mx-auto rounded-2xl bg-neutral-300 flex items-center justify-center">
                   <span className="text-muted-foreground text-sm">이미지 없음</span>
                 </div>
               ) : (
@@ -240,11 +315,11 @@ export default function HomePage() {
             <div>
               <p className="text-center text-muted-foreground text-xs mb-1">뒷면</p>
               {imagesLoading ? (
-                <div className="aspect-[3/4] max-w-[200px] mx-auto rounded-2xl bg-muted flex items-center justify-center">
+                <div className="aspect-[3/4] max-w-[200px] mx-auto rounded-2xl bg-neutral-300 flex items-center justify-center">
                   <span className="text-muted-foreground text-sm">로딩 중</span>
                 </div>
               ) : imagesError ? (
-                <div className="aspect-[3/4] max-w-[200px] mx-auto rounded-2xl bg-muted flex items-center justify-center">
+                <div className="aspect-[3/4] max-w-[200px] mx-auto rounded-2xl bg-neutral-300 flex items-center justify-center">
                   <span className="text-muted-foreground text-sm">이미지 없음</span>
                 </div>
               ) : (
@@ -298,11 +373,20 @@ export default function HomePage() {
               groupName={groupName}
               representativeName={representativeName}
               contact={contact}
+              email={contactEmail}
               onGroupNameChange={setGroupName}
               onRepresentativeNameChange={setRepresentativeName}
               onContactChange={setContact}
+              onEmailChange={setContactEmail}
+              groupNameError={fieldErrors.groupName}
+              representativeNameError={fieldErrors.representativeName}
+              contactError={fieldErrors.contact}
             />
-            <Step4Quantity quantity={quantity} onQuantityChange={setQuantity} />
+            <Step4Quantity
+              quantity={quantity}
+              onQuantityChange={setQuantity}
+              quantityError={fieldErrors.quantity}
+            />
             <Card>
               <CardContent className="pt-4 space-y-2">
                 <Label htmlFor="desiredDeliveryDate">수령 희망일</Label>
@@ -325,7 +409,7 @@ export default function HomePage() {
                   rows={4}
                   className="flex min-h-[100px] w-full rounded-lg border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 resize-none"
                 />
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 flex-wrap">
                   <input
                     type="file"
                     accept="image/*"
@@ -348,22 +432,52 @@ export default function HomePage() {
                     이미지 첨부
                   </Button>
                   {additionalNoteImageUrl && (
-                    <span className="text-xs text-green-600 truncate max-w-[140px]">첨부됨</span>
+                    <span className="flex items-center gap-2">
+                      <img
+                        src={additionalNoteImageUrl}
+                        alt="부가설명 이미지 미리보기"
+                        className="w-14 h-14 rounded-lg object-cover border border-border shrink-0"
+                      />
+                      <span className="text-xs text-green-600">첨부됨</span>
+                    </span>
                   )}
                 </div>
               </CardContent>
             </Card>
+            <label
+              className={`flex items-start gap-3 rounded-lg border p-3 cursor-pointer transition-colors ${
+                fieldErrors.privacyConsent ? "border-destructive bg-destructive/5" : "border-border hover:bg-muted/30"
+              }`}
+            >
+              <input
+                type="checkbox"
+                checked={privacyConsentAgreed}
+                onChange={(e) => {
+                  setPrivacyConsentAgreed(e.target.checked);
+                  if (fieldErrors.privacyConsent) setFieldErrors((prev) => ({ ...prev, privacyConsent: undefined }));
+                }}
+                className="mt-0.5 h-4 w-4 rounded border-border text-primary focus:ring-primary shrink-0"
+                aria-describedby="privacy-consent-desc"
+              />
+              <span id="privacy-consent-desc" className="text-sm text-foreground leading-snug">
+                <span className="font-medium">[필수] 개인정보 활용 동의</span>
+                <span className="text-muted-foreground">
+                  {" "}문의 확인 및 응대 목적으로만 사용되며, 이용자 요청 시 파기합니다.
+                </span>
+              </span>
+            </label>
+            {fieldErrors.privacyConsent && (
+              <p className="text-destructive text-xs -mt-2 flex items-center gap-1" role="alert">
+                <span className="inline-block w-1 h-1 rounded-full bg-destructive" aria-hidden />
+                {fieldErrors.privacyConsent}
+              </p>
+            )}
           </div>
         )}
       </section>
 
       <footer className="fixed bottom-0 left-0 right-0 p-4 bg-background/98 backdrop-blur-sm border-t border-border pb-[max(1rem,env(safe-area-inset-bottom))]">
         <div className="max-w-xl mx-auto flex gap-3">
-          {submitError && (
-            <p className="absolute bottom-full left-4 right-4 mb-1 text-destructive text-sm">
-              {submitError}
-            </p>
-          )}
           {step > 1 && (
             <Button
               type="button"

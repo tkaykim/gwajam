@@ -1,22 +1,25 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
-import crypto from "crypto";
-
-function hashPassword(password: string): string {
-  return crypto.createHash("sha256").update(password, "utf8").digest("hex");
-}
+import { hashPassword } from "@/lib/password";
 
 export async function GET() {
   const supabase = await createServerSupabaseClient();
   const { data, error } = await supabase
     .from("inquiry_board_posts")
-    .select("id, title, author_name, created_at")
+    .select("id, title, author_name, created_at, password_hash")
     .order("created_at", { ascending: false });
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
-  return NextResponse.json(data || []);
+  const list = (data || []).map((row) => ({
+    id: row.id,
+    title: row.title,
+    author_name: row.author_name,
+    created_at: row.created_at,
+    is_private: !!row.password_hash,
+  }));
+  return NextResponse.json(list);
 }
 
 export async function POST(request: NextRequest) {

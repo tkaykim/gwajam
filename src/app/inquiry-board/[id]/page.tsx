@@ -12,11 +12,12 @@ type Post = {
   id: string;
   title: string;
   author_name: string;
-  contact: string;
+  contact: string | null;
   description: string | null;
   image_url: string | null;
   created_at: string;
   updated_at: string;
+  is_private?: boolean;
 };
 
 type Reply = {
@@ -38,6 +39,34 @@ export default function InquiryBoardDetailPage() {
   const [replyPassword, setReplyPassword] = useState("");
   const [replyLoading, setReplyLoading] = useState(false);
   const [replyError, setReplyError] = useState("");
+  const [viewPassword, setViewPassword] = useState("");
+  const [viewPasswordError, setViewPasswordError] = useState("");
+  const [viewPasswordLoading, setViewPasswordLoading] = useState(false);
+
+  const isLocked = post?.is_private && (post?.description === null && post?.contact === null);
+
+  const loadWithPassword = async (pwd: string) => {
+    setViewPasswordError("");
+    setViewPasswordLoading(true);
+    try {
+      const res = await fetch(`/api/inquiry-board/${id}?password=${encodeURIComponent(pwd)}`);
+      if (!res.ok) {
+        setViewPasswordError("글을 불러오지 못했습니다.");
+        return;
+      }
+      const data = await res.json();
+      if (data.post.is_private && !data.post.description && !data.post.contact) {
+        setViewPasswordError("비밀번호가 일치하지 않습니다.");
+        return;
+      }
+      setPost(data.post);
+      setReplies(data.replies || []);
+    } catch {
+      setViewPasswordError("네트워크 오류가 발생했습니다.");
+    } finally {
+      setViewPasswordLoading(false);
+    }
+  };
 
   useEffect(() => {
     (async () => {
@@ -96,6 +125,54 @@ export default function InquiryBoardDetailPage() {
         <Link href="/inquiry-board" className="mt-2 inline-block text-primary">
           목록으로
         </Link>
+      </main>
+    );
+  }
+
+  if (isLocked) {
+    return (
+      <main className="min-h-dvh bg-background pb-24">
+        <header className="sticky top-0 z-10 border-b border-border bg-background/98 px-4 py-3">
+          <Link href="/inquiry-board" className="text-lg font-bold text-foreground">
+            ← 문의 상세
+          </Link>
+        </header>
+        <div className="p-4">
+          <Card>
+            <CardContent className="pt-4 space-y-4">
+              <h1 className="text-lg font-bold text-foreground">{post.title}</h1>
+              <p className="text-sm text-muted-foreground">
+                {post.author_name} · {new Date(post.created_at).toLocaleString("ko-KR")}
+              </p>
+              <p className="text-sm text-muted-foreground">
+                비공개 글입니다. 내용을 보려면 비밀번호를 입력하세요.
+              </p>
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  if (viewPassword.trim()) loadWithPassword(viewPassword.trim());
+                }}
+                className="space-y-2"
+              >
+                {viewPasswordError && (
+                  <p className="text-sm text-destructive">{viewPasswordError}</p>
+                )}
+                <div className="flex gap-2">
+                  <Input
+                    type="password"
+                    value={viewPassword}
+                    onChange={(e) => setViewPassword(e.target.value)}
+                    placeholder="비밀번호"
+                    className="flex-1"
+                  />
+                  <Button type="submit" disabled={viewPasswordLoading}>
+                    {viewPasswordLoading ? "확인 중…" : "확인"}
+                  </Button>
+                </div>
+              </form>
+            </CardContent>
+          </Card>
+        </div>
       </main>
     );
   }
