@@ -332,11 +332,14 @@ export default function HomePage() {
       )}
 
       <header className="sticky top-0 z-10 bg-background/98 backdrop-blur-sm border-b border-border">
-        <div className="px-4 py-3">
-          <div className="flex items-center justify-between">
+        <div className="px-4 py-3 relative flex items-center">
+          <div className="flex-1 flex justify-start">
             <HeaderLogoMenu height={32} />
-            <span className="text-muted-foreground text-sm tabular-nums">{step}/4</span>
           </div>
+          <span className="absolute left-1/2 -translate-x-1/2 text-muted-foreground text-sm tabular-nums" aria-live="polite">
+            {step}/4
+          </span>
+          <div className="flex-1" aria-hidden />
         </div>
       </header>
 
@@ -399,22 +402,23 @@ export default function HomePage() {
             </div>
           )}
             </div>
-        {/* 캔버스 바로 밑 고정 툴팁 박스 (step 1~3) */}
-        {step <= 3 && (
-          <div className="max-w-xl mx-auto mt-3">
-            <div className="rounded-xl border border-primary/20 bg-primary/5 shadow-sm ring-1 ring-primary/10 px-4 py-3 flex gap-3 items-start">
-              <span className="flex-shrink-0 mt-0.5 rounded-full bg-primary/15 p-1.5">
-                <Info className="h-4 w-4 text-primary" aria-hidden />
-              </span>
-              <p className="text-xs text-foreground/90 leading-relaxed whitespace-pre-line">
-                {step === 1
-                  ? "정확한 색상을 모르시더라도 괜찮습니다.\n담당자가 직접 확인 및 상담 후 제작에 들어갑니다."
-                  : "인쇄 영역을 설정해주세요.\n원하시는 텍스트나 이미지를 넣어주세요.\n이미지가 없는 경우 설명을 남겨주시면 담당자가 찾아 시안작업을 도와드립니다."}
-              </p>
-            </div>
-          </div>
-        )}
       </section>
+
+      {/* 툴팁: 캔버스와 함께 고정하지 않고 스크롤되도록 아래 섹션 상단에 배치 */}
+      {step <= 3 && (
+        <div className="max-w-xl mx-auto px-4 pt-2 pb-2">
+          <div className="rounded-xl border border-primary/20 bg-primary/5 shadow-sm ring-1 ring-primary/10 px-4 py-3 flex gap-3 items-start">
+            <span className="flex-shrink-0 mt-0.5 rounded-full bg-primary/15 p-1.5">
+              <Info className="h-4 w-4 text-primary" aria-hidden />
+            </span>
+            <p className="text-xs text-foreground/90 leading-relaxed whitespace-pre-line">
+              {step === 1
+                ? "정확한 색상을 모르시더라도 괜찮습니다.\n담당자가 직접 확인 및 상담 후 제작에 들어갑니다."
+                : "인쇄 영역을 설정해주세요.\n원하시는 텍스트나 이미지를 넣어주세요.\n이미지가 없는 경우 설명을 남겨주시면 담당자가 찾아 시안작업을 도와드립니다."}
+            </p>
+          </div>
+        </div>
+      )}
 
       <section className="px-4 py-4 flex-1 max-w-xl mx-auto w-full">
         {step === 1 && (
