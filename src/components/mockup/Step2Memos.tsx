@@ -243,6 +243,14 @@ interface Step2MemosProps {
   onActiveChange?: (key: PrintAreaKey) => void;
   /** 'front' = 앞면 4곳만, 'back' = 뒷면 4곳만, 'all' = 8곳 모두 */
   side?: "front" | "back" | "all";
+  /** 드로어용: 하나의 영역만 표시하고 항상 펼침, 다음 버튼 표시 */
+  singleKey?: PrintAreaKey;
+  /** singleKey 사용 시 "다음" 버튼 클릭 시 호출 */
+  onNext?: () => void;
+  /** true면 드로어 푸터에서 이전/다음을 쓰므로 내부 다음 버튼 숨김 */
+  hideNextButton?: boolean;
+  /** true면 있음/없음 토글을 드로어 헤더에서 사용하므로 카드 내부 토글 숨김 */
+  visibleToggleInHeader?: boolean;
 }
 
 export function Step2Memos({
@@ -251,16 +259,26 @@ export function Step2Memos({
   onImageUpload,
   onActiveChange,
   side = "all",
+  singleKey,
+  onNext,
+  hideNextButton,
+  visibleToggleInHeader,
 }: Step2MemosProps) {
   const order: PrintAreaKey[] =
-    side === "front" ? [...FRONT_PRINT_KEYS] : side === "back" ? [...BACK_PRINT_KEYS] : [...PRINT_AREA_ORDER];
+    singleKey
+      ? [singleKey]
+      : side === "front"
+        ? [...FRONT_PRINT_KEYS]
+        : side === "back"
+          ? [...BACK_PRINT_KEYS]
+          : [...PRINT_AREA_ORDER];
   const firstKey = order[0];
 
   const fileInputRefs = useRef<Record<PrintAreaKey, HTMLInputElement | null>>(
     {} as Record<PrintAreaKey, HTMLInputElement | null>
   );
   const [openSections, setOpenSections] = useState<Record<PrintAreaKey, boolean>>(
-    order.reduce((acc, key) => ({ ...acc, [key]: key === firstKey }), {} as Record<PrintAreaKey, boolean>)
+    order.reduce((acc, key) => ({ ...acc, [key]: true }), {} as Record<PrintAreaKey, boolean>)
   );
 
   const updateArea = (key: PrintAreaKey, updates: Partial<PrintAreaState>) => {
@@ -293,6 +311,28 @@ export function Step2Memos({
           const area = printAreas[key] ?? DEFAULT_PRINT_AREA_STATE;
           return (
             <Card key={key}>
+              {singleKey && !visibleToggleInHeader ? (
+                <div className="w-full flex items-center justify-between gap-2 px-4 py-3 border-b border-border/50">
+                  <span className="font-medium text-foreground">{PRINT_AREA_LABELS[key]}</span>
+                  <span className="flex items-center gap-2 shrink-0">
+                    {area.imageUrl && (
+                      <img
+                        src={area.imageUrl}
+                        alt=""
+                        className="w-9 h-9 rounded-md object-cover border border-border shrink-0"
+                      />
+                    )}
+                    <span
+                      className={`inline-flex items-center rounded-md px-2 py-0.5 text-xs font-medium ${
+                        area.visible ? "bg-primary/10 text-primary" : "bg-muted text-muted-foreground"
+                      }`}
+                    >
+                      {area.visible ? "있음" : "없음"}
+                    </span>
+                    {area.visible && <StatusChips area={area} />}
+                  </span>
+                </div>
+              ) : !singleKey ? (
               <button
                 type="button"
                 onClick={() => toggleSection(key)}
@@ -325,32 +365,35 @@ export function Step2Memos({
                   </svg>
                 </span>
               </button>
+              ) : null}
               {openSections[key] && (
                 <CardContent className="pt-0 pb-4 px-4 space-y-3 border-t border-border">
-                  {/* 있음/없음 토글 */}
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm text-muted-foreground">인쇄</span>
-                    <div className="flex rounded-lg border border-input p-0.5 bg-muted/30">
-                      <button
-                        type="button"
-                        onClick={() => updateArea(key, { visible: true })}
-                        className={`px-3 py-1.5 text-sm rounded-md transition ${
-                          area.visible ? "bg-background shadow text-foreground" : "text-muted-foreground"
-                        }`}
-                      >
-                        있음
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => updateArea(key, { visible: false })}
-                        className={`px-3 py-1.5 text-sm rounded-md transition ${
-                          !area.visible ? "bg-background shadow text-foreground" : "text-muted-foreground"
-                        }`}
-                      >
-                        없음
-                      </button>
+                  {/* 있음/없음 토글: 드로어 헤더에 있으면 여기서는 숨김 */}
+                  {!(singleKey && visibleToggleInHeader) && (
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm text-muted-foreground">인쇄</span>
+                      <div className="flex rounded-lg border border-input p-0.5 bg-muted/30">
+                        <button
+                          type="button"
+                          onClick={() => updateArea(key, { visible: true })}
+                          className={`px-3 py-1.5 text-sm rounded-md transition ${
+                            area.visible ? "bg-background shadow text-foreground" : "text-muted-foreground"
+                          }`}
+                        >
+                          있음
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => updateArea(key, { visible: false })}
+                          className={`px-3 py-1.5 text-sm rounded-md transition ${
+                            !area.visible ? "bg-background shadow text-foreground" : "text-muted-foreground"
+                          }`}
+                        >
+                          없음
+                        </button>
+                      </div>
                     </div>
-                  </div>
+                  )}
                   {area.visible && (
                     <>
                       <div className="grid grid-cols-2 gap-3">
@@ -419,6 +462,11 @@ export function Step2Memos({
           );
         })}
       </div>
+      {singleKey && onNext && !hideNextButton && (
+        <Button type="button" className="w-full mt-4" onClick={onNext}>
+          다음
+        </Button>
+      )}
     </div>
   );
 }

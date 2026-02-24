@@ -21,13 +21,16 @@ const BODY_PRESETS = [
   { name: "핑크", hex: "#ec4899" },
 ] as const;
 
+export const BODY_PRESETS_READONLY = BODY_PRESETS;
 const SLEEVE_BUTTON_PRESETS = [
   { name: "흰색", hex: "#ffffff" },
   { name: "검정", hex: "#1a1a1a" },
 ] as const;
+export const SLEEVE_BUTTON_PRESETS_READONLY = SLEEVE_BUTTON_PRESETS;
 
 const LINING_OZ_OPTIONS = [0, 2, 4] as const;
 export type LiningOz = (typeof LINING_OZ_OPTIONS)[number];
+export const LINING_OZ_OPTIONS_READONLY = LINING_OZ_OPTIONS;
 
 const DEFAULT_BODY = "#1a1a1a";
 const DEFAULT_SLEEVE = "#ffffff";
@@ -179,6 +182,133 @@ function ExpandPanel({
             className="font-mono text-sm h-9"
           />
         </div>
+      )}
+    </div>
+  );
+}
+
+export type ColorStepKey = "body" | "sleeve" | "ribbing" | "button" | "liningOz";
+
+interface SingleColorStepContentProps {
+  colorKey: ColorStepKey;
+  frontColors: FrontColors;
+  backColors: BackColors;
+  liningOz: LiningOz;
+  onFrontColorsChange: (c: FrontColors) => void;
+  onBackColorsChange: (c: BackColors) => void;
+  onLiningOzChange: (oz: LiningOz) => void;
+  onNext: () => void;
+  /** true면 드로어 푸터에서 이전/다음을 쓰므로 내부 다음 버튼 숨김 */
+  hideNextButton?: boolean;
+}
+
+export function SingleColorStepContent({
+  colorKey,
+  frontColors,
+  backColors,
+  liningOz,
+  onFrontColorsChange,
+  onBackColorsChange,
+  onLiningOzChange,
+  onNext,
+  hideNextButton,
+}: SingleColorStepContentProps) {
+  const bodyColor = frontColors.front_body;
+  const sleeveColor = frontColors.front_sleeves;
+  const buttonColor = frontColors.front_buttons;
+  const ribbingColor = frontColors.front_ribbing;
+
+  const setBodyColor = useCallback(
+    (hex: string | undefined) => {
+      onFrontColorsChange({ ...frontColors, front_body: hex });
+      onBackColorsChange({ ...backColors, back_body: hex });
+    },
+    [frontColors, backColors, onFrontColorsChange, onBackColorsChange]
+  );
+  const setSleeveColor = useCallback(
+    (hex: string | undefined) => {
+      onFrontColorsChange({ ...frontColors, front_sleeves: hex });
+      onBackColorsChange({ ...backColors, back_sleeves: hex });
+    },
+    [frontColors, backColors, onFrontColorsChange, onBackColorsChange]
+  );
+  const setButtonColor = useCallback(
+    (hex: string | undefined) => {
+      onFrontColorsChange({ ...frontColors, front_buttons: hex });
+    },
+    [frontColors, onFrontColorsChange]
+  );
+  const setRibbingColor = useCallback(
+    (hex: string | undefined) => {
+      onFrontColorsChange({ ...frontColors, front_ribbing: hex });
+    },
+    [frontColors, onFrontColorsChange]
+  );
+
+  return (
+    <div className="space-y-6">
+      {colorKey === "body" && (
+        <ExpandPanel
+          openKey="body"
+          presets={BODY_PRESETS}
+          value={bodyColor}
+          onChange={setBodyColor}
+          showOther
+        />
+      )}
+      {colorKey === "sleeve" && (
+        <ExpandPanel
+          openKey="sleeve"
+          presets={SLEEVE_BUTTON_PRESETS}
+          value={sleeveColor}
+          onChange={setSleeveColor}
+          extraButtons={[{ label: "몸통색과 통일", onClick: () => setSleeveColor(bodyColor) }]}
+          showOther
+        />
+      )}
+      {colorKey === "ribbing" && (
+        <ExpandPanel
+          openKey="ribbing"
+          presets={SLEEVE_BUTTON_PRESETS}
+          value={ribbingColor}
+          onChange={setRibbingColor}
+          extraButtons={[{ label: "몸통색과 통일", onClick: () => setRibbingColor(bodyColor) }]}
+          showOther
+        />
+      )}
+      {colorKey === "button" && (
+        <ExpandPanel
+          openKey="button"
+          presets={SLEEVE_BUTTON_PRESETS}
+          value={buttonColor}
+          onChange={setButtonColor}
+          showOther
+        />
+      )}
+      {colorKey === "liningOz" && (
+        <div className="space-y-3">
+          <span className="text-muted-foreground text-sm font-medium">안감 두께</span>
+          <div className="flex gap-2">
+            {LINING_OZ_OPTIONS.map((oz) => (
+              <Button
+                key={oz}
+                type="button"
+                variant={liningOz === oz ? "default" : "outline"}
+                size="sm"
+                className="h-10 px-4 text-sm rounded-lg"
+                onClick={() => onLiningOzChange(oz)}
+              >
+                {oz}oz
+              </Button>
+            ))}
+          </div>
+          <p className="text-muted-foreground text-xs">숫자가 높을수록 충전재가 많이 들어갑니다.</p>
+        </div>
+      )}
+      {!hideNextButton && (
+        <Button type="button" className="w-full" onClick={onNext}>
+          다음
+        </Button>
       )}
     </div>
   );

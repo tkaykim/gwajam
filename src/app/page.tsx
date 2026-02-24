@@ -3,8 +3,8 @@
 import { useState, useCallback, useEffect, useMemo } from "react";
 import { toast } from "sonner";
 import { LayerPreview, useMockupImages, PRINT_AREA_BOXES } from "@/components/mockup/LayerPreview";
-import { Step1Colors, DEFAULT_COLORS, type LiningOz } from "@/components/mockup/Step1Colors";
-import { Step2Memos, getDefaultPrintAreas, FRONT_PRINT_KEYS, BACK_PRINT_KEYS } from "@/components/mockup/Step2Memos";
+import { Step1Colors, DEFAULT_COLORS, SingleColorStepContent, type LiningOz, type ColorStepKey } from "@/components/mockup/Step1Colors";
+import { Step2Memos, getDefaultPrintAreas, DEFAULT_PRINT_AREA_STATE, FRONT_PRINT_KEYS, BACK_PRINT_KEYS } from "@/components/mockup/Step2Memos";
 import { Step3Contact } from "@/components/mockup/Step3Contact";
 import { Step4Quantity } from "@/components/mockup/Step4Quantity";
 import { Button } from "@/components/ui/button";
@@ -16,6 +16,13 @@ import type { InquiryPayload, PrintAreaStatePayload } from "@/types/mockup";
 import { HeaderLogoMenu } from "@/components/HeaderLogoMenu";
 import { PHONE_NUMBER, KAKAO_CHAT_URL, HOMEPAGE_URL } from "@/components/QuickMenuPanel";
 import { Phone, MessageCircle, Home, Info } from "lucide-react";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerFooter,
+} from "@/components/ui/drawer";
 
 const PRINT_AREA_BOX_STORAGE_KEY = "modoo-print-area-boxes";
 
@@ -50,12 +57,24 @@ function loadPrintAreaBoxOverrides(): Record<string, { left: number; top: number
   return getDefaultPrintAreaBoxOverrides();
 }
 
-const STEPS = [
-  { id: 1, title: "색상 설정" },
-  { id: 2, title: "앞면 인쇄" },
-  { id: 3, title: "뒷면 인쇄" },
-  { id: 4, title: "확인 및 문의" },
+const FLOW_STEPS: { id: number; title: string; type: "color" | "print" | "contact"; key?: ColorStepKey | PrintAreaKey }[] = [
+  { id: 1, title: "몸통색", type: "color", key: "body" },
+  { id: 2, title: "팔색", type: "color", key: "sleeve" },
+  { id: 3, title: "시보리색", type: "color", key: "ribbing" },
+  { id: 4, title: "단추색", type: "color", key: "button" },
+  { id: 5, title: "안감 두께", type: "color", key: "liningOz" },
+  { id: 6, title: "앞면 왼쪽 가슴", type: "print", key: "front_left_chest" },
+  { id: 7, title: "앞면 오른쪽 가슴", type: "print", key: "front_right_chest" },
+  { id: 8, title: "왼팔뚝", type: "print", key: "front_left_sleeve" },
+  { id: 9, title: "오른팔뚝", type: "print", key: "front_right_sleeve" },
+  { id: 10, title: "뒷면 상단", type: "print", key: "back_top" },
+  { id: 11, title: "뒷면 상단2", type: "print", key: "back_top2" },
+  { id: 12, title: "뒷면 중단", type: "print", key: "back_mid" },
+  { id: 13, title: "뒷면 하단", type: "print", key: "back_bottom" },
+  { id: 14, title: "확인 및 문의", type: "contact" },
 ];
+
+const TOTAL_STEPS = FLOW_STEPS.length;
 
 function printAreaToPayload(a: PrintAreaState): PrintAreaStatePayload {
   return {
@@ -129,6 +148,8 @@ function printAreasToPayload(printAreas: Record<PrintAreaKey, PrintAreaState>) {
 export default function HomePage() {
   const { images, loading: imagesLoading, error: imagesError } = useMockupImages();
   const [step, setStep] = useState(1);
+  /** 단계 1~13에서 설정 드로어 표시 (진입 시 자동 오픈) */
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const [frontColors, setFrontColors] = useState<FrontColors>(DEFAULT_COLORS);
   const [backColors, setBackColors] = useState<BackColors>(DEFAULT_COLORS);
   const [liningOz, setLiningOz] = useState<LiningOz>(4);
@@ -166,9 +187,15 @@ export default function HomePage() {
   }>({});
 
   useEffect(() => {
-    if (step === 2) setActivePrintArea(FRONT_PRINT_KEYS[0]);
-    else if (step === 3) setActivePrintArea(BACK_PRINT_KEYS[0]);
+    if (step >= 6 && step <= 9) setActivePrintArea(FLOW_STEPS[step - 1]?.key as PrintAreaKey);
+    else if (step >= 10 && step <= 13) setActivePrintArea(FLOW_STEPS[step - 1]?.key as PrintAreaKey);
     else setActivePrintArea(null);
+  }, [step]);
+
+  /** 단계 1~13 진입 시 드로어 자동 오픈 */
+  useEffect(() => {
+    if (step >= 1 && step <= 13) setDrawerOpen(true);
+    else setDrawerOpen(false);
   }, [step]);
 
   const handleImageUpload = useCallback(
@@ -195,8 +222,8 @@ export default function HomePage() {
   }, []);
 
   /** Step2 = 앞면만, Step3 = 뒷면만, Step1·4 = 양면 */
-  const showOnlyFront = step === 2;
-  const showOnlyBack = step === 3;
+  const showOnlyFront = step >= 6 && step <= 9;
+  const showOnlyBack = step >= 10 && step <= 13;
 
   const handleSubmit = async () => {
     setFieldErrors({});
@@ -337,7 +364,7 @@ export default function HomePage() {
             <HeaderLogoMenu height={32} />
           </div>
           <span className="absolute left-1/2 -translate-x-1/2 text-muted-foreground text-sm tabular-nums" aria-live="polite">
-            {step}/4
+            {step}/{TOTAL_STEPS}
           </span>
           <div className="flex-1" aria-hidden />
         </div>
@@ -404,52 +431,13 @@ export default function HomePage() {
             </div>
       </section>
 
-      {/* 툴팁: 캔버스와 함께 고정하지 않고 스크롤되도록 아래 섹션 상단에 배치 */}
-      {step <= 3 && (
-        <div className="max-w-xl mx-auto px-4 pt-2 pb-2">
-          <div className="rounded-xl border border-primary/20 bg-primary/5 shadow-sm ring-1 ring-primary/10 px-4 py-3 flex gap-3 items-start">
-            <span className="flex-shrink-0 mt-0.5 rounded-full bg-primary/15 p-1.5">
-              <Info className="h-4 w-4 text-primary" aria-hidden />
-            </span>
-            <p className="text-xs text-foreground/90 leading-relaxed whitespace-pre-line">
-              {step === 1
-                ? "정확한 색상을 모르시더라도 괜찮습니다.\n담당자가 직접 확인 및 상담 후 제작에 들어갑니다."
-                : "인쇄 영역을 설정해주세요.\n원하시는 텍스트나 이미지를 넣어주세요.\n이미지가 없는 경우 설명을 남겨주시면 담당자가 찾아 시안작업을 도와드립니다."}
-            </p>
-          </div>
-        </div>
-      )}
-
       <section className="px-4 py-4 flex-1 max-w-xl mx-auto w-full">
-        {step === 1 && (
-          <Step1Colors
-            frontColors={frontColors}
-            backColors={backColors}
-            liningOz={liningOz}
-            onFrontColorsChange={setFrontColors}
-            onBackColorsChange={setBackColors}
-            onLiningOzChange={setLiningOz}
-          />
+        {step <= 13 && (
+          <p className="text-muted-foreground text-sm text-center py-4">
+            아래에서 현재 단계를 설정한 뒤 &quot;다음&quot;을 눌러 진행하세요.
+          </p>
         )}
-        {step === 2 && (
-          <Step2Memos
-            printAreas={printAreas}
-            onPrintAreasChange={setPrintAreas}
-            onImageUpload={handleImageUpload}
-            onActiveChange={setActivePrintArea}
-            side="front"
-          />
-        )}
-        {step === 3 && (
-          <Step2Memos
-            printAreas={printAreas}
-            onPrintAreasChange={setPrintAreas}
-            onImageUpload={handleImageUpload}
-            onActiveChange={setActivePrintArea}
-            side="back"
-          />
-        )}
-        {step === 4 && (
+        {step === 14 && (
           <div className="space-y-6">
             <p className="text-muted-foreground text-sm">
               설정을 확인한 뒤 아래 정보를 입력하고 문의를 제출해 주세요.
@@ -561,6 +549,123 @@ export default function HomePage() {
         )}
       </section>
 
+      {/* 단계 1~13: 설정 드로어 - 툴팁은 드로어 안에만 표시(중복 방지), 인쇄 단계는 있음/없음을 헤더에 */}
+      <Drawer open={drawerOpen} onOpenChange={setDrawerOpen}>
+        <DrawerContent>
+          <DrawerHeader className="flex shrink-0 flex-row items-center justify-between gap-3 text-left border-b border-border px-4 py-3">
+            <DrawerTitle className="!mt-0">{FLOW_STEPS[step - 1]?.title ?? ""}</DrawerTitle>
+            {step >= 6 && step <= 13 && FLOW_STEPS[step - 1]?.key && (() => {
+              const key = FLOW_STEPS[step - 1].key as PrintAreaKey;
+              const area = printAreas[key];
+              const visible = area?.visible ?? true;
+              const setVisible = (value: boolean) => {
+                setPrintAreas((prev) => {
+                  const current = prev[key] ?? { ...DEFAULT_PRINT_AREA_STATE };
+                  return {
+                    ...prev,
+                    [key]: { ...DEFAULT_PRINT_AREA_STATE, ...current, visible: value },
+                  };
+                });
+              };
+              return (
+                <div className="flex items-center gap-2 shrink-0">
+                  <span className="text-sm text-muted-foreground">인쇄</span>
+                  <div className="flex rounded-lg border border-input p-0.5 bg-muted/30">
+                    <button
+                      type="button"
+                      onClick={() => setVisible(true)}
+                      className={`px-3 py-1.5 text-sm rounded-md transition ${
+                        visible ? "bg-background shadow text-foreground" : "text-muted-foreground"
+                      }`}
+                    >
+                      있음
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setVisible(false)}
+                      className={`px-3 py-1.5 text-sm rounded-md transition ${
+                        !visible ? "bg-background shadow text-foreground" : "text-muted-foreground"
+                      }`}
+                    >
+                      없음
+                    </button>
+                  </div>
+                </div>
+              );
+            })()}
+          </DrawerHeader>
+          {/* 툴팁: 단계별로 여기서만 한 번만 표시 */}
+          <div className="shrink-0 px-4 pt-3 pb-0">
+            <div className="rounded-xl border border-primary/20 bg-primary/5 shadow-sm ring-1 ring-primary/10 px-4 py-3 flex gap-3 items-start">
+              <span className="flex-shrink-0 mt-0.5 rounded-full bg-primary/15 p-1.5">
+                <Info className="h-4 w-4 text-primary" aria-hidden />
+              </span>
+              <p className="text-xs text-foreground/90 leading-relaxed whitespace-pre-line">
+                {step <= 5
+                  ? "정확한 색상을 모르시더라도 괜찮습니다.\n담당자가 직접 확인 및 상담 후 제작에 들어갑니다."
+                  : "이미지가 없는 경우 설명을 남겨주시면 담당자가 찾아 시안작업을 도와드립니다."}
+              </p>
+            </div>
+          </div>
+          <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 py-4 pb-2">
+            {step >= 1 && step <= 5 && FLOW_STEPS[step - 1]?.key && (
+              <SingleColorStepContent
+                colorKey={FLOW_STEPS[step - 1].key as ColorStepKey}
+                frontColors={frontColors}
+                backColors={backColors}
+                liningOz={liningOz}
+                onFrontColorsChange={setFrontColors}
+                onBackColorsChange={setBackColors}
+                onLiningOzChange={setLiningOz}
+                onNext={() => {}}
+                hideNextButton
+              />
+            )}
+            {step >= 6 && step <= 13 && FLOW_STEPS[step - 1]?.key && (
+              <Step2Memos
+                key={`print-${step}-${FLOW_STEPS[step - 1].key}`}
+                printAreas={printAreas}
+                onPrintAreasChange={setPrintAreas}
+                onImageUpload={handleImageUpload}
+                onActiveChange={setActivePrintArea}
+                side={step <= 9 ? "front" : "back"}
+                singleKey={FLOW_STEPS[step - 1].key as PrintAreaKey}
+                onNext={() => {}}
+                hideNextButton
+                visibleToggleInHeader
+              />
+            )}
+          </div>
+          <DrawerFooter className="flex shrink-0 flex-row gap-2 border-t border-border pt-3">
+            {step > 1 ? (
+              <Button
+                type="button"
+                variant="outline"
+                className="flex-1"
+                onClick={() => {
+                  setDrawerOpen(false);
+                  setStep((s) => s - 1);
+                }}
+              >
+                이전
+              </Button>
+            ) : (
+              <span className="flex-1" />
+            )}
+            <Button
+              type="button"
+              className="flex-1"
+              onClick={() => {
+                setDrawerOpen(false);
+                setStep((s) => Math.min(TOTAL_STEPS, s + 1));
+              }}
+            >
+              다음
+            </Button>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
+
       <footer className="fixed bottom-0 left-0 right-0 p-4 bg-background/98 backdrop-blur-sm border-t border-border pb-[max(1rem,env(safe-area-inset-bottom))]">
         <div className="max-w-xl mx-auto flex gap-3">
           {step > 1 && (
@@ -573,13 +678,13 @@ export default function HomePage() {
               이전
             </Button>
           )}
-          {step < 4 ? (
+          {step < 14 ? (
             <Button
               type="button"
               className="flex-1"
-              onClick={() => setStep((s) => s + 1)}
+              onClick={() => setDrawerOpen(true)}
             >
-              다음
+              설정하기
             </Button>
           ) : (
             <Button
