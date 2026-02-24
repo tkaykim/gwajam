@@ -243,8 +243,6 @@ interface Step2MemosProps {
   onActiveChange?: (key: PrintAreaKey) => void;
   /** 'front' = 앞면 4곳만, 'back' = 뒷면 4곳만, 'all' = 8곳 모두 */
   side?: "front" | "back" | "all";
-  /** 모바일 단계별 플로우: 이 값이 있으면 해당 부위만 표시 */
-  onlyKey?: PrintAreaKey;
 }
 
 export function Step2Memos({
@@ -253,15 +251,9 @@ export function Step2Memos({
   onImageUpload,
   onActiveChange,
   side = "all",
-  onlyKey,
 }: Step2MemosProps) {
-  const order: PrintAreaKey[] = onlyKey
-    ? [onlyKey]
-    : side === "front"
-      ? [...FRONT_PRINT_KEYS]
-      : side === "back"
-        ? [...BACK_PRINT_KEYS]
-        : [...PRINT_AREA_ORDER];
+  const order: PrintAreaKey[] =
+    side === "front" ? [...FRONT_PRINT_KEYS] : side === "back" ? [...BACK_PRINT_KEYS] : [...PRINT_AREA_ORDER];
   const firstKey = order[0];
 
   const fileInputRefs = useRef<Record<PrintAreaKey, HTMLInputElement | null>>(
@@ -301,13 +293,13 @@ export function Step2Memos({
           const area = printAreas[key] ?? DEFAULT_PRINT_AREA_STATE;
           return (
             <Card key={key}>
-              <div className="w-full flex items-center justify-between gap-2 px-4 py-3 rounded-2xl">
-                <button
-                  type="button"
-                  onClick={() => toggleSection(key)}
-                  className="flex-1 flex items-center gap-2 text-left hover:bg-muted/50 transition-colors rounded-lg -m-1 p-1 min-w-0"
-                >
-                  <span className="font-medium text-foreground truncate">{PRINT_AREA_LABELS[key]}</span>
+              <button
+                type="button"
+                onClick={() => toggleSection(key)}
+                className="w-full flex items-center justify-between gap-2 px-4 py-3 text-left hover:bg-muted/50 transition-colors rounded-2xl"
+              >
+                <span className="font-medium text-foreground">{PRINT_AREA_LABELS[key]}</span>
+                <span className="flex items-center gap-2 shrink-0">
                   {area.imageUrl && (
                     <img
                       src={area.imageUrl}
@@ -315,42 +307,50 @@ export function Step2Memos({
                       className="w-9 h-9 rounded-md object-cover border border-border shrink-0"
                     />
                   )}
+                  <span
+                    className={`inline-flex items-center rounded-md px-2 py-0.5 text-xs font-medium ${
+                      area.visible ? "bg-primary/10 text-primary" : "bg-muted text-muted-foreground"
+                    }`}
+                  >
+                    {area.visible ? "있음" : "없음"}
+                  </span>
                   {area.visible && <StatusChips area={area} />}
                   <svg
-                    className={`h-5 w-5 text-muted-foreground shrink-0 transition-transform ${openSections[key] ? "rotate-180" : ""}`}
+                    className={`h-5 w-5 text-muted-foreground transition-transform ${openSections[key] ? "rotate-180" : ""}`}
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
                   >
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>
-                </button>
-                <div
-                  className="flex rounded-lg border border-input p-0.5 bg-muted/30 shrink-0"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <button
-                    type="button"
-                    onClick={() => updateArea(key, { visible: true })}
-                    className={`px-3 py-1.5 text-sm rounded-md transition ${
-                      area.visible ? "bg-background shadow text-foreground" : "text-muted-foreground"
-                    }`}
-                  >
-                    있음
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => updateArea(key, { visible: false })}
-                    className={`px-3 py-1.5 text-sm rounded-md transition ${
-                      !area.visible ? "bg-background shadow text-foreground" : "text-muted-foreground"
-                    }`}
-                  >
-                    없음
-                  </button>
-                </div>
-              </div>
+                </span>
+              </button>
               {openSections[key] && (
                 <CardContent className="pt-0 pb-4 px-4 space-y-3 border-t border-border">
+                  {/* 있음/없음 토글 */}
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm text-muted-foreground">인쇄</span>
+                    <div className="flex rounded-lg border border-input p-0.5 bg-muted/30">
+                      <button
+                        type="button"
+                        onClick={() => updateArea(key, { visible: true })}
+                        className={`px-3 py-1.5 text-sm rounded-md transition ${
+                          area.visible ? "bg-background shadow text-foreground" : "text-muted-foreground"
+                        }`}
+                      >
+                        있음
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => updateArea(key, { visible: false })}
+                        className={`px-3 py-1.5 text-sm rounded-md transition ${
+                          !area.visible ? "bg-background shadow text-foreground" : "text-muted-foreground"
+                        }`}
+                      >
+                        없음
+                      </button>
+                    </div>
+                  </div>
                   {area.visible && (
                     <>
                       <div className="grid grid-cols-2 gap-3">

@@ -51,8 +51,6 @@ interface Step1ColorsProps {
   onFrontColorsChange: (c: FrontColors) => void;
   onBackColorsChange: (c: BackColors) => void;
   onLiningOzChange: (oz: LiningOz) => void;
-  /** 모바일 단계별 플로우: 이 값이 있으면 해당 항목만 표시 */
-  onlyStep?: "body" | "sleeve" | "ribbing" | "button" | "lining";
 }
 
 type OpenKey = "body" | "sleeve" | "ribbing" | "button" | null;
@@ -193,21 +191,12 @@ export function Step1Colors({
   onFrontColorsChange,
   onBackColorsChange,
   onLiningOzChange,
-  onlyStep,
 }: Step1ColorsProps) {
   const [openKey, setOpenKey] = useState<OpenKey>(null);
   const bodyColor = frontColors.front_body;
   const sleeveColor = frontColors.front_sleeves;
   const buttonColor = frontColors.front_buttons;
   const ribbingColor = frontColors.front_ribbing;
-
-  const showBody = !onlyStep || onlyStep === "body";
-  const showSleeve = !onlyStep || onlyStep === "sleeve";
-  const showRibbing = !onlyStep || onlyStep === "ribbing";
-  const showButton = !onlyStep || onlyStep === "button";
-  const showLining = !onlyStep || onlyStep === "lining";
-
-  const toggleOpen = (key: OpenKey) => setOpenKey((prev) => (prev === key ? null : key));
 
   const setBodyColor = useCallback(
     (hex: string | undefined) => {
@@ -239,12 +228,13 @@ export function Step1Colors({
     [frontColors, onFrontColorsChange]
   );
 
+  const toggleOpen = (key: OpenKey) => setOpenKey((prev) => (prev === key ? null : key));
+
   return (
     <div className="space-y-5">
       <Card className="overflow-hidden">
         <CardContent className="p-6">
           <div className="flex flex-wrap items-center gap-3">
-            {showBody && (
             <ColorChipButton
               label="몸통색"
               value={bodyColor}
@@ -252,8 +242,6 @@ export function Step1Colors({
               onClick={() => toggleOpen("body")}
               presets={BODY_PRESETS}
             />
-            )}
-            {showSleeve && (
             <ColorChipButton
               label="팔색"
               value={sleeveColor}
@@ -261,8 +249,6 @@ export function Step1Colors({
               onClick={() => toggleOpen("sleeve")}
               presets={SLEEVE_BUTTON_PRESETS}
             />
-            )}
-            {showRibbing && (
             <ColorChipButton
               label="시보리색"
               value={ribbingColor}
@@ -270,8 +256,6 @@ export function Step1Colors({
               onClick={() => toggleOpen("ribbing")}
               presets={SLEEVE_BUTTON_PRESETS}
             />
-            )}
-            {showButton && (
             <ColorChipButton
               label="단추"
               value={buttonColor}
@@ -279,10 +263,8 @@ export function Step1Colors({
               onClick={() => toggleOpen("button")}
               presets={SLEEVE_BUTTON_PRESETS}
             />
-            )}
           </div>
-          {showLining && (
-          <div className={`flex flex-wrap items-center gap-3 ${showBody || showSleeve || showRibbing || showButton ? "mt-5 pt-5 border-t border-border/60" : ""}`}>
+          <div className="mt-5 pt-5 border-t border-border/60 flex flex-wrap items-center gap-3">
             <span className="text-muted-foreground text-sm font-medium">안감 두께</span>
             <div className="flex gap-2">
               {LINING_OZ_OPTIONS.map((oz) => (
@@ -300,7 +282,6 @@ export function Step1Colors({
             </div>
             <p className="text-muted-foreground text-xs w-full">숫자가 높을수록 충전재가 많이 들어갑니다.</p>
           </div>
-          )}
           {openKey === "body" && (
             <ExpandPanel
               openKey="body"

@@ -51,22 +51,11 @@ function loadPrintAreaBoxOverrides(): Record<string, { left: number; top: number
 }
 
 const STEPS = [
-  { id: 1, title: "몸통색", type: "body" as const },
-  { id: 2, title: "팔색", type: "sleeve" as const },
-  { id: 3, title: "시보리색", type: "ribbing" as const },
-  { id: 4, title: "단추색", type: "button" as const },
-  { id: 5, title: "안감 두께", type: "lining" as const },
-  { id: 6, title: "앞면 왼쪽 가슴", type: "print" as const, key: "front_left_chest" as PrintAreaKey },
-  { id: 7, title: "앞면 오른쪽 가슴", type: "print" as const, key: "front_right_chest" as PrintAreaKey },
-  { id: 8, title: "왼팔뚝", type: "print" as const, key: "front_left_sleeve" as PrintAreaKey },
-  { id: 9, title: "오른팔뚝", type: "print" as const, key: "front_right_sleeve" as PrintAreaKey },
-  { id: 10, title: "뒷면 상단", type: "print" as const, key: "back_top" as PrintAreaKey },
-  { id: 11, title: "뒷면 상단2", type: "print" as const, key: "back_top2" as PrintAreaKey },
-  { id: 12, title: "뒷면 중단", type: "print" as const, key: "back_mid" as PrintAreaKey },
-  { id: 13, title: "뒷면 하단", type: "print" as const, key: "back_bottom" as PrintAreaKey },
-  { id: 14, title: "확인 및 문의", type: "confirm" as const },
+  { id: 1, title: "색상 설정" },
+  { id: 2, title: "앞면 인쇄" },
+  { id: 3, title: "뒷면 인쇄" },
+  { id: 4, title: "확인 및 문의" },
 ];
-const TOTAL_STEPS = STEPS.length;
 
 function printAreaToPayload(a: PrintAreaState): PrintAreaStatePayload {
   return {
@@ -146,7 +135,7 @@ export default function HomePage() {
   const [printAreas, setPrintAreas] = useState<Record<PrintAreaKey, PrintAreaState>>(getDefaultPrintAreas());
   /** 인쇄 단계에서 선택된 부위 (캔버스에 점선 테두리 표시) */
   const [activePrintArea, setActivePrintArea] = useState<PrintAreaKey | null>(null);
-  /** 점선 박스 위치 (% 숫자). 화살표로 조정 후 저장 시 localStorage에 반영 */
+  /** 점선 박스 위치 (% 숫자). 저장된 값을 localStorage에서 로드해 고정 사용 */
   const [printAreaBoxOverrides, setPrintAreaBoxOverrides] = useState<
     Record<string, { left: number; top: number; width: number; height: number }>
   >(() => getDefaultPrintAreaBoxOverrides());
@@ -177,8 +166,8 @@ export default function HomePage() {
   }>({});
 
   useEffect(() => {
-    if (step >= 6 && step <= 9) setActivePrintArea(FRONT_PRINT_KEYS[step - 6]);
-    else if (step >= 10 && step <= 13) setActivePrintArea(BACK_PRINT_KEYS[step - 10]);
+    if (step === 2) setActivePrintArea(FRONT_PRINT_KEYS[0]);
+    else if (step === 3) setActivePrintArea(BACK_PRINT_KEYS[0]);
     else setActivePrintArea(null);
   }, [step]);
 
@@ -205,9 +194,9 @@ export default function HomePage() {
     return data.url ?? null;
   }, []);
 
-  /** Step 6~9 = 앞면만, Step 10~13 = 뒷면만, 그 외 = 양면 */
-  const showOnlyFront = step >= 6 && step <= 9;
-  const showOnlyBack = step >= 10 && step <= 13;
+  /** Step2 = 앞면만, Step3 = 뒷면만, Step1·4 = 양면 */
+  const showOnlyFront = step === 2;
+  const showOnlyBack = step === 3;
 
   const handleSubmit = async () => {
     setFieldErrors({});
@@ -346,7 +335,7 @@ export default function HomePage() {
         <div className="px-4 py-3">
           <div className="flex items-center justify-between">
             <HeaderLogoMenu height={32} />
-            <span className="text-muted-foreground text-sm tabular-nums">{step}/{TOTAL_STEPS}</span>
+            <span className="text-muted-foreground text-sm tabular-nums">{step}/4</span>
           </div>
         </div>
       </header>
@@ -410,17 +399,17 @@ export default function HomePage() {
             </div>
           )}
             </div>
-        {/* 캔버스 바로 밑 고정 툴팁 박스 (step 1~13) */}
-        {step <= 13 && (
+        {/* 캔버스 바로 밑 고정 툴팁 박스 (step 1~3) */}
+        {step <= 3 && (
           <div className="max-w-xl mx-auto mt-3">
             <div className="rounded-xl border border-primary/20 bg-primary/5 shadow-sm ring-1 ring-primary/10 px-4 py-3 flex gap-3 items-start">
               <span className="flex-shrink-0 mt-0.5 rounded-full bg-primary/15 p-1.5">
                 <Info className="h-4 w-4 text-primary" aria-hidden />
               </span>
               <p className="text-xs text-foreground/90 leading-relaxed whitespace-pre-line">
-                {step <= 5
+                {step === 1
                   ? "정확한 색상을 모르시더라도 괜찮습니다.\n담당자가 직접 확인 및 상담 후 제작에 들어갑니다."
-                  : "원하시는 텍스트나 이미지를 넣어주세요.\n이미지가 없는 경우 설명을 남겨주세요."}
+                  : "인쇄 영역을 설정해주세요.\n원하시는 텍스트나 이미지를 넣어주세요.\n이미지가 없는 경우 설명을 남겨주시면 담당자가 찾아 시안작업을 도와드립니다."}
               </p>
             </div>
           </div>
@@ -428,7 +417,7 @@ export default function HomePage() {
       </section>
 
       <section className="px-4 py-4 flex-1 max-w-xl mx-auto w-full">
-        {step >= 1 && step <= 5 && (
+        {step === 1 && (
           <Step1Colors
             frontColors={frontColors}
             backColors={backColors}
@@ -436,30 +425,27 @@ export default function HomePage() {
             onFrontColorsChange={setFrontColors}
             onBackColorsChange={setBackColors}
             onLiningOzChange={setLiningOz}
-            onlyStep={STEPS[step - 1].type as "body" | "sleeve" | "ribbing" | "button" | "lining"}
           />
         )}
-        {step >= 6 && step <= 9 && STEPS[step - 1].type === "print" && (
+        {step === 2 && (
           <Step2Memos
             printAreas={printAreas}
             onPrintAreasChange={setPrintAreas}
             onImageUpload={handleImageUpload}
             onActiveChange={setActivePrintArea}
             side="front"
-            onlyKey={STEPS[step - 1].key}
           />
         )}
-        {step >= 10 && step <= 13 && STEPS[step - 1].type === "print" && (
+        {step === 3 && (
           <Step2Memos
             printAreas={printAreas}
             onPrintAreasChange={setPrintAreas}
             onImageUpload={handleImageUpload}
             onActiveChange={setActivePrintArea}
             side="back"
-            onlyKey={STEPS[step - 1].key}
           />
         )}
-        {step === 14 && (
+        {step === 4 && (
           <div className="space-y-6">
             <p className="text-muted-foreground text-sm">
               설정을 확인한 뒤 아래 정보를 입력하고 문의를 제출해 주세요.
@@ -583,7 +569,7 @@ export default function HomePage() {
               이전
             </Button>
           )}
-          {step < TOTAL_STEPS ? (
+          {step < 4 ? (
             <Button
               type="button"
               className="flex-1"
