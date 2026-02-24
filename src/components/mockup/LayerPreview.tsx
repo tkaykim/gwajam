@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import type { MockupImageRow } from "@/types/mockup";
 import type { FrontColors, BackColors, PrintAreaKey, PrintAreaState } from "@/types/mockup";
 import { createClient } from "@/lib/supabase/client";
@@ -28,6 +28,17 @@ const BACK_PATCH_ORDER: PrintAreaKey[] = [
   "back_mid",
   "back_bottom",
 ];
+/** 인쇄 영역별 캔버스 내 상대 위치 (%, 점선 테두리용) */
+const PRINT_AREA_BOXES: Record<string, { left: string; top: string; width: string; height: string }> = {
+  front_left_chest: { left: "12%", top: "30%", width: "24%", height: "20%" },
+  front_right_chest: { left: "64%", top: "30%", width: "24%", height: "20%" },
+  front_left_sleeve: { left: "2%", top: "28%", width: "26%", height: "45%" },
+  front_right_sleeve: { left: "72%", top: "28%", width: "26%", height: "45%" },
+  back_top: { left: "28%", top: "18%", width: "44%", height: "22%" },
+  back_top2: { left: "28%", top: "38%", width: "44%", height: "14%" },
+  back_mid: { left: "22%", top: "50%", width: "56%", height: "28%" },
+  back_bottom: { left: "28%", top: "76%", width: "44%", height: "16%" },
+};
 
 const LAYER_LABELS: Record<string, string> = {
   front_body: "몸통",
@@ -75,10 +86,28 @@ interface LayerPreviewProps {
   backColors: BackColors;
   /** 인쇄 영역 8개 상태 (있음/없음, 면색, 테두리색). 없으면 패치 레이어 미표시 */
   printAreas?: Record<PrintAreaKey, PrintAreaState>;
+  /** 선택된 인쇄 영역 키 (해당 위치에 점선 테두리 표시) */
+  activePrintArea?: PrintAreaKey | null;
   /** Step2에서 한 면만 볼 때 크게 표시 */
   enlarged?: boolean;
   /** 관리자 상세 등에서 더 크게 표시 (enlarged일 때) */
   adminSize?: boolean;
+}
+
+function PreviewBox({
+  sizeClass,
+  children,
+}: {
+  sizeClass: string;
+  children?: React.ReactNode;
+}) {
+  return (
+    <div
+      className={"relative w-full aspect-[3/4] mx-auto rounded-2xl overflow-hidden bg-neutral-300 " + sizeClass}
+    >
+      {children}
+    </div>
+  );
 }
 
 export function LayerPreview({
@@ -87,12 +116,23 @@ export function LayerPreview({
   frontColors,
   backColors,
   printAreas,
+  activePrintArea,
   enlarged = false,
   adminSize = false,
 }: LayerPreviewProps) {
+  const active = activePrintArea ?? null;
   const order = side === "front" ? FRONT_LAYER_ORDER : BACK_LAYER_ORDER;
   const colors = side === "front" ? frontColors : backColors;
   const patchOrder = side === "front" ? FRONT_PATCH_ORDER : BACK_PATCH_ORDER;
+  const isActiveForThisSide =
+    active &&
+    (side === "front"
+      ? FRONT_PATCH_ORDER.includes(active)
+      : BACK_PATCH_ORDER.includes(active));
+  const boxStyle =
+    isActiveForThisSide && active
+      ? PRINT_AREA_BOXES[active]
+      : null;
   const sizeClass =
     adminSize && enlarged
       ? "max-w-[min(420px,50vw)]"
@@ -100,12 +140,10 @@ export function LayerPreview({
         ? "max-w-[min(280px,75vw)]"
         : "max-w-[min(200px,45vw)]";
 
-  return (
-    <div
-      className={`relative w-full aspect-[3/4] mx-auto rounded-2xl overflow-hidden bg-neutral-300 ${sizeClass}`}
-    >
-      {/* 1) 재킷 베이스 레이어 */}
-      {order.map((key) => {
+  return React.createElement(
+    PreviewBox,
+    { sizeClass },
+    order.map((key) => {
         const url = getImageByKey(images, key);
         const color = colors[key as keyof typeof colors];
         if (!url) return null;
@@ -137,10 +175,8 @@ export function LayerPreview({
             aria-hidden
           />
         );
-      })}
-
-      {/* 2) 인쇄 영역 패치 레이어 (있음일 때만, 테두리 레이어 → 면 순) */}
-      {printAreas &&
+      }),
+    printAreas &&
         patchOrder.map((key) => {
           const url = getImageByKey(images, key);
           const borderUrl = getImageByKey(images, `${key}_border`);
@@ -173,7 +209,6 @@ export function LayerPreview({
             : null;
           return (
             <div key={key} className="absolute inset-0 pointer-events-none" aria-hidden>
-              {/* 테두리: 전용 레이어 이미지 + 테두리색 (색없음이면 미표시) */}
               {borderMaskStyle && hasBorderColor && (
                 <div
                   className="absolute inset-0 bg-cover bg-center bg-no-repeat"
@@ -183,7 +218,6 @@ export function LayerPreview({
                   }}
                 />
               )}
-              {/* 면 채우기 (색없음이면 미표시) */}
               {hasFaceColor && (
                 <div
                   className="absolute inset-0 bg-cover bg-center bg-no-repeat"
@@ -195,8 +229,18 @@ export function LayerPreview({
               )}
             </div>
           );
-        })}
-    </div>
+        }),
+    boxStyle &&
+      React.createElement("div", {
+        className: "absolute border-2 border-dashed border-primary pointer-events-none rounded-sm",
+        style: {
+          left: boxStyle.left,
+          top: boxStyle.top,
+          width: boxStyle.width,
+          height: boxStyle.height,
+        },
+        "aria-hidden": true,
+      })
   );
 }
 

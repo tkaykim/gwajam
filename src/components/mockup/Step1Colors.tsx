@@ -234,11 +234,6 @@ export function Step1Colors({
     <div className="space-y-5">
       <Card className="overflow-hidden">
         <CardContent className="p-6">
-          <p className="text-muted-foreground text-sm mb-5 leading-relaxed">
-            정확한 색상을 모르시더라도 괜찮습니다.
-            <br />
-            담당자가 직접 확인 후 답변 드립니다.
-          </p>
           <div className="flex flex-wrap items-center gap-3">
             <ColorChipButton
               label="몸통색"

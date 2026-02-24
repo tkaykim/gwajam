@@ -239,6 +239,8 @@ interface Step2MemosProps {
   printAreas: Record<PrintAreaKey, PrintAreaState>;
   onPrintAreasChange: (areas: Record<PrintAreaKey, PrintAreaState>) => void;
   onImageUpload: (section: PrintAreaKey, file: File) => Promise<string | null>;
+  /** 선택된 부위 변경 시 호출 (캔버스 점선 테두리 표시용) */
+  onActiveChange?: (key: PrintAreaKey) => void;
   /** 'front' = 앞면 4곳만, 'back' = 뒷면 4곳만, 'all' = 8곳 모두 */
   side?: "front" | "back" | "all";
 }
@@ -247,6 +249,7 @@ export function Step2Memos({
   printAreas,
   onPrintAreasChange,
   onImageUpload,
+  onActiveChange,
   side = "all",
 }: Step2MemosProps) {
   const order: PrintAreaKey[] =
@@ -268,7 +271,11 @@ export function Step2Memos({
   };
 
   const toggleSection = (key: PrintAreaKey) => {
-    setOpenSections((prev) => ({ ...prev, [key]: !prev[key] }));
+    setOpenSections((prev) => {
+      const next = { ...prev, [key]: !prev[key] };
+      if (next[key]) onActiveChange?.(key);
+      return next;
+    });
   };
 
   const handleFileChange = async (key: PrintAreaKey, e: React.ChangeEvent<HTMLInputElement>) => {
@@ -281,13 +288,6 @@ export function Step2Memos({
 
   return (
     <div className="space-y-4">
-      <p className="text-muted-foreground text-sm whitespace-pre-line">
-        {side === "front"
-          ? "앞면 인쇄 영역을 설정해 주세요.\n텍스트·이미지를 넣을 수 있습니다.\n이미지가 없는 경우 설명을 남겨주시면 담당자가 찾아 시안 작업을 도와드립니다."
-          : side === "back"
-            ? "뒷면 인쇄 영역을 설정해 주세요.\n텍스트·이미지를 넣을 수 있습니다.\n이미지가 없는 경우 설명을 남겨주시면 담당자가 찾아 시안 작업을 도와드립니다."
-            : "각 위치에 인쇄 영역을 설정해 주세요.\n텍스트·이미지를 넣을 수 있습니다.\n이미지가 없는 경우 설명을 남겨주시면 담당자가 찾아 시안 작업을 도와드립니다."}
-      </p>
       <div className="space-y-2">
         {order.map((key) => {
           const area = printAreas[key] ?? DEFAULT_PRINT_AREA_STATE;

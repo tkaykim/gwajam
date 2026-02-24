@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
-import { FloatingMenu } from "@/components/FloatingMenu";
-import { Footer } from "@/components/Footer";
+import { ConditionalChrome } from "@/components/ConditionalChrome";
 import { Toaster } from "sonner";
 
 export const viewport: Viewport = {
@@ -26,8 +25,7 @@ export default function RootLayout({
     <html lang="ko">
       <body className="min-h-screen flex flex-col">
         <main className="flex-1">{children}</main>
-        <Footer />
-        <FloatingMenu />
+        <ConditionalChrome />
         <Toaster position="top-center" richColors closeButton />
       </body>
     </html>

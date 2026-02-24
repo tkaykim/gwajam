@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { toast } from "sonner";
 import { LayerPreview, useMockupImages } from "@/components/mockup/LayerPreview";
 import { Step1Colors, DEFAULT_COLORS, type LiningOz } from "@/components/mockup/Step1Colors";
-import { Step2Memos, getDefaultPrintAreas } from "@/components/mockup/Step2Memos";
+import { Step2Memos, getDefaultPrintAreas, FRONT_PRINT_KEYS, BACK_PRINT_KEYS } from "@/components/mockup/Step2Memos";
 import { Step3Contact } from "@/components/mockup/Step3Contact";
 import { Step4Quantity } from "@/components/mockup/Step4Quantity";
 import { Button } from "@/components/ui/button";
@@ -15,7 +15,7 @@ import type { FrontColors, BackColors, PrintAreaKey, PrintAreaState } from "@/ty
 import type { InquiryPayload, PrintAreaStatePayload } from "@/types/mockup";
 import { HeaderLogoMenu } from "@/components/HeaderLogoMenu";
 import { PHONE_NUMBER, KAKAO_CHAT_URL, HOMEPAGE_URL } from "@/components/QuickMenuPanel";
-import { Phone, MessageCircle, Home } from "lucide-react";
+import { Phone, MessageCircle, Home, Info } from "lucide-react";
 
 const STEPS = [
   { id: 1, title: "색상 설정" },
@@ -100,6 +100,8 @@ export default function HomePage() {
   const [backColors, setBackColors] = useState<BackColors>(DEFAULT_COLORS);
   const [liningOz, setLiningOz] = useState<LiningOz>(4);
   const [printAreas, setPrintAreas] = useState<Record<PrintAreaKey, PrintAreaState>>(getDefaultPrintAreas());
+  /** 인쇄 단계에서 선택된 부위 (캔버스에 점선 테두리 표시) */
+  const [activePrintArea, setActivePrintArea] = useState<PrintAreaKey | null>(null);
   const [groupName, setGroupName] = useState("");
   const [representativeName, setRepresentativeName] = useState("");
   const [contact, setContact] = useState("");
@@ -121,6 +123,12 @@ export default function HomePage() {
     quantity?: string;
     privacyConsent?: string;
   }>({});
+
+  useEffect(() => {
+    if (step === 2) setActivePrintArea(FRONT_PRINT_KEYS[0]);
+    else if (step === 3) setActivePrintArea(BACK_PRINT_KEYS[0]);
+    else setActivePrintArea(null);
+  }, [step]);
 
   const handleImageUpload = useCallback(
     async (section: PrintAreaKey, file: File): Promise<string | null> => {
@@ -280,7 +288,7 @@ export default function HomePage() {
         </div>
       </header>
 
-      <section className="sticky top-14 z-[9] flex-shrink-0 px-4 py-3 bg-background border-b border-border/50">
+      <section className="sticky top-14 z-[9] flex-shrink-0 px-4 py-3 pb-4 bg-background border-b border-border/50">
         <div
           className={
             showOnlyFront || showOnlyBack
@@ -306,6 +314,7 @@ export default function HomePage() {
                   frontColors={frontColors}
                   backColors={backColors}
                   printAreas={printAreas}
+                  activePrintArea={activePrintArea}
                   enlarged={showOnlyFront}
                 />
               )}
@@ -329,12 +338,28 @@ export default function HomePage() {
                   frontColors={frontColors}
                   backColors={backColors}
                   printAreas={printAreas}
+                  activePrintArea={activePrintArea}
                   enlarged={showOnlyBack}
                 />
               )}
             </div>
           )}
         </div>
+        {/* 캔버스 바로 밑 고정 툴팁 박스 (step 1~3) */}
+        {step <= 3 && (
+          <div className="max-w-xl mx-auto mt-3">
+            <div className="rounded-xl border border-primary/20 bg-primary/5 shadow-sm ring-1 ring-primary/10 px-4 py-3 flex gap-3 items-start">
+              <span className="flex-shrink-0 mt-0.5 rounded-full bg-primary/15 p-1.5">
+                <Info className="h-4 w-4 text-primary" aria-hidden />
+              </span>
+              <p className="text-xs text-foreground/90 leading-relaxed whitespace-pre-line">
+                {step === 1
+                  ? "정확한 색상을 모르시더라도 괜찮습니다.\n담당자가 직접 확인 및 상담 후 제작에 들어갑니다."
+                  : "인쇄 영역을 설정해주세요.\n원하시는 텍스트나 이미지를 넣어주세요.\n이미지가 없는 경우 설명을 남겨주시면 담당자가 찾아 시안작업을 도와드립니다."}
+              </p>
+            </div>
+          </div>
+        )}
       </section>
 
       <section className="px-4 py-4 flex-1 max-w-xl mx-auto w-full">
@@ -353,6 +378,7 @@ export default function HomePage() {
             printAreas={printAreas}
             onPrintAreasChange={setPrintAreas}
             onImageUpload={handleImageUpload}
+            onActiveChange={setActivePrintArea}
             side="front"
           />
         )}
@@ -361,6 +387,7 @@ export default function HomePage() {
             printAreas={printAreas}
             onPrintAreasChange={setPrintAreas}
             onImageUpload={handleImageUpload}
+            onActiveChange={setActivePrintArea}
             side="back"
           />
         )}
