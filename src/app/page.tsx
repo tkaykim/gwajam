@@ -15,7 +15,7 @@ import type { FrontColors, BackColors, PrintAreaKey, PrintAreaState } from "@/ty
 import type { InquiryPayload, PrintAreaStatePayload } from "@/types/mockup";
 import { HeaderLogoMenu } from "@/components/HeaderLogoMenu";
 import { PHONE_NUMBER, KAKAO_CHAT_URL, HOMEPAGE_URL } from "@/components/QuickMenuPanel";
-import { Phone, MessageCircle, Home, Info, ChevronUp, ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
+import { Phone, MessageCircle, Home, Info } from "lucide-react";
 
 const PRINT_AREA_BOX_STORAGE_KEY = "modoo-print-area-boxes";
 
@@ -51,11 +51,22 @@ function loadPrintAreaBoxOverrides(): Record<string, { left: number; top: number
 }
 
 const STEPS = [
-  { id: 1, title: "색상 설정" },
-  { id: 2, title: "앞면 인쇄" },
-  { id: 3, title: "뒷면 인쇄" },
-  { id: 4, title: "확인 및 문의" },
+  { id: 1, title: "몸통색", type: "body" as const },
+  { id: 2, title: "팔색", type: "sleeve" as const },
+  { id: 3, title: "시보리색", type: "ribbing" as const },
+  { id: 4, title: "단추색", type: "button" as const },
+  { id: 5, title: "안감 두께", type: "lining" as const },
+  { id: 6, title: "앞면 왼쪽 가슴", type: "print" as const, key: "front_left_chest" as PrintAreaKey },
+  { id: 7, title: "앞면 오른쪽 가슴", type: "print" as const, key: "front_right_chest" as PrintAreaKey },
+  { id: 8, title: "왼팔뚝", type: "print" as const, key: "front_left_sleeve" as PrintAreaKey },
+  { id: 9, title: "오른팔뚝", type: "print" as const, key: "front_right_sleeve" as PrintAreaKey },
+  { id: 10, title: "뒷면 상단", type: "print" as const, key: "back_top" as PrintAreaKey },
+  { id: 11, title: "뒷면 상단2", type: "print" as const, key: "back_top2" as PrintAreaKey },
+  { id: 12, title: "뒷면 중단", type: "print" as const, key: "back_mid" as PrintAreaKey },
+  { id: 13, title: "뒷면 하단", type: "print" as const, key: "back_bottom" as PrintAreaKey },
+  { id: 14, title: "확인 및 문의", type: "confirm" as const },
 ];
+const TOTAL_STEPS = STEPS.length;
 
 function printAreaToPayload(a: PrintAreaState): PrintAreaStatePayload {
   return {
@@ -166,8 +177,8 @@ export default function HomePage() {
   }>({});
 
   useEffect(() => {
-    if (step === 2) setActivePrintArea(FRONT_PRINT_KEYS[0]);
-    else if (step === 3) setActivePrintArea(BACK_PRINT_KEYS[0]);
+    if (step >= 6 && step <= 9) setActivePrintArea(FRONT_PRINT_KEYS[step - 6]);
+    else if (step >= 10 && step <= 13) setActivePrintArea(BACK_PRINT_KEYS[step - 10]);
     else setActivePrintArea(null);
   }, [step]);
 
@@ -194,9 +205,9 @@ export default function HomePage() {
     return data.url ?? null;
   }, []);
 
-  /** Step2 = 앞면만, Step3 = 뒷면만, Step1·4 = 양면 */
-  const showOnlyFront = step === 2;
-  const showOnlyBack = step === 3;
+  /** Step 6~9 = 앞면만, Step 10~13 = 뒷면만, 그 외 = 양면 */
+  const showOnlyFront = step >= 6 && step <= 9;
+  const showOnlyBack = step >= 10 && step <= 13;
 
   const handleSubmit = async () => {
     setFieldErrors({});
@@ -256,32 +267,6 @@ export default function HomePage() {
       setSubmitStatus("error");
     }
   };
-
-  const STEP_PERCENT = 1;
-  const movePrintAreaBox = useCallback(
-    (dir: "up" | "down" | "left" | "right") => {
-      if (!activePrintArea) return;
-      setPrintAreaBoxOverrides((prev) => {
-        const cur = prev[activePrintArea] ?? { left: 0, top: 0, width: 20, height: 20 };
-        const next = { ...cur };
-        if (dir === "up") next.top = Math.max(0, cur.top - STEP_PERCENT);
-        if (dir === "down") next.top = Math.min(100 - (cur.height || 20), cur.top + STEP_PERCENT);
-        if (dir === "left") next.left = Math.max(0, cur.left - STEP_PERCENT);
-        if (dir === "right") next.left = Math.min(100 - (cur.width || 20), cur.left + STEP_PERCENT);
-        return { ...prev, [activePrintArea]: next };
-      });
-    },
-    [activePrintArea]
-  );
-
-  const savePrintAreaBoxes = useCallback(() => {
-    try {
-      localStorage.setItem(PRINT_AREA_BOX_STORAGE_KEY, JSON.stringify(printAreaBoxOverrides));
-      toast.success("점선 박스 위치가 저장되었습니다.");
-    } catch {
-      toast.error("저장에 실패했습니다.");
-    }
-  }, [printAreaBoxOverrides]);
 
   const printAreaBoxOverridesAsStrings = useMemo(
     () =>
@@ -361,7 +346,7 @@ export default function HomePage() {
         <div className="px-4 py-3">
           <div className="flex items-center justify-between">
             <HeaderLogoMenu height={32} />
-            <span className="text-muted-foreground text-sm tabular-nums">{step}/4</span>
+            <span className="text-muted-foreground text-sm tabular-nums">{step}/{TOTAL_STEPS}</span>
           </div>
         </div>
       </header>
@@ -425,71 +410,17 @@ export default function HomePage() {
             </div>
           )}
             </div>
-        {/* 점선 박스 위치 조정 (step 2·3, 부위 선택 시) */}
-        {(step === 2 || step === 3) && activePrintArea && (
-          <div className="max-w-xl mx-auto mt-3 flex flex-col items-center gap-1">
-            <span className="text-muted-foreground text-xs">점선 박스 위치 조정</span>
-            <div className="flex flex-col items-center gap-0.5">
-              <Button
-                type="button"
-                variant="outline"
-                size="icon"
-                className="h-8 w-8 rounded-lg"
-                onClick={() => movePrintAreaBox("up")}
-                aria-label="위로"
-              >
-                <ChevronUp className="h-4 w-4" />
-              </Button>
-              <div className="flex items-center gap-0.5">
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="icon"
-                  className="h-8 w-8 rounded-lg"
-                  onClick={() => movePrintAreaBox("left")}
-                  aria-label="왼쪽으로"
-                >
-                  <ChevronLeft className="h-4 w-4" />
-                </Button>
-                <span className="h-8 w-8 flex items-center justify-center text-muted-foreground/50 text-xs">·</span>
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="icon"
-                  className="h-8 w-8 rounded-lg"
-                  onClick={() => movePrintAreaBox("right")}
-                  aria-label="오른쪽으로"
-                >
-                  <ChevronRight className="h-4 w-4" />
-                </Button>
-              </div>
-              <Button
-                type="button"
-                variant="outline"
-                size="icon"
-                className="h-8 w-8 rounded-lg"
-                onClick={() => movePrintAreaBox("down")}
-                aria-label="아래로"
-              >
-                <ChevronDown className="h-4 w-4" />
-              </Button>
-            </div>
-            <Button type="button" variant="default" size="sm" className="rounded-lg mt-1" onClick={savePrintAreaBoxes}>
-              저장
-            </Button>
-          </div>
-        )}
-        {/* 캔버스 바로 밑 고정 툴팁 박스 (step 1~3) */}
-        {step <= 3 && (
+        {/* 캔버스 바로 밑 고정 툴팁 박스 (step 1~13) */}
+        {step <= 13 && (
           <div className="max-w-xl mx-auto mt-3">
             <div className="rounded-xl border border-primary/20 bg-primary/5 shadow-sm ring-1 ring-primary/10 px-4 py-3 flex gap-3 items-start">
               <span className="flex-shrink-0 mt-0.5 rounded-full bg-primary/15 p-1.5">
                 <Info className="h-4 w-4 text-primary" aria-hidden />
               </span>
               <p className="text-xs text-foreground/90 leading-relaxed whitespace-pre-line">
-                {step === 1
+                {step <= 5
                   ? "정확한 색상을 모르시더라도 괜찮습니다.\n담당자가 직접 확인 및 상담 후 제작에 들어갑니다."
-                  : "인쇄 영역을 설정해주세요.\n원하시는 텍스트나 이미지를 넣어주세요.\n이미지가 없는 경우 설명을 남겨주시면 담당자가 찾아 시안작업을 도와드립니다."}
+                  : "원하시는 텍스트나 이미지를 넣어주세요.\n이미지가 없는 경우 설명을 남겨주세요."}
               </p>
             </div>
           </div>
@@ -497,7 +428,7 @@ export default function HomePage() {
       </section>
 
       <section className="px-4 py-4 flex-1 max-w-xl mx-auto w-full">
-        {step === 1 && (
+        {step >= 1 && step <= 5 && (
           <Step1Colors
             frontColors={frontColors}
             backColors={backColors}
@@ -505,27 +436,30 @@ export default function HomePage() {
             onFrontColorsChange={setFrontColors}
             onBackColorsChange={setBackColors}
             onLiningOzChange={setLiningOz}
+            onlyStep={STEPS[step - 1].type as "body" | "sleeve" | "ribbing" | "button" | "lining"}
           />
         )}
-        {step === 2 && (
+        {step >= 6 && step <= 9 && STEPS[step - 1].type === "print" && (
           <Step2Memos
             printAreas={printAreas}
             onPrintAreasChange={setPrintAreas}
             onImageUpload={handleImageUpload}
             onActiveChange={setActivePrintArea}
             side="front"
+            onlyKey={STEPS[step - 1].key}
           />
         )}
-        {step === 3 && (
+        {step >= 10 && step <= 13 && STEPS[step - 1].type === "print" && (
           <Step2Memos
             printAreas={printAreas}
             onPrintAreasChange={setPrintAreas}
             onImageUpload={handleImageUpload}
             onActiveChange={setActivePrintArea}
             side="back"
+            onlyKey={STEPS[step - 1].key}
           />
         )}
-        {step === 4 && (
+        {step === 14 && (
           <div className="space-y-6">
             <p className="text-muted-foreground text-sm">
               설정을 확인한 뒤 아래 정보를 입력하고 문의를 제출해 주세요.
@@ -649,7 +583,7 @@ export default function HomePage() {
               이전
             </Button>
           )}
-          {step < 4 ? (
+          {step < TOTAL_STEPS ? (
             <Button
               type="button"
               className="flex-1"
