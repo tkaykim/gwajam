@@ -191,7 +191,7 @@ export default function HomePage() {
         contact: contact.trim(),
         email: contactEmail.trim() || null,
         quantity: qty,
-        quantity_note: "제출 후 약간의 변동은 있어도 괜찮습니다.",
+        quantity_note: "최종 수량은 상담 후 결정하셔도 됩니다. 사이즈별 수량 파악은 상담 후 양식을 제공드립니다. (사이즈표 포함)",
         desired_delivery_date: desiredDeliveryDate.trim() || null,
         additional_note_text: additionalNoteText.trim() || null,
         additional_note_image_url: additionalNoteImageUrl || null,

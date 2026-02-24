@@ -38,8 +38,10 @@ export function Step4Quantity({ quantity, onQuantityChange, quantityError }: Ste
               </p>
             )}
           </div>
-          <p className="text-muted-foreground text-xs">
-            제출 후 약간의 변동은 있어도 괜찮습니다.
+          <p className="text-muted-foreground text-xs whitespace-pre-line">
+            최종 수량은 상담 후 결정하셔도 됩니다.
+            사이즈별 수량 파악은 상담 후 양식을 제공드립니다.
+            (사이즈표 포함)
           </p>
         </CardContent>
       </Card>

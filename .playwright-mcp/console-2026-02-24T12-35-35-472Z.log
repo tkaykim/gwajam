@@ -1,0 +1,2306 @@
+[     758ms] [ERROR] Warning: In HTML, %s cannot be a descendant of <%s>.
+This will cause a hydration error.%s <a> a 
+    at a
+    at SiteLogo (Server)
+    at a
+    at div
+    at footer
+    at Footer (Server)
+    at body
+    at html
+    at RootLayout (Server)
+    at RedirectErrorBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/redirect-boundary.js:74:9)
+    at RedirectBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/redirect-boundary.js:82:11)
+    at NotFoundErrorBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/not-found-boundary.js:76:9)
+    at NotFoundBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/not-found-boundary.js:84:11)
+    at DevRootNotFoundBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/dev-root-not-found-boundary.js:33:11)
+    at ReactDevOverlay (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/react-dev-overlay/app/ReactDevOverlay.js:87:9)
+    at HotReload (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/react-dev-overlay/app/hot-reloader-client.js:321:11)
+    at Router (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/app-router.js:207:11)
+    at ErrorBoundaryHandler (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/error-boundary.js:113:9)
+    at ErrorBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/error-boundary.js:160:11)
+    at AppRouter (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/app-router.js:585:13)
+    at ServerRoot (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:112:27)
+    at Root (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:117:11) @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:32
+[     761ms] Error: Hydration failed because the initial UI does not match what was rendered on the server.
+See more info here: https://nextjs.org/docs/messages/react-hydration-error
+    at throwOnHydrationMismatch (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:6981:9)
+    at tryToClaimNextHydratableInstance (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:7016:7)
+    at updateHostComponent$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:16621:5)
+    at beginWork$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:18503:14)
+    at HTMLUnknownElement.callCallback (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:20565:14)
+    at Object.invokeGuardedCallbackImpl (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:20614:16)
+    at invokeGuardedCallback (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:20689:29)
+    at beginWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:26949:7)
+    at performUnitOfWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25748:12)
+    at workLoopConcurrent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25734:5)
+    at renderRootConcurrent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25690:9)
+    at performConcurrentWorkOnRoot (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24504:38)
+    at workLoop (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:256:34)
+    at flushWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:225:14)
+    at MessagePort.performWorkUntilDeadline (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:534:21)
+[     764ms] [ERROR] Warning: An error occurred during hydration. The server HTML was replaced with client content in <%s>. #document @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:32
+[     795ms] Error: Hydration failed because the initial UI does not match what was rendered on the server.
+See more info here: https://nextjs.org/docs/messages/react-hydration-error
+    at throwOnHydrationMismatch (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:6981:9)
+    at tryToClaimNextHydratableInstance (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:7016:7)
+    at updateHostComponent$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:16621:5)
+    at beginWork$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:18503:14)
+    at beginWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:26927:14)
+    at performUnitOfWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25748:12)
+    at workLoopConcurrent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25734:5)
+    at renderRootConcurrent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25690:9)
+    at performConcurrentWorkOnRoot (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24504:38)
+    at workLoop (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:256:34)
+    at flushWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:225:14)
+    at MessagePort.performWorkUntilDeadline (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:534:21)
+[     796ms] Error: Hydration failed because the initial UI does not match what was rendered on the server.
+See more info here: https://nextjs.org/docs/messages/react-hydration-error
+    at throwOnHydrationMismatch (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:6981:9)
+    at tryToClaimNextHydratableInstance (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:7016:7)
+    at updateHostComponent$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:16621:5)
+    at beginWork$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:18503:14)
+    at beginWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:26927:14)
+    at performUnitOfWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25748:12)
+    at workLoopConcurrent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25734:5)
+    at renderRootConcurrent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25690:9)
+    at performConcurrentWorkOnRoot (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24504:38)
+    at workLoop (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:256:34)
+    at flushWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:225:14)
+    at MessagePort.performWorkUntilDeadline (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:534:21)
+[     798ms] Error: Hydration failed because the initial UI does not match what was rendered on the server.
+See more info here: https://nextjs.org/docs/messages/react-hydration-error
+    at throwOnHydrationMismatch (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:6981:9)
+    at tryToClaimNextHydratableInstance (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:7016:7)
+    at updateHostComponent$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:16621:5)
+    at beginWork$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:18503:14)
+    at beginWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:26927:14)
+    at performUnitOfWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25748:12)
+    at workLoopConcurrent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25734:5)
+    at renderRootConcurrent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25690:9)
+    at performConcurrentWorkOnRoot (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24504:38)
+    at workLoop (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:256:34)
+    at flushWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:225:14)
+    at MessagePort.performWorkUntilDeadline (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:534:21)
+[     802ms] Error: There was an error while hydrating. Because the error happened outside of a Suspense boundary, the entire root will switch to client rendering.
+See more info here: https://nextjs.org/docs/messages/react-hydration-error
+    at updateHostRoot (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:16571:57)
+    at beginWork$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:18486:14)
+    at beginWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:26927:14)
+    at performUnitOfWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25748:12)
+    at workLoopSync (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25464:5)
+    at renderRootSync (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25419:7)
+    at recoverFromConcurrentError (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24597:20)
+    at performConcurrentWorkOnRoot (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24542:26)
+    at workLoop (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:256:34)
+    at flushWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:225:14)
+    at MessagePort.performWorkUntilDeadline (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:534:21)
+[  727756ms] [ERROR] Warning: Cannot update a component (`%s`) while rendering a different component (`%s`). To locate the bad setState() call inside `%s`, follow the stack trace as described in https://reactjs.org/link/setstate-in-render%s HotReload HomePage HomePage 
+    at HomePage (webpack-internal:///(app-pages-browser)/./src/app/page.tsx:114:148)
+    at ClientPageRoot (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/client-page.js:14:11)
+    at InnerLayoutRouter (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:243:11)
+    at RedirectErrorBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/redirect-boundary.js:74:9)
+    at RedirectBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/redirect-boundary.js:82:11)
+    at NotFoundErrorBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/not-found-boundary.js:76:9)
+    at NotFoundBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/not-found-boundary.js:84:11)
+    at LoadingBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:349:11)
+    at ErrorBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/error-boundary.js:160:11)
+    at InnerScrollAndFocusHandler (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:153:9)
+    at ScrollAndFocusHandler (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:228:11)
+    at RenderFromTemplateContext (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/render-from-template-context.js:16:44)
+    at OuterLayoutRouter (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:370:11)
+    at main
+    at body
+    at html
+    at RootLayout (Server)
+    at RedirectErrorBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/redirect-boundary.js:74:9)
+    at RedirectBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/redirect-boundary.js:82:11)
+    at NotFoundErrorBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/not-found-boundary.js:76:9)
+    at NotFoundBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/not-found-boundary.js:84:11)
+    at DevRootNotFoundBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/dev-root-not-found-boundary.js:33:11)
+    at ReactDevOverlay (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/react-dev-overlay/app/ReactDevOverlay.js:87:9)
+    at HotReload (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/react-dev-overlay/app/hot-reloader-client.js:321:11)
+    at Router (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/app-router.js:207:11)
+    at ErrorBoundaryHandler (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/error-boundary.js:113:9)
+    at ErrorBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/error-boundary.js:160:11)
+    at AppRouter (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/app-router.js:585:13)
+    at ServerRoot (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:112:27)
+    at Root (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:117:11) @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:32
+[  727760ms] ReferenceError: useRouter is not defined
+    at HomePage (webpack-internal:///(app-pages-browser)/./src/app/page.tsx:116:20)
+    at renderWithHooks (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:11121:18)
+    at mountIndeterminateComponent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:16869:13)
+    at beginWork$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:18458:16)
+    at HTMLUnknownElement.callCallback (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:20565:14)
+    at Object.invokeGuardedCallbackImpl (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:20614:16)
+    at invokeGuardedCallback (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:20689:29)
+    at beginWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:26949:7)
+    at performUnitOfWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25748:12)
+    at workLoopSync (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25464:5)
+    at renderRootSync (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25419:7)
+    at performSyncWorkOnRoot (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24887:20)
+    at flushSyncWorkAcrossRoots_impl (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:7758:13)
+    at flushSyncWorkOnAllRoots (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:7718:3)
+    at flushSync$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24999:7)
+    at Object.scheduleRefresh (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:27285:5)
+    at eval (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-refresh/cjs/react-refresh-runtime.development.js:265:17)
+    at Set.forEach (<anonymous>)
+    at Object.performReactRefresh (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-refresh/cjs/react-refresh-runtime.development.js:254:26)
+    at applyUpdate (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/@next/react-refresh-utils/dist/internal/helpers.js:139:31)
+    at statusHandler (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/@next/react-refresh-utils/dist/internal/helpers.js:156:13)
+    at setStatus (http://localhost:3000/_next/static/chunks/webpack.js?v=1771936535514:508:55)
+    at http://localhost:3000/_next/static/chunks/webpack.js?v=1771936535514:678:21
+[  727764ms] ReferenceError: useRouter is not defined
+    at HomePage (webpack-internal:///(app-pages-browser)/./src/app/page.tsx:116:20)
+    at renderWithHooks (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:11121:18)
+    at mountIndeterminateComponent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:16869:13)
+    at beginWork$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:18458:16)
+    at beginWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:26927:14)
+    at performUnitOfWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25748:12)
+    at workLoopSync (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25464:5)
+    at renderRootSync (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25419:7)
+    at performSyncWorkOnRoot (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24887:20)
+    at flushSyncWorkAcrossRoots_impl (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:7758:13)
+    at flushSyncWorkOnAllRoots (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:7718:3)
+    at flushSync$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24999:7)
+    at Object.scheduleRefresh (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:27285:5)
+    at eval (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-refresh/cjs/react-refresh-runtime.development.js:265:17)
+    at Set.forEach (<anonymous>)
+    at Object.performReactRefresh (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-refresh/cjs/react-refresh-runtime.development.js:254:26)
+    at applyUpdate (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/@next/react-refresh-utils/dist/internal/helpers.js:139:31)
+    at statusHandler (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/@next/react-refresh-utils/dist/internal/helpers.js:156:13)
+    at setStatus (http://localhost:3000/_next/static/chunks/webpack.js?v=1771936535514:508:55)
+    at http://localhost:3000/_next/static/chunks/webpack.js?v=1771936535514:678:21
+[  727767ms] ReferenceError: useRouter is not defined
+    at HomePage (webpack-internal:///(app-pages-browser)/./src/app/page.tsx:116:20)
+    at renderWithHooks (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:11121:18)
+    at mountIndeterminateComponent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:16869:13)
+    at beginWork$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:18458:16)
+    at beginWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:26927:14)
+    at performUnitOfWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25748:12)
+    at workLoopSync (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25464:5)
+    at renderRootSync (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25419:7)
+    at performSyncWorkOnRoot (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24887:20)
+    at flushSyncWorkAcrossRoots_impl (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:7758:13)
+    at flushSyncWorkOnAllRoots (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:7718:3)
+    at flushSync$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24999:7)
+    at Object.scheduleRefresh (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:27285:5)
+    at eval (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-refresh/cjs/react-refresh-runtime.development.js:265:17)
+    at Set.forEach (<anonymous>)
+    at Object.performReactRefresh (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-refresh/cjs/react-refresh-runtime.development.js:254:26)
+    at applyUpdate (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/@next/react-refresh-utils/dist/internal/helpers.js:139:31)
+    at statusHandler (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/@next/react-refresh-utils/dist/internal/helpers.js:156:13)
+    at setStatus (http://localhost:3000/_next/static/chunks/webpack.js?v=1771936535514:508:55)
+    at http://localhost:3000/_next/static/chunks/webpack.js?v=1771936535514:678:21
+[  727770ms] ReferenceError: useRouter is not defined
+    at HomePage (webpack-internal:///(app-pages-browser)/./src/app/page.tsx:116:20)
+    at renderWithHooks (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:11121:18)
+    at mountIndeterminateComponent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:16869:13)
+    at beginWork$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:18458:16)
+    at beginWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:26927:14)
+    at performUnitOfWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25748:12)
+    at workLoopSync (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25464:5)
+    at renderRootSync (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25419:7)
+    at performSyncWorkOnRoot (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24887:20)
+    at flushSyncWorkAcrossRoots_impl (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:7758:13)
+    at flushSyncWorkOnAllRoots (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:7718:3)
+    at flushSync$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24999:7)
+    at Object.scheduleRefresh (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:27285:5)
+    at eval (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-refresh/cjs/react-refresh-runtime.development.js:265:17)
+    at Set.forEach (<anonymous>)
+    at Object.performReactRefresh (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-refresh/cjs/react-refresh-runtime.development.js:254:26)
+    at applyUpdate (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/@next/react-refresh-utils/dist/internal/helpers.js:139:31)
+    at statusHandler (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/@next/react-refresh-utils/dist/internal/helpers.js:156:13)
+    at setStatus (http://localhost:3000/_next/static/chunks/webpack.js?v=1771936535514:508:55)
+    at http://localhost:3000/_next/static/chunks/webpack.js?v=1771936535514:678:21
+[  727772ms] ReferenceError: useRouter is not defined
+    at HomePage (webpack-internal:///(app-pages-browser)/./src/app/page.tsx:116:20)
+    at renderWithHooks (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:11121:18)
+    at mountIndeterminateComponent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:16869:13)
+    at beginWork$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:18458:16)
+    at beginWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:26927:14)
+    at performUnitOfWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25748:12)
+    at workLoopSync (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25464:5)
+    at renderRootSync (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25419:7)
+    at performSyncWorkOnRoot (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24887:20)
+    at flushSyncWorkAcrossRoots_impl (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:7758:13)
+    at flushSyncWorkOnAllRoots (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:7718:3)
+    at flushSync$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24999:7)
+    at Object.scheduleRefresh (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:27285:5)
+    at eval (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-refresh/cjs/react-refresh-runtime.development.js:265:17)
+    at Set.forEach (<anonymous>)
+    at Object.performReactRefresh (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-refresh/cjs/react-refresh-runtime.development.js:254:26)
+    at applyUpdate (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/@next/react-refresh-utils/dist/internal/helpers.js:139:31)
+    at statusHandler (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/@next/react-refresh-utils/dist/internal/helpers.js:156:13)
+    at setStatus (http://localhost:3000/_next/static/chunks/webpack.js?v=1771936535514:508:55)
+    at http://localhost:3000/_next/static/chunks/webpack.js?v=1771936535514:678:21
+[  727774ms] ReferenceError: useRouter is not defined
+    at HomePage (webpack-internal:///(app-pages-browser)/./src/app/page.tsx:116:20)
+    at renderWithHooks (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:11121:18)
+    at mountIndeterminateComponent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:16869:13)
+    at beginWork$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:18458:16)
+    at HTMLUnknownElement.callCallback (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:20565:14)
+    at Object.invokeGuardedCallbackImpl (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:20614:16)
+    at invokeGuardedCallback (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:20689:29)
+    at beginWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:26949:7)
+    at performUnitOfWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25748:12)
+    at workLoopSync (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25464:5)
+    at renderRootSync (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25419:7)
+    at performSyncWorkOnRoot (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24887:20)
+    at flushSyncWorkAcrossRoots_impl (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:7758:13)
+    at flushSyncWorkOnAllRoots (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:7718:3)
+    at flushSync$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24999:7)
+    at Object.scheduleRefresh (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:27285:5)
+    at eval (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-refresh/cjs/react-refresh-runtime.development.js:265:17)
+    at Set.forEach (<anonymous>)
+    at Object.performReactRefresh (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-refresh/cjs/react-refresh-runtime.development.js:254:26)
+    at applyUpdate (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/@next/react-refresh-utils/dist/internal/helpers.js:139:31)
+    at statusHandler (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/@next/react-refresh-utils/dist/internal/helpers.js:156:13)
+    at setStatus (http://localhost:3000/_next/static/chunks/webpack.js?v=1771936535514:508:55)
+    at http://localhost:3000/_next/static/chunks/webpack.js?v=1771936535514:678:21
+[  727775ms] ReferenceError: useRouter is not defined
+    at HomePage (webpack-internal:///(app-pages-browser)/./src/app/page.tsx:116:20)
+    at renderWithHooks (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:11121:18)
+    at mountIndeterminateComponent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:16869:13)
+    at beginWork$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:18458:16)
+    at beginWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:26927:14)
+    at performUnitOfWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25748:12)
+    at workLoopSync (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25464:5)
+    at renderRootSync (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25419:7)
+    at performSyncWorkOnRoot (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24887:20)
+    at flushSyncWorkAcrossRoots_impl (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:7758:13)
+    at flushSyncWorkOnAllRoots (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:7718:3)
+    at flushSync$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24999:7)
+    at Object.scheduleRefresh (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:27285:5)
+    at eval (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-refresh/cjs/react-refresh-runtime.development.js:265:17)
+    at Set.forEach (<anonymous>)
+    at Object.performReactRefresh (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-refresh/cjs/react-refresh-runtime.development.js:254:26)
+    at applyUpdate (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/@next/react-refresh-utils/dist/internal/helpers.js:139:31)
+    at statusHandler (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/@next/react-refresh-utils/dist/internal/helpers.js:156:13)
+    at setStatus (http://localhost:3000/_next/static/chunks/webpack.js?v=1771936535514:508:55)
+    at http://localhost:3000/_next/static/chunks/webpack.js?v=1771936535514:678:21
+[  727776ms] ReferenceError: useRouter is not defined
+    at HomePage (webpack-internal:///(app-pages-browser)/./src/app/page.tsx:116:20)
+    at renderWithHooks (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:11121:18)
+    at mountIndeterminateComponent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:16869:13)
+    at beginWork$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:18458:16)
+    at beginWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:26927:14)
+    at performUnitOfWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25748:12)
+    at workLoopSync (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25464:5)
+    at renderRootSync (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25419:7)
+    at performSyncWorkOnRoot (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24887:20)
+    at flushSyncWorkAcrossRoots_impl (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:7758:13)
+    at flushSyncWorkOnAllRoots (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:7718:3)
+    at flushSync$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24999:7)
+    at Object.scheduleRefresh (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:27285:5)
+    at eval (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-refresh/cjs/react-refresh-runtime.development.js:265:17)
+    at Set.forEach (<anonymous>)
+    at Object.performReactRefresh (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-refresh/cjs/react-refresh-runtime.development.js:254:26)
+    at applyUpdate (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/@next/react-refresh-utils/dist/internal/helpers.js:139:31)
+    at statusHandler (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/@next/react-refresh-utils/dist/internal/helpers.js:156:13)
+    at setStatus (http://localhost:3000/_next/static/chunks/webpack.js?v=1771936535514:508:55)
+    at http://localhost:3000/_next/static/chunks/webpack.js?v=1771936535514:678:21
+[  727777ms] ReferenceError: useRouter is not defined
+    at HomePage (webpack-internal:///(app-pages-browser)/./src/app/page.tsx:116:20)
+    at renderWithHooks (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:11121:18)
+    at mountIndeterminateComponent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:16869:13)
+    at beginWork$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:18458:16)
+    at beginWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:26927:14)
+    at performUnitOfWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25748:12)
+    at workLoopSync (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25464:5)
+    at renderRootSync (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25419:7)
+    at performSyncWorkOnRoot (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24887:20)
+    at flushSyncWorkAcrossRoots_impl (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:7758:13)
+    at flushSyncWorkOnAllRoots (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:7718:3)
+    at flushSync$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24999:7)
+    at Object.scheduleRefresh (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:27285:5)
+    at eval (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-refresh/cjs/react-refresh-runtime.development.js:265:17)
+    at Set.forEach (<anonymous>)
+    at Object.performReactRefresh (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-refresh/cjs/react-refresh-runtime.development.js:254:26)
+    at applyUpdate (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/@next/react-refresh-utils/dist/internal/helpers.js:139:31)
+    at statusHandler (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/@next/react-refresh-utils/dist/internal/helpers.js:156:13)
+    at setStatus (http://localhost:3000/_next/static/chunks/webpack.js?v=1771936535514:508:55)
+    at http://localhost:3000/_next/static/chunks/webpack.js?v=1771936535514:678:21
+[  727781ms] ReferenceError: useRouter is not defined
+    at HomePage (webpack-internal:///(app-pages-browser)/./src/app/page.tsx:116:20)
+    at renderWithHooks (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:11121:18)
+    at mountIndeterminateComponent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:16869:13)
+    at beginWork$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:18458:16)
+    at beginWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:26927:14)
+    at performUnitOfWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25748:12)
+    at workLoopSync (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25464:5)
+    at renderRootSync (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25419:7)
+    at performSyncWorkOnRoot (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24887:20)
+    at flushSyncWorkAcrossRoots_impl (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:7758:13)
+    at flushSyncWorkOnAllRoots (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:7718:3)
+    at flushSync$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24999:7)
+    at Object.scheduleRefresh (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:27285:5)
+    at eval (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-refresh/cjs/react-refresh-runtime.development.js:265:17)
+    at Set.forEach (<anonymous>)
+    at Object.performReactRefresh (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-refresh/cjs/react-refresh-runtime.development.js:254:26)
+    at applyUpdate (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/@next/react-refresh-utils/dist/internal/helpers.js:139:31)
+    at statusHandler (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/@next/react-refresh-utils/dist/internal/helpers.js:156:13)
+    at setStatus (http://localhost:3000/_next/static/chunks/webpack.js?v=1771936535514:508:55)
+    at http://localhost:3000/_next/static/chunks/webpack.js?v=1771936535514:678:21
+[  727777ms] [ERROR] The above error occurred in the <NotFoundErrorBoundary> component:
+
+    at HomePage (webpack-internal:///(app-pages-browser)/./src/app/page.tsx:114:148)
+    at ClientPageRoot (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/client-page.js:14:11)
+    at InnerLayoutRouter (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:243:11)
+    at RedirectErrorBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/redirect-boundary.js:74:9)
+    at RedirectBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/redirect-boundary.js:82:11)
+    at NotFoundErrorBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/not-found-boundary.js:76:9)
+    at NotFoundBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/not-found-boundary.js:84:11)
+    at LoadingBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:349:11)
+    at ErrorBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/error-boundary.js:160:11)
+    at InnerScrollAndFocusHandler (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:153:9)
+    at ScrollAndFocusHandler (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:228:11)
+    at RenderFromTemplateContext (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/render-from-template-context.js:16:44)
+    at OuterLayoutRouter (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:370:11)
+    at main
+    at body
+    at html
+    at RootLayout (Server)
+    at RedirectErrorBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/redirect-boundary.js:74:9)
+    at RedirectBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/redirect-boundary.js:82:11)
+    at NotFoundErrorBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/not-found-boundary.js:76:9)
+    at NotFoundBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/not-found-boundary.js:84:11)
+    at DevRootNotFoundBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/dev-root-not-found-boundary.js:33:11)
+    at ReactDevOverlay (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/react-dev-overlay/app/ReactDevOverlay.js:87:9)
+    at HotReload (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/react-dev-overlay/app/hot-reloader-client.js:321:11)
+    at Router (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/app-router.js:207:11)
+    at ErrorBoundaryHandler (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/error-boundary.js:113:9)
+    at ErrorBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/error-boundary.js:160:11)
+    at AppRouter (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/app-router.js:585:13)
+    at ServerRoot (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:112:27)
+    at Root (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:117:11)
+
+React will try to recreate this component tree from scratch using the error boundary you provided, ReactDevOverlay. @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:32
+[  727834ms] [WARNING] [Fast Refresh] performing full reload because your application had an unrecoverable error @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/react-dev-overlay/app/hot-reloader-client.js:114
+[  729325ms] ReferenceError: showOnboarding is not defined
+    at HomePage (webpack-internal:///(app-pages-browser)/./src/app/page.tsx:220:13)
+    at renderWithHooks (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:11121:18)
+    at mountIndeterminateComponent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:16869:13)
+    at beginWork$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:18458:16)
+    at HTMLUnknownElement.callCallback (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:20565:14)
+    at Object.invokeGuardedCallbackImpl (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:20614:16)
+    at invokeGuardedCallback (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:20689:29)
+    at beginWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:26949:7)
+    at performUnitOfWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25748:12)
+    at workLoopSync (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25464:5)
+    at renderRootSync (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25419:7)
+    at performSyncWorkOnRoot (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24887:20)
+    at flushSyncWorkAcrossRoots_impl (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:7758:13)
+    at flushSyncWorkOnAllRoots (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:7718:3)
+    at flushSync$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24999:7)
+    at Object.scheduleRefresh (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:27285:5)
+    at eval (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-refresh/cjs/react-refresh-runtime.development.js:265:17)
+    at Set.forEach (<anonymous>)
+    at Object.performReactRefresh (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-refresh/cjs/react-refresh-runtime.development.js:254:26)
+    at applyUpdate (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/@next/react-refresh-utils/dist/internal/helpers.js:139:31)
+    at statusHandler (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/@next/react-refresh-utils/dist/internal/helpers.js:156:13)
+    at setStatus (http://localhost:3000/_next/static/chunks/webpack.js?v=1771936535514:508:55)
+    at http://localhost:3000/_next/static/chunks/webpack.js?v=1771936535514:678:21
+[  729337ms] ReferenceError: showOnboarding is not defined
+    at HomePage (webpack-internal:///(app-pages-browser)/./src/app/page.tsx:220:13)
+    at renderWithHooks (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:11121:18)
+    at mountIndeterminateComponent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:16869:13)
+    at beginWork$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:18458:16)
+    at beginWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:26927:14)
+    at performUnitOfWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25748:12)
+    at workLoopSync (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25464:5)
+    at renderRootSync (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25419:7)
+    at performSyncWorkOnRoot (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24887:20)
+    at flushSyncWorkAcrossRoots_impl (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:7758:13)
+    at flushSyncWorkOnAllRoots (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:7718:3)
+    at flushSync$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24999:7)
+    at Object.scheduleRefresh (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:27285:5)
+    at eval (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-refresh/cjs/react-refresh-runtime.development.js:265:17)
+    at Set.forEach (<anonymous>)
+    at Object.performReactRefresh (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-refresh/cjs/react-refresh-runtime.development.js:254:26)
+    at applyUpdate (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/@next/react-refresh-utils/dist/internal/helpers.js:139:31)
+    at statusHandler (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/@next/react-refresh-utils/dist/internal/helpers.js:156:13)
+    at setStatus (http://localhost:3000/_next/static/chunks/webpack.js?v=1771936535514:508:55)
+    at http://localhost:3000/_next/static/chunks/webpack.js?v=1771936535514:678:21
+[  729339ms] ReferenceError: showOnboarding is not defined
+    at HomePage (webpack-internal:///(app-pages-browser)/./src/app/page.tsx:220:13)
+    at renderWithHooks (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:11121:18)
+    at mountIndeterminateComponent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:16869:13)
+    at beginWork$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:18458:16)
+    at beginWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:26927:14)
+    at performUnitOfWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25748:12)
+    at workLoopSync (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25464:5)
+    at renderRootSync (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25419:7)
+    at performSyncWorkOnRoot (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24887:20)
+    at flushSyncWorkAcrossRoots_impl (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:7758:13)
+    at flushSyncWorkOnAllRoots (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:7718:3)
+    at flushSync$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24999:7)
+    at Object.scheduleRefresh (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:27285:5)
+    at eval (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-refresh/cjs/react-refresh-runtime.development.js:265:17)
+    at Set.forEach (<anonymous>)
+    at Object.performReactRefresh (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-refresh/cjs/react-refresh-runtime.development.js:254:26)
+    at applyUpdate (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/@next/react-refresh-utils/dist/internal/helpers.js:139:31)
+    at statusHandler (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/@next/react-refresh-utils/dist/internal/helpers.js:156:13)
+    at setStatus (http://localhost:3000/_next/static/chunks/webpack.js?v=1771936535514:508:55)
+    at http://localhost:3000/_next/static/chunks/webpack.js?v=1771936535514:678:21
+[  729340ms] ReferenceError: showOnboarding is not defined
+    at HomePage (webpack-internal:///(app-pages-browser)/./src/app/page.tsx:220:13)
+    at renderWithHooks (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:11121:18)
+    at mountIndeterminateComponent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:16869:13)
+    at beginWork$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:18458:16)
+    at beginWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:26927:14)
+    at performUnitOfWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25748:12)
+    at workLoopSync (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25464:5)
+    at renderRootSync (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25419:7)
+    at performSyncWorkOnRoot (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24887:20)
+    at flushSyncWorkAcrossRoots_impl (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:7758:13)
+    at flushSyncWorkOnAllRoots (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:7718:3)
+    at flushSync$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24999:7)
+    at Object.scheduleRefresh (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:27285:5)
+    at eval (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-refresh/cjs/react-refresh-runtime.development.js:265:17)
+    at Set.forEach (<anonymous>)
+    at Object.performReactRefresh (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-refresh/cjs/react-refresh-runtime.development.js:254:26)
+    at applyUpdate (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/@next/react-refresh-utils/dist/internal/helpers.js:139:31)
+    at statusHandler (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/@next/react-refresh-utils/dist/internal/helpers.js:156:13)
+    at setStatus (http://localhost:3000/_next/static/chunks/webpack.js?v=1771936535514:508:55)
+    at http://localhost:3000/_next/static/chunks/webpack.js?v=1771936535514:678:21
+[  729341ms] ReferenceError: showOnboarding is not defined
+    at HomePage (webpack-internal:///(app-pages-browser)/./src/app/page.tsx:220:13)
+    at renderWithHooks (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:11121:18)
+    at mountIndeterminateComponent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:16869:13)
+    at beginWork$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:18458:16)
+    at beginWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:26927:14)
+    at performUnitOfWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25748:12)
+    at workLoopSync (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25464:5)
+    at renderRootSync (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25419:7)
+    at performSyncWorkOnRoot (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24887:20)
+    at flushSyncWorkAcrossRoots_impl (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:7758:13)
+    at flushSyncWorkOnAllRoots (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:7718:3)
+    at flushSync$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24999:7)
+    at Object.scheduleRefresh (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:27285:5)
+    at eval (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-refresh/cjs/react-refresh-runtime.development.js:265:17)
+    at Set.forEach (<anonymous>)
+    at Object.performReactRefresh (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-refresh/cjs/react-refresh-runtime.development.js:254:26)
+    at applyUpdate (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/@next/react-refresh-utils/dist/internal/helpers.js:139:31)
+    at statusHandler (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/@next/react-refresh-utils/dist/internal/helpers.js:156:13)
+    at setStatus (http://localhost:3000/_next/static/chunks/webpack.js?v=1771936535514:508:55)
+    at http://localhost:3000/_next/static/chunks/webpack.js?v=1771936535514:678:21
+[  729342ms] ReferenceError: showOnboarding is not defined
+    at HomePage (webpack-internal:///(app-pages-browser)/./src/app/page.tsx:220:13)
+    at renderWithHooks (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:11121:18)
+    at mountIndeterminateComponent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:16869:13)
+    at beginWork$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:18458:16)
+    at HTMLUnknownElement.callCallback (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:20565:14)
+    at Object.invokeGuardedCallbackImpl (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:20614:16)
+    at invokeGuardedCallback (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:20689:29)
+    at beginWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:26949:7)
+    at performUnitOfWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25748:12)
+    at workLoopSync (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25464:5)
+    at renderRootSync (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25419:7)
+    at recoverFromConcurrentError (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24597:20)
+    at performSyncWorkOnRoot (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24899:20)
+    at flushSyncWorkAcrossRoots_impl (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:7758:13)
+    at flushSyncWorkOnAllRoots (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:7718:3)
+    at flushSync$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24999:7)
+    at Object.scheduleRefresh (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:27285:5)
+    at eval (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-refresh/cjs/react-refresh-runtime.development.js:265:17)
+    at Set.forEach (<anonymous>)
+    at Object.performReactRefresh (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-refresh/cjs/react-refresh-runtime.development.js:254:26)
+    at applyUpdate (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/@next/react-refresh-utils/dist/internal/helpers.js:139:31)
+    at statusHandler (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/@next/react-refresh-utils/dist/internal/helpers.js:156:13)
+    at setStatus (http://localhost:3000/_next/static/chunks/webpack.js?v=1771936535514:508:55)
+    at http://localhost:3000/_next/static/chunks/webpack.js?v=1771936535514:678:21
+[  729352ms] ReferenceError: showOnboarding is not defined
+    at HomePage (webpack-internal:///(app-pages-browser)/./src/app/page.tsx:220:13)
+    at renderWithHooks (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:11121:18)
+    at mountIndeterminateComponent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:16869:13)
+    at beginWork$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:18458:16)
+    at beginWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:26927:14)
+    at performUnitOfWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25748:12)
+    at workLoopSync (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25464:5)
+    at renderRootSync (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25419:7)
+    at recoverFromConcurrentError (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24597:20)
+    at performSyncWorkOnRoot (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24899:20)
+    at flushSyncWorkAcrossRoots_impl (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:7758:13)
+    at flushSyncWorkOnAllRoots (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:7718:3)
+    at flushSync$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24999:7)
+    at Object.scheduleRefresh (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:27285:5)
+    at eval (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-refresh/cjs/react-refresh-runtime.development.js:265:17)
+    at Set.forEach (<anonymous>)
+    at Object.performReactRefresh (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-refresh/cjs/react-refresh-runtime.development.js:254:26)
+    at applyUpdate (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/@next/react-refresh-utils/dist/internal/helpers.js:139:31)
+    at statusHandler (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/@next/react-refresh-utils/dist/internal/helpers.js:156:13)
+    at setStatus (http://localhost:3000/_next/static/chunks/webpack.js?v=1771936535514:508:55)
+    at http://localhost:3000/_next/static/chunks/webpack.js?v=1771936535514:678:21
+[  729354ms] ReferenceError: showOnboarding is not defined
+    at HomePage (webpack-internal:///(app-pages-browser)/./src/app/page.tsx:220:13)
+    at renderWithHooks (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:11121:18)
+    at mountIndeterminateComponent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:16869:13)
+    at beginWork$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:18458:16)
+    at beginWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:26927:14)
+    at performUnitOfWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25748:12)
+    at workLoopSync (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25464:5)
+    at renderRootSync (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25419:7)
+    at recoverFromConcurrentError (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24597:20)
+    at performSyncWorkOnRoot (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24899:20)
+    at flushSyncWorkAcrossRoots_impl (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:7758:13)
+    at flushSyncWorkOnAllRoots (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:7718:3)
+    at flushSync$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24999:7)
+    at Object.scheduleRefresh (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:27285:5)
+    at eval (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-refresh/cjs/react-refresh-runtime.development.js:265:17)
+    at Set.forEach (<anonymous>)
+    at Object.performReactRefresh (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-refresh/cjs/react-refresh-runtime.development.js:254:26)
+    at applyUpdate (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/@next/react-refresh-utils/dist/internal/helpers.js:139:31)
+    at statusHandler (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/@next/react-refresh-utils/dist/internal/helpers.js:156:13)
+    at setStatus (http://localhost:3000/_next/static/chunks/webpack.js?v=1771936535514:508:55)
+    at http://localhost:3000/_next/static/chunks/webpack.js?v=1771936535514:678:21
+[  729355ms] ReferenceError: showOnboarding is not defined
+    at HomePage (webpack-internal:///(app-pages-browser)/./src/app/page.tsx:220:13)
+    at renderWithHooks (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:11121:18)
+    at mountIndeterminateComponent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:16869:13)
+    at beginWork$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:18458:16)
+    at beginWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:26927:14)
+    at performUnitOfWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25748:12)
+    at workLoopSync (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25464:5)
+    at renderRootSync (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25419:7)
+    at recoverFromConcurrentError (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24597:20)
+    at performSyncWorkOnRoot (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24899:20)
+    at flushSyncWorkAcrossRoots_impl (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:7758:13)
+    at flushSyncWorkOnAllRoots (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:7718:3)
+    at flushSync$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24999:7)
+    at Object.scheduleRefresh (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:27285:5)
+    at eval (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-refresh/cjs/react-refresh-runtime.development.js:265:17)
+    at Set.forEach (<anonymous>)
+    at Object.performReactRefresh (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-refresh/cjs/react-refresh-runtime.development.js:254:26)
+    at applyUpdate (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/@next/react-refresh-utils/dist/internal/helpers.js:139:31)
+    at statusHandler (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/@next/react-refresh-utils/dist/internal/helpers.js:156:13)
+    at setStatus (http://localhost:3000/_next/static/chunks/webpack.js?v=1771936535514:508:55)
+    at http://localhost:3000/_next/static/chunks/webpack.js?v=1771936535514:678:21
+[  729356ms] ReferenceError: showOnboarding is not defined
+    at HomePage (webpack-internal:///(app-pages-browser)/./src/app/page.tsx:220:13)
+    at renderWithHooks (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:11121:18)
+    at mountIndeterminateComponent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:16869:13)
+    at beginWork$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:18458:16)
+    at beginWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:26927:14)
+    at performUnitOfWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25748:12)
+    at workLoopSync (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25464:5)
+    at renderRootSync (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25419:7)
+    at recoverFromConcurrentError (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24597:20)
+    at performSyncWorkOnRoot (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24899:20)
+    at flushSyncWorkAcrossRoots_impl (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:7758:13)
+    at flushSyncWorkOnAllRoots (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:7718:3)
+    at flushSync$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24999:7)
+    at Object.scheduleRefresh (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:27285:5)
+    at eval (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-refresh/cjs/react-refresh-runtime.development.js:265:17)
+    at Set.forEach (<anonymous>)
+    at Object.performReactRefresh (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-refresh/cjs/react-refresh-runtime.development.js:254:26)
+    at applyUpdate (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/@next/react-refresh-utils/dist/internal/helpers.js:139:31)
+    at statusHandler (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/@next/react-refresh-utils/dist/internal/helpers.js:156:13)
+    at setStatus (http://localhost:3000/_next/static/chunks/webpack.js?v=1771936535514:508:55)
+    at http://localhost:3000/_next/static/chunks/webpack.js?v=1771936535514:678:21
+[  729346ms] [ERROR] The above error occurred in the <NotFoundErrorBoundary> component:
+
+    at HomePage (webpack-internal:///(app-pages-browser)/./src/app/page.tsx:114:148)
+    at ClientPageRoot (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/client-page.js:14:11)
+    at InnerLayoutRouter (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:243:11)
+    at RedirectErrorBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/redirect-boundary.js:74:9)
+    at RedirectBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/redirect-boundary.js:82:11)
+    at NotFoundErrorBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/not-found-boundary.js:76:9)
+    at NotFoundBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/not-found-boundary.js:84:11)
+    at LoadingBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:349:11)
+    at ErrorBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/error-boundary.js:160:11)
+    at InnerScrollAndFocusHandler (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:153:9)
+    at ScrollAndFocusHandler (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:228:11)
+    at RenderFromTemplateContext (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/render-from-template-context.js:16:44)
+    at OuterLayoutRouter (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:370:11)
+    at main
+    at body
+    at html
+    at RootLayout (Server)
+    at RedirectErrorBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/redirect-boundary.js:74:9)
+    at RedirectBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/redirect-boundary.js:82:11)
+    at NotFoundErrorBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/not-found-boundary.js:76:9)
+    at NotFoundBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/not-found-boundary.js:84:11)
+    at DevRootNotFoundBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/dev-root-not-found-boundary.js:33:11)
+    at ReactDevOverlay (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/react-dev-overlay/app/ReactDevOverlay.js:87:9)
+    at HotReload (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/react-dev-overlay/app/hot-reloader-client.js:321:11)
+    at Router (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/app-router.js:207:11)
+    at ErrorBoundaryHandler (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/error-boundary.js:113:9)
+    at ErrorBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/error-boundary.js:160:11)
+    at AppRouter (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/app-router.js:585:13)
+    at ServerRoot (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:112:27)
+    at Root (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:117:11)
+
+React will try to recreate this component tree from scratch using the error boundary you provided, ReactDevOverlay. @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:32
+[  729393ms] [WARNING] [Fast Refresh] performing full reload because your application had an unrecoverable error @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/react-dev-overlay/app/hot-reloader-client.js:114
+[  730119ms] [ERROR] ./src/app/page.tsx
+Error: 
+  × Unexpected token `main`. Expected jsx identifier
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\app\page.tsx:209:1]
+ 209 │   };
+ 210 │ 
+ 211 │   return (
+ 212 │     <main className="min-h-dvh flex flex-col pb-28 bg-background">
+     ·      ────
+ 213 │       {/* 문의 접수 완료 팝업 */}
+ 214 │       {showSuccessModal && (
+ 215 │         <div
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/app/page.tsx @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:32
+[  731778ms] [WARNING] [Fast Refresh] performing full reload because your application had an unrecoverable error @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/react-dev-overlay/app/hot-reloader-client.js:114
+[  733016ms] [ERROR] Warning: In HTML, %s cannot be a descendant of <%s>.
+This will cause a hydration error.%s <a> a 
+    at a
+    at SiteLogo (webpack-internal:///(app-pages-browser)/./src/components/SiteLogo.tsx:10:11)
+    at a
+    at div
+    at footer
+    at Footer
+    at ConditionalChrome (webpack-internal:///(app-pages-browser)/./src/components/ConditionalChrome.tsx:16:82)
+    at body
+    at html
+    at RootLayout (Server)
+    at RedirectErrorBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/redirect-boundary.js:74:9)
+    at RedirectBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/redirect-boundary.js:82:11)
+    at NotFoundErrorBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/not-found-boundary.js:76:9)
+    at NotFoundBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/not-found-boundary.js:84:11)
+    at DevRootNotFoundBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/dev-root-not-found-boundary.js:33:11)
+    at ReactDevOverlay (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/react-dev-overlay/app/ReactDevOverlay.js:87:9)
+    at HotReload (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/react-dev-overlay/app/hot-reloader-client.js:321:11)
+    at Router (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/app-router.js:207:11)
+    at ErrorBoundaryHandler (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/error-boundary.js:113:9)
+    at ErrorBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/error-boundary.js:160:11)
+    at AppRouter (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/app-router.js:585:13)
+    at ServerRoot (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:112:27)
+    at Root (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:117:11) @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:32
+[  733019ms] Error: Hydration failed because the initial UI does not match what was rendered on the server.
+See more info here: https://nextjs.org/docs/messages/react-hydration-error
+    at throwOnHydrationMismatch (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:6981:9)
+    at tryToClaimNextHydratableInstance (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:7016:7)
+    at updateHostComponent$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:16621:5)
+    at beginWork$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:18503:14)
+    at HTMLUnknownElement.callCallback (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:20565:14)
+    at Object.invokeGuardedCallbackImpl (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:20614:16)
+    at invokeGuardedCallback (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:20689:29)
+    at beginWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:26949:7)
+    at performUnitOfWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25748:12)
+    at workLoopConcurrent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25734:5)
+    at renderRootConcurrent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25690:9)
+    at performConcurrentWorkOnRoot (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24504:38)
+    at workLoop (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:256:34)
+    at flushWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:225:14)
+    at MessagePort.performWorkUntilDeadline (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:534:21)
+[  733024ms] [ERROR] Warning: An error occurred during hydration. The server HTML was replaced with client content in <%s>. #document @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:32
+[  733057ms] Error: Hydration failed because the initial UI does not match what was rendered on the server.
+See more info here: https://nextjs.org/docs/messages/react-hydration-error
+    at throwOnHydrationMismatch (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:6981:9)
+    at tryToClaimNextHydratableInstance (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:7016:7)
+    at updateHostComponent$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:16621:5)
+    at beginWork$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:18503:14)
+    at beginWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:26927:14)
+    at performUnitOfWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25748:12)
+    at workLoopConcurrent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25734:5)
+    at renderRootConcurrent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25690:9)
+    at performConcurrentWorkOnRoot (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24504:38)
+    at workLoop (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:256:34)
+    at flushWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:225:14)
+    at MessagePort.performWorkUntilDeadline (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:534:21)
+[  733060ms] Error: Hydration failed because the initial UI does not match what was rendered on the server.
+See more info here: https://nextjs.org/docs/messages/react-hydration-error
+    at throwOnHydrationMismatch (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:6981:9)
+    at tryToClaimNextHydratableInstance (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:7016:7)
+    at updateHostComponent$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:16621:5)
+    at beginWork$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:18503:14)
+    at beginWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:26927:14)
+    at performUnitOfWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25748:12)
+    at workLoopConcurrent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25734:5)
+    at renderRootConcurrent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25690:9)
+    at performConcurrentWorkOnRoot (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24504:38)
+    at workLoop (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:256:34)
+    at flushWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:225:14)
+    at MessagePort.performWorkUntilDeadline (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:534:21)
+[  733064ms] Error: Hydration failed because the initial UI does not match what was rendered on the server.
+See more info here: https://nextjs.org/docs/messages/react-hydration-error
+    at throwOnHydrationMismatch (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:6981:9)
+    at tryToClaimNextHydratableInstance (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:7016:7)
+    at updateHostComponent$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:16621:5)
+    at beginWork$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:18503:14)
+    at beginWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:26927:14)
+    at performUnitOfWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25748:12)
+    at workLoopConcurrent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25734:5)
+    at renderRootConcurrent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25690:9)
+    at performConcurrentWorkOnRoot (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24504:38)
+    at workLoop (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:256:34)
+    at flushWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:225:14)
+    at MessagePort.performWorkUntilDeadline (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:534:21)
+[  733067ms] Error: There was an error while hydrating. Because the error happened outside of a Suspense boundary, the entire root will switch to client rendering.
+See more info here: https://nextjs.org/docs/messages/react-hydration-error
+    at updateHostRoot (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:16571:57)
+    at beginWork$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:18486:14)
+    at beginWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:26927:14)
+    at performUnitOfWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25748:12)
+    at workLoopSync (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25464:5)
+    at renderRootSync (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25419:7)
+    at recoverFromConcurrentError (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24597:20)
+    at performConcurrentWorkOnRoot (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24542:26)
+    at workLoop (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:256:34)
+    at flushWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:225:14)
+    at MessagePort.performWorkUntilDeadline (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:534:21)
+[ 1113669ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Unexpected token `div`. Expected jsx identifier
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:128:1]
+ 128 │         : "max-w-[min(200px,45vw)]";
+ 129 │ 
+ 130 │   return (
+ 131 │     <div
+     ·      ───
+ 132 │       className={`relative w-full aspect-[3/4] mx-auto rounded-2xl overflow-hidden bg-neutral-300 ${sizeClass}`}
+ 133 │     >
+ 133 │       {/* 1) 재킷 베이스 레이어 */}
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/mockup/LayerPreview.tsx
+./src/app/page.tsx @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:32
+[ 1113904ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Unexpected token `div`. Expected jsx identifier
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:128:1]
+ 128 │         : "max-w-[min(200px,45vw)]";
+ 129 │ 
+ 130 │   return (
+ 131 │     <div
+     ·      ───
+ 132 │       className={`relative w-full aspect-[3/4] mx-auto rounded-2xl overflow-hidden bg-neutral-300 ${sizeClass}`}
+ 133 │     >
+ 133 │       {/* 1) 재킷 베이스 레이어 */}
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/mockup/LayerPreview.tsx
+./src/app/page.tsx @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:32
+[ 1126985ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Unexpected token `div`. Expected jsx identifier
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:128:1]
+ 128 │         : "max-w-[min(200px,45vw)]";
+ 129 │ 
+ 130 │   return (
+ 131 │     <div
+     ·      ───
+ 132 │       className={`relative w-full aspect-[3/4] mx-auto rounded-2xl overflow-hidden bg-neutral-300 ${sizeClass}`}
+ 133 │     >
+ 133 │       {/* 1) 재킷 베이스 레이어 */}
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/mockup/LayerPreview.tsx
+./src/app/page.tsx @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:32
+[ 1127253ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Unexpected token `div`. Expected jsx identifier
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:113:1]
+ 113 │         : "max-w-[min(200px,45vw)]";
+ 114 │ 
+ 115 │   return (
+ 116 │     <div
+     ·      ───
+ 117 │       className={`relative w-full aspect-[3/4] mx-auto rounded-2xl overflow-hidden bg-neutral-300 ${sizeClass}`}
+ 118 │     >
+ 118 │       {/* 1) 재킷 베이스 레이어 */}
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/mockup/LayerPreview.tsx
+./src/app/page.tsx @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:32
+[ 1127378ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Unexpected token `div`. Expected jsx identifier
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:113:1]
+ 113 │         : "max-w-[min(200px,45vw)]";
+ 114 │ 
+ 115 │   return (
+ 116 │     <div
+     ·      ───
+ 117 │       className={`relative w-full aspect-[3/4] mx-auto rounded-2xl overflow-hidden bg-neutral-300 ${sizeClass}`}
+ 118 │     >
+ 118 │       {/* 1) 재킷 베이스 레이어 */}
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/mockup/LayerPreview.tsx
+./src/app/page.tsx @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:32
+[ 1131113ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Unexpected token `div`. Expected jsx identifier
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:113:1]
+ 113 │         : "max-w-[min(200px,45vw)]";
+ 114 │ 
+ 115 │   return (
+ 116 │     <div
+     ·      ───
+ 117 │       className={`relative w-full aspect-[3/4] mx-auto rounded-2xl overflow-hidden bg-neutral-300 ${sizeClass}`}
+ 118 │     >
+ 118 │       {/* 1) 재킷 베이스 레이어 */}
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/mockup/LayerPreview.tsx
+./src/app/page.tsx @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:32
+[ 1131372ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Unexpected token `div`. Expected jsx identifier
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:127:1]
+ 127 │         : "max-w-[min(200px,45vw)]";
+ 128 │ 
+ 129 │   return (
+ 130 │     <div
+     ·      ───
+ 131 │       className={`relative w-full aspect-[3/4] mx-auto rounded-2xl overflow-hidden bg-neutral-300 ${sizeClass}`}
+ 132 │     >
+ 132 │       {/* 1) 재킷 베이스 레이어 */}
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/mockup/LayerPreview.tsx
+./src/app/page.tsx @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:32
+[ 1131522ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Unexpected token `div`. Expected jsx identifier
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:127:1]
+ 127 │         : "max-w-[min(200px,45vw)]";
+ 128 │ 
+ 129 │   return (
+ 130 │     <div
+     ·      ───
+ 131 │       className={`relative w-full aspect-[3/4] mx-auto rounded-2xl overflow-hidden bg-neutral-300 ${sizeClass}`}
+ 132 │     >
+ 132 │       {/* 1) 재킷 베이스 레이어 */}
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/mockup/LayerPreview.tsx
+./src/app/page.tsx @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:32
+[ 1138846ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Unexpected token `div`. Expected jsx identifier
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:127:1]
+ 127 │         : "max-w-[min(200px,45vw)]";
+ 128 │ 
+ 129 │   return (
+ 130 │     <div
+     ·      ───
+ 131 │       className={`relative w-full aspect-[3/4] mx-auto rounded-2xl overflow-hidden bg-neutral-300 ${sizeClass}`}
+ 132 │     >
+ 132 │       {/* 1) 재킷 베이스 레이어 */}
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/mockup/LayerPreview.tsx
+./src/app/page.tsx @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:32
+[ 1139251ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Unexpected token `div`. Expected jsx identifier
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:127:1]
+ 127 │         : "max-w-[min(200px,45vw)]";
+ 128 │ 
+ 129 │   return (
+ 130 │     <div
+     ·      ───
+ 131 │       className={`relative w-full aspect-[3/4] mx-auto rounded-2xl overflow-hidden bg-neutral-300 ${sizeClass}`}
+ 132 │     >
+ 132 │       {/* 1) 재킷 베이스 레이어 */}
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/mockup/LayerPreview.tsx
+./src/app/page.tsx @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:32
+[ 1140456ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Unexpected token `div`. Expected jsx identifier
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:127:1]
+ 127 │         : "max-w-[min(200px,45vw)]";
+ 128 │ 
+ 129 │   return (
+ 130 │     <div
+     ·      ───
+ 131 │       className={`relative w-full aspect-[3/4] mx-auto rounded-2xl overflow-hidden bg-neutral-300 ${sizeClass}`}
+ 132 │     >
+ 132 │       {/* 1) 재킷 베이스 레이어 */}
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/mockup/LayerPreview.tsx
+./src/app/page.tsx @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:32
+[ 1140700ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Unexpected token `div`. Expected jsx identifier
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:127:1]
+ 127 │         : "max-w-[min(200px,45vw)]";
+ 128 │ 
+ 129 │   return (
+ 130 │     <div
+     ·      ───
+ 131 │       className={`relative w-full aspect-[3/4] mx-auto rounded-2xl overflow-hidden bg-neutral-300 ${sizeClass}`}
+ 132 │     >
+ 132 │       {/* 1) 재킷 베이스 레이어 */}
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/mockup/LayerPreview.tsx
+./src/app/page.tsx @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:32
+[ 1144796ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Unexpected token `div`. Expected jsx identifier
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:127:1]
+ 127 │         : "max-w-[min(200px,45vw)]";
+ 128 │ 
+ 129 │   return (
+ 130 │     <div
+     ·      ───
+ 131 │       className={`relative w-full aspect-[3/4] mx-auto rounded-2xl overflow-hidden bg-neutral-300 ${sizeClass}`}
+ 132 │     >
+ 132 │       {/* 1) 재킷 베이스 레이어 */}
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/mockup/LayerPreview.tsx
+./src/app/page.tsx @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:32
+[ 1144953ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Unexpected token `div`. Expected jsx identifier
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:127:1]
+ 127 │         : "max-w-[min(200px,45vw)]";
+ 128 │ 
+ 129 │   return (
+ 130 │     <div
+     ·      ───
+ 131 │       className={`relative w-full aspect-[3/4] mx-auto rounded-2xl overflow-hidden bg-neutral-300 ${sizeClass}`}
+ 132 │     >
+ 132 │       {/* 1) 재킷 베이스 레이어 */}
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/mockup/LayerPreview.tsx
+./src/app/page.tsx @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:32
+[ 1159563ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Unexpected token `div`. Expected jsx identifier
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:127:1]
+ 127 │         : "max-w-[min(200px,45vw)]";
+ 128 │ 
+ 129 │   return (
+ 130 │     <div
+     ·      ───
+ 131 │       className={`relative w-full aspect-[3/4] mx-auto rounded-2xl overflow-hidden bg-neutral-300 ${sizeClass}`}
+ 132 │     >
+ 132 │       {/* 1) 재킷 베이스 레이어 */}
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/mockup/LayerPreview.tsx
+./src/app/page.tsx @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:32
+[ 1159830ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Unexpected token `div`. Expected jsx identifier
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:127:1]
+ 127 │         : "max-w-[min(200px,45vw)]";
+ 128 │ 
+ 129 │   return (
+ 130 │     <div
+     ·      ───
+ 131 │       className={`relative w-full aspect-[3/4] mx-auto rounded-2xl overflow-hidden bg-neutral-300 ${sizeClass}`}
+ 132 │     >
+ 132 │       {/* 1) 재킷 베이스 레이어 */}
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/mockup/LayerPreview.tsx
+./src/app/page.tsx @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:32
+[ 1174275ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Unexpected token `div`. Expected jsx identifier
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:127:1]
+ 127 │         : "max-w-[min(200px,45vw)]";
+ 128 │ 
+ 129 │   return (
+ 130 │     <div
+     ·      ───
+ 131 │       className={`relative w-full aspect-[3/4] mx-auto rounded-2xl overflow-hidden bg-neutral-300 ${sizeClass}`}
+ 132 │     >
+ 132 │       {/* 1) 재킷 베이스 레이어 */}
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/mockup/LayerPreview.tsx
+./src/app/page.tsx @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:32
+[ 1174477ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Unexpected token `div`. Expected jsx identifier
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:127:1]
+ 127 │         : "max-w-[min(200px,45vw)]";
+ 128 │ 
+ 129 │   return (
+ 130 │     <div
+     ·      ───
+ 131 │       className={`relative w-full aspect-[3/4] mx-auto rounded-2xl overflow-hidden bg-neutral-300 ${sizeClass}`}
+ 132 │     >
+ 132 │       {/* 1) 재킷 베이스 레이어 */}
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/mockup/LayerPreview.tsx
+./src/app/page.tsx @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:32
+[ 1176001ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Unexpected token `div`. Expected jsx identifier
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:127:1]
+ 127 │         : "max-w-[min(200px,45vw)]";
+ 128 │ 
+ 129 │   return (
+ 130 │     <div
+     ·      ───
+ 131 │       className={`relative w-full aspect-[3/4] mx-auto rounded-2xl overflow-hidden bg-neutral-300 ${sizeClass}`}
+ 132 │     >
+ 132 │       {/* 1) 재킷 베이스 레이어 */}
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/mockup/LayerPreview.tsx
+./src/app/page.tsx @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:32
+[ 1176209ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Unexpected token `div`. Expected jsx identifier
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:127:1]
+ 127 │         : "max-w-[min(200px,45vw)]";
+ 128 │ 
+ 129 │   return (
+ 130 │     <div
+     ·      ───
+ 131 │       className={`relative w-full aspect-[3/4] mx-auto rounded-2xl overflow-hidden bg-neutral-300 ${sizeClass}`}
+ 132 │     >
+ 132 │       {/* 1) 재킷 베이스 레이어 */}
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/mockup/LayerPreview.tsx
+./src/app/page.tsx @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:32
+[ 1177964ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Unexpected token `div`. Expected jsx identifier
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:127:1]
+ 127 │         : "max-w-[min(200px,45vw)]";
+ 128 │ 
+ 129 │   return (
+ 130 │     <div
+     ·      ───
+ 131 │       className={`relative w-full aspect-[3/4] mx-auto rounded-2xl overflow-hidden bg-neutral-300 ${sizeClass}`}
+ 132 │     >
+ 132 │       {/* 1) 재킷 베이스 레이어 */}
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/mockup/LayerPreview.tsx
+./src/app/page.tsx @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:32
+[ 1178133ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Unexpected token `div`. Expected jsx identifier
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:127:1]
+ 127 │         : "max-w-[min(200px,45vw)]";
+ 128 │ 
+ 129 │   return (
+ 130 │     <div
+     ·      ───
+ 131 │       className={`relative w-full aspect-[3/4] mx-auto rounded-2xl overflow-hidden bg-neutral-300 ${sizeClass}`}
+ 132 │     >
+ 132 │       {/* 1) 재킷 베이스 레이어 */}
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/mockup/LayerPreview.tsx
+./src/app/page.tsx @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:32
+[ 1194149ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Unexpected token `div`. Expected jsx identifier
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:127:1]
+ 127 │         : "max-w-[min(200px,45vw)]";
+ 128 │ 
+ 129 │   return (
+ 130 │     <div
+     ·      ───
+ 131 │       className={`relative w-full aspect-[3/4] mx-auto rounded-2xl overflow-hidden bg-neutral-300 ${sizeClass}`}
+ 132 │     >
+ 132 │       {/* 1) 재킷 베이스 레이어 */}
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/mockup/LayerPreview.tsx
+./src/app/page.tsx @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:32
+[ 1194385ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Unexpected token `div`. Expected jsx identifier
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:127:1]
+ 127 │         : "max-w-[min(200px,45vw)]";
+ 128 │ 
+ 129 │   return (
+ 130 │     <div
+     ·      ───
+ 131 │       className={`relative w-full aspect-[3/4] mx-auto rounded-2xl overflow-hidden bg-neutral-300 ${sizeClass}`}
+ 132 │     >
+ 132 │       {/* 1) 재킷 베이스 레이어 */}
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/mockup/LayerPreview.tsx
+./src/app/page.tsx @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:32
+[ 1194489ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Unexpected token `div`. Expected jsx identifier
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:127:1]
+ 127 │         : "max-w-[min(200px,45vw)]";
+ 128 │ 
+ 129 │   return (
+ 130 │     <div
+     ·      ───
+ 131 │       className={`relative w-full aspect-[3/4] mx-auto rounded-2xl overflow-hidden bg-neutral-300 ${sizeClass}`}
+ 132 │     >
+ 132 │       {/* 1) 재킷 베이스 레이어 */}
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/mockup/LayerPreview.tsx
+./src/app/page.tsx @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:32
+[ 1195494ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Unexpected token `div`. Expected jsx identifier
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:127:1]
+ 127 │         : "max-w-[min(200px,45vw)]";
+ 128 │ 
+ 129 │   return (
+ 130 │     <div
+     ·      ───
+ 131 │       className={`relative w-full aspect-[3/4] mx-auto rounded-2xl overflow-hidden bg-neutral-300 ${sizeClass}`}
+ 132 │     >
+ 132 │       {/* 1) 재킷 베이스 레이어 */}
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/mockup/LayerPreview.tsx
+./src/app/page.tsx @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:32
+[ 1195791ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Unexpected token `div`. Expected jsx identifier
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:127:1]
+ 127 │         : "max-w-[min(200px,45vw)]";
+ 128 │ 
+ 129 │   return (
+ 130 │     <div
+     ·      ───
+ 131 │       className={`relative w-full aspect-[3/4] mx-auto rounded-2xl overflow-hidden bg-neutral-300 ${sizeClass}`}
+ 132 │     >
+ 132 │       {/* 1) 재킷 베이스 레이어 */}
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/mockup/LayerPreview.tsx
+./src/app/page.tsx @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:32
+[ 1196027ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Unexpected token `div`. Expected jsx identifier
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:127:1]
+ 127 │         : "max-w-[min(200px,45vw)]";
+ 128 │ 
+ 129 │   return (
+ 130 │     <div
+     ·      ───
+ 131 │       className={`relative w-full aspect-[3/4] mx-auto rounded-2xl overflow-hidden bg-neutral-300 ${sizeClass}`}
+ 132 │     >
+ 132 │       {/* 1) 재킷 베이스 레이어 */}
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/mockup/LayerPreview.tsx
+./src/app/page.tsx @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:32
+[ 1236787ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Unexpected token `div`. Expected jsx identifier
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:127:1]
+ 127 │         : "max-w-[min(200px,45vw)]";
+ 128 │ 
+ 129 │   return (
+ 130 │     <div
+     ·      ───
+ 131 │       className={`relative w-full aspect-[3/4] mx-auto rounded-2xl overflow-hidden bg-neutral-300 ${sizeClass}`}
+ 132 │     >
+ 132 │       {/* 1) 재킷 베이스 레이어 */}
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/mockup/LayerPreview.tsx
+./src/app/page.tsx @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:32
+[ 1238576ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Unexpected token `div`. Expected jsx identifier
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:127:1]
+ 127 │         : "max-w-[min(200px,45vw)]";
+ 128 │ 
+ 129 │   return (
+ 130 │     <div
+     ·      ───
+ 131 │       className={`relative w-full aspect-[3/4] mx-auto rounded-2xl overflow-hidden bg-neutral-300 ${sizeClass}`}
+ 132 │     >
+ 132 │       {/* 1) 재킷 베이스 레이어 */}
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/mockup/LayerPreview.tsx
+./src/app/page.tsx @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:32
+[ 1239407ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Unexpected token `div`. Expected jsx identifier
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:127:1]
+ 127 │         : "max-w-[min(200px,45vw)]";
+ 128 │ 
+ 129 │   return (
+ 130 │     <div
+     ·      ───
+ 131 │       className={`relative w-full aspect-[3/4] mx-auto rounded-2xl overflow-hidden bg-neutral-300 ${sizeClass}`}
+ 132 │     >
+ 132 │       {/* 1) 재킷 베이스 레이어 */}
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/mockup/LayerPreview.tsx
+./src/app/page.tsx @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:32
+[ 1239934ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Unexpected token `div`. Expected jsx identifier
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:127:1]
+ 127 │         : "max-w-[min(200px,45vw)]";
+ 128 │ 
+ 129 │   return (
+ 130 │     <div
+     ·      ───
+ 131 │       className={`relative w-full aspect-[3/4] mx-auto rounded-2xl overflow-hidden bg-neutral-300 ${sizeClass}`}
+ 132 │     >
+ 132 │       {/* 1) 재킷 베이스 레이어 */}
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/mockup/LayerPreview.tsx
+./src/app/page.tsx @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:32
+[ 1240721ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/?_rsc=r3yhw:0
+[ 1240826ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Unexpected token `div`. Expected jsx identifier
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:127:1]
+ 127 │         : "max-w-[min(200px,45vw)]";
+ 128 │ 
+ 129 │   return (
+ 130 │     <div
+     ·      ───
+ 131 │       className={`relative w-full aspect-[3/4] mx-auto rounded-2xl overflow-hidden bg-neutral-300 ${sizeClass}`}
+ 132 │     >
+ 132 │       {/* 1) 재킷 베이스 레이어 */}
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/mockup/LayerPreview.tsx
+./src/app/page.tsx @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:32
+[ 1241039ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Unexpected token `div`. Expected jsx identifier
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:127:1]
+ 127 │         : "max-w-[min(200px,45vw)]";
+ 128 │ 
+ 129 │   return (
+ 130 │     <div
+     ·      ───
+ 131 │       className={`relative w-full aspect-[3/4] mx-auto rounded-2xl overflow-hidden bg-neutral-300 ${sizeClass}`}
+ 132 │     >
+ 132 │       {/* 1) 재킷 베이스 레이어 */}
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/mockup/LayerPreview.tsx
+./src/app/page.tsx @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:32
+[ 1241226ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Unexpected token `div`. Expected jsx identifier
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:127:1]
+ 127 │         : "max-w-[min(200px,45vw)]";
+ 128 │ 
+ 129 │   return (
+ 130 │     <div
+     ·      ───
+ 131 │       className={`relative w-full aspect-[3/4] mx-auto rounded-2xl overflow-hidden bg-neutral-300 ${sizeClass}`}
+ 132 │     >
+ 132 │       {/* 1) 재킷 베이스 레이어 */}
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/mockup/LayerPreview.tsx
+./src/app/page.tsx @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:32
+[ 1241231ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Unexpected token `div`. Expected jsx identifier
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:127:1]
+ 127 │         : "max-w-[min(200px,45vw)]";
+ 128 │ 
+ 129 │   return (
+ 130 │     <div
+     ·      ───
+ 131 │       className={`relative w-full aspect-[3/4] mx-auto rounded-2xl overflow-hidden bg-neutral-300 ${sizeClass}`}
+ 132 │     >
+ 132 │       {/* 1) 재킷 베이스 레이어 */}
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/mockup/LayerPreview.tsx
+./src/app/page.tsx @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:32
+[ 1241402ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Unexpected token `div`. Expected jsx identifier
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:127:1]
+ 127 │         : "max-w-[min(200px,45vw)]";
+ 128 │ 
+ 129 │   return (
+ 130 │     <div
+     ·      ───
+ 131 │       className={`relative w-full aspect-[3/4] mx-auto rounded-2xl overflow-hidden bg-neutral-300 ${sizeClass}`}
+ 132 │     >
+ 132 │       {/* 1) 재킷 베이스 레이어 */}
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/mockup/LayerPreview.tsx
+./src/app/page.tsx @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:32
+[ 1241609ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Unexpected token `div`. Expected jsx identifier
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:127:1]
+ 127 │         : "max-w-[min(200px,45vw)]";
+ 128 │ 
+ 129 │   return (
+ 130 │     <div
+     ·      ───
+ 131 │       className={`relative w-full aspect-[3/4] mx-auto rounded-2xl overflow-hidden bg-neutral-300 ${sizeClass}`}
+ 132 │     >
+ 132 │       {/* 1) 재킷 베이스 레이어 */}
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/mockup/LayerPreview.tsx
+./src/app/page.tsx @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:32
+[ 1241638ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/?_rsc=r3yhw:0
+[ 1241857ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/:0
+[ 1243023ms] ModuleBuildError: Module build failed (from ./node_modules/next/dist/build/webpack/loaders/next-swc-loader.js):
+Error: 
+  × Unexpected token `div`. Expected jsx identifier
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:127:1]
+ 127 │         : "max-w-[min(200px,45vw)]";
+ 128 │ 
+ 129 │   return (
+ 130 │     <div
+     ·      ───
+ 131 │       className={`relative w-full aspect-[3/4] mx-auto rounded-2xl overflow-hidden bg-neutral-300 ${sizeClass}`}
+ 132 │     >
+ 132 │       {/* 1) 재킷 베이스 레이어 */}
+     ╰────
+
+
+Caused by:
+    Syntax Error
+    at processResult (file://C:\Users\그리고\Desktop\MODOO\modoogwajam\node_modules\next\dist\compiled\webpack\bundle5.js:28:400590)
+    at <unknown> (file://C:\Users\그리고\Desktop\MODOO\modoogwajam\node_modules\next\dist\compiled\webpack\bundle5.js:28:402302)
+    at <unknown> (file://C:\Users\그리고\Desktop\MODOO\modoogwajam\node_modules\next\dist\compiled\loader-runner\LoaderRunner.js:1:8645)
+    at <unknown> (file://C:\Users\그리고\Desktop\MODOO\modoogwajam\node_modules\next\dist\compiled\loader-runner\LoaderRunner.js:1:5019)
+    at r.callback (file://C:\Users\그리고\Desktop\MODOO\modoogwajam\node_modules\next\dist\compiled\loader-runner\LoaderRunner.js:1:4039)
+[ 1243014ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Unexpected token `div`. Expected jsx identifier
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:127:1]
+ 127 │         : "max-w-[min(200px,45vw)]";
+ 128 │ 
+ 129 │   return (
+ 130 │     <div
+     ·      ───
+ 131 │       className={`relative w-full aspect-[3/4] mx-auto rounded-2xl overflow-hidden bg-neutral-300 ${sizeClass}`}
+ 132 │     >
+ 132 │       {/* 1) 재킷 베이스 레이어 */}
+     ╰────
+
+Caused by:
+    Syntax Error @ webpack-internal:///./node_modules/next/dist/client/components/react-dev-overlay/internal/helpers/hydration-error-info.js:62
+[ 1265025ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ webpack-internal:///./node_modules/next/dist/client/components/react-dev-overlay/pages/websocket.js:63
+[ 1279645ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Unexpected token `div`. Expected jsx identifier
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:127:1]
+ 127 │         : "max-w-[min(200px,45vw)]";
+ 128 │ 
+ 129 │   return (
+ 130 │     <div
+     ·      ───
+ 131 │       className={`relative w-full aspect-[3/4] mx-auto rounded-2xl overflow-hidden bg-neutral-300 ${sizeClass}`}
+ 132 │     >
+ 132 │       {/* 1) 재킷 베이스 레이어 */}
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/mockup/LayerPreview.tsx
+./src/app/page.tsx @ webpack-internal:///./node_modules/next/dist/client/components/react-dev-overlay/internal/helpers/hydration-error-info.js:62
+[ 1284324ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Unexpected token `div`. Expected jsx identifier
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:127:1]
+ 127 │         : "max-w-[min(200px,45vw)]";
+ 128 │ 
+ 129 │   return (
+ 130 │     <div
+     ·      ───
+ 131 │       className={`relative w-full aspect-[3/4] mx-auto rounded-2xl overflow-hidden bg-neutral-300 ${sizeClass}`}
+ 132 │     >
+ 132 │       {/* 1) 재킷 베이스 레이어 */}
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/mockup/LayerPreview.tsx
+./src/app/page.tsx @ webpack-internal:///./node_modules/next/dist/client/components/react-dev-overlay/internal/helpers/hydration-error-info.js:62
+[ 1284600ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Unexpected token `div`. Expected jsx identifier
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:127:1]
+ 127 │         : "max-w-[min(200px,45vw)]";
+ 128 │ 
+ 129 │   return (
+ 130 │     <div
+     ·      ───
+ 131 │       className={`relative w-full aspect-[3/4] mx-auto rounded-2xl overflow-hidden bg-neutral-300 ${sizeClass}`}
+ 132 │     >
+ 132 │       {/* 1) 재킷 베이스 레이어 */}
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/mockup/LayerPreview.tsx
+./src/app/page.tsx @ webpack-internal:///./node_modules/next/dist/client/components/react-dev-overlay/internal/helpers/hydration-error-info.js:62
+[ 1284879ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Unexpected token `div`. Expected jsx identifier
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:127:1]
+ 127 │         : "max-w-[min(200px,45vw)]";
+ 128 │ 
+ 129 │   return (
+ 130 │     <div
+     ·      ───
+ 131 │       className={`relative w-full aspect-[3/4] mx-auto rounded-2xl overflow-hidden bg-neutral-300 ${sizeClass}`}
+ 132 │     >
+ 132 │       {/* 1) 재킷 베이스 레이어 */}
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/mockup/LayerPreview.tsx
+./src/app/page.tsx @ webpack-internal:///./node_modules/next/dist/client/components/react-dev-overlay/internal/helpers/hydration-error-info.js:62
+[ 1285121ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Unexpected token `div`. Expected jsx identifier
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:127:1]
+ 127 │         : "max-w-[min(200px,45vw)]";
+ 128 │ 
+ 129 │   return (
+ 130 │     <div
+     ·      ───
+ 131 │       className={`relative w-full aspect-[3/4] mx-auto rounded-2xl overflow-hidden bg-neutral-300 ${sizeClass}`}
+ 132 │     >
+ 132 │       {/* 1) 재킷 베이스 레이어 */}
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/mockup/LayerPreview.tsx
+./src/app/page.tsx @ webpack-internal:///./node_modules/next/dist/client/components/react-dev-overlay/internal/helpers/hydration-error-info.js:62
+[ 1285416ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Unexpected token `div`. Expected jsx identifier
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:127:1]
+ 127 │         : "max-w-[min(200px,45vw)]";
+ 128 │ 
+ 129 │   return (
+ 130 │     <div
+     ·      ───
+ 131 │       className={`relative w-full aspect-[3/4] mx-auto rounded-2xl overflow-hidden bg-neutral-300 ${sizeClass}`}
+ 132 │     >
+ 132 │       {/* 1) 재킷 베이스 레이어 */}
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/mockup/LayerPreview.tsx
+./src/app/page.tsx @ webpack-internal:///./node_modules/next/dist/client/components/react-dev-overlay/internal/helpers/hydration-error-info.js:62
+[ 1289893ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Unexpected token `div`. Expected jsx identifier
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:127:1]
+ 127 │         : "max-w-[min(200px,45vw)]";
+ 128 │ 
+ 129 │   return (
+ 130 │     <div
+     ·      ───
+ 131 │       className={`relative w-full aspect-[3/4] mx-auto rounded-2xl overflow-hidden bg-neutral-300 ${sizeClass}`}
+ 132 │     >
+ 132 │       {/* 1) 재킷 베이스 레이어 */}
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/mockup/LayerPreview.tsx
+./src/app/page.tsx @ webpack-internal:///./node_modules/next/dist/client/components/react-dev-overlay/internal/helpers/hydration-error-info.js:62
+[ 1294070ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Unexpected token `div`. Expected jsx identifier
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:127:1]
+ 127 │         : "max-w-[min(200px,45vw)]";
+ 128 │ 
+ 129 │   return (
+ 130 │     <div
+     ·      ───
+ 131 │       className={`relative w-full aspect-[3/4] mx-auto rounded-2xl overflow-hidden bg-neutral-300 ${sizeClass}`}
+ 132 │     >
+ 132 │       {/* 1) 재킷 베이스 레이어 */}
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/mockup/LayerPreview.tsx
+./src/app/page.tsx @ webpack-internal:///./node_modules/next/dist/client/components/react-dev-overlay/internal/helpers/hydration-error-info.js:62
+[ 1294408ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Unexpected token `div`. Expected jsx identifier
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:127:1]
+ 127 │         : "max-w-[min(200px,45vw)]";
+ 128 │ 
+ 129 │   return (
+ 130 │     <div
+     ·      ───
+ 131 │       className={`relative w-full aspect-[3/4] mx-auto rounded-2xl overflow-hidden bg-neutral-300 ${sizeClass}`}
+ 132 │     >
+ 132 │       {/* 1) 재킷 베이스 레이어 */}
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/mockup/LayerPreview.tsx
+./src/app/page.tsx @ webpack-internal:///./node_modules/next/dist/client/components/react-dev-overlay/internal/helpers/hydration-error-info.js:62
+[ 1294619ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Unexpected token `div`. Expected jsx identifier
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:127:1]
+ 127 │         : "max-w-[min(200px,45vw)]";
+ 128 │ 
+ 129 │   return (
+ 130 │     <div
+     ·      ───
+ 131 │       className={`relative w-full aspect-[3/4] mx-auto rounded-2xl overflow-hidden bg-neutral-300 ${sizeClass}`}
+ 132 │     >
+ 132 │       {/* 1) 재킷 베이스 레이어 */}
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/mockup/LayerPreview.tsx
+./src/app/page.tsx @ webpack-internal:///./node_modules/next/dist/client/components/react-dev-overlay/internal/helpers/hydration-error-info.js:62
+[ 1295218ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/_next/static/webpack/52adbdbed8b526c6.webpack.hot-update.json:0
+[ 1295218ms] [WARNING] [Fast Refresh] performing full reload
+
+Fast Refresh will perform a full reload when you edit a file that's imported by modules outside of the React rendering tree.
+You might have a file which exports a React component but also exports a value that is imported by a non-React component file.
+Consider migrating the non-React component export to a separate file and importing it into both files.
+
+It is also possible the parent component of the component you edited is a class component, which disables Fast Refresh.
+Fast Refresh requires at least one parent function component in your React tree. @ webpack-internal:///./node_modules/next/dist/client/components/react-dev-overlay/pages/hot-reloader-client.js:347
+[ 1296130ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/:0
+[ 1297482ms] ModuleBuildError: Module build failed (from ./node_modules/next/dist/build/webpack/loaders/next-swc-loader.js):
+Error: 
+  × Unexpected token `div`. Expected jsx identifier
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:127:1]
+ 127 │         : "max-w-[min(200px,45vw)]";
+ 128 │ 
+ 129 │   return (
+ 130 │     <div
+     ·      ───
+ 131 │       className={`relative w-full aspect-[3/4] mx-auto rounded-2xl overflow-hidden bg-neutral-300 ${sizeClass}`}
+ 132 │     >
+ 132 │       {/* 1) 재킷 베이스 레이어 */}
+     ╰────
+
+
+Caused by:
+    Syntax Error
+    at processResult (file://C:\Users\그리고\Desktop\MODOO\modoogwajam\node_modules\next\dist\compiled\webpack\bundle5.js:28:400590)
+    at <unknown> (file://C:\Users\그리고\Desktop\MODOO\modoogwajam\node_modules\next\dist\compiled\webpack\bundle5.js:28:402302)
+    at <unknown> (file://C:\Users\그리고\Desktop\MODOO\modoogwajam\node_modules\next\dist\compiled\loader-runner\LoaderRunner.js:1:8645)
+    at <unknown> (file://C:\Users\그리고\Desktop\MODOO\modoogwajam\node_modules\next\dist\compiled\loader-runner\LoaderRunner.js:1:5019)
+    at r.callback (file://C:\Users\그리고\Desktop\MODOO\modoogwajam\node_modules\next\dist\compiled\loader-runner\LoaderRunner.js:1:4039)
+[ 1297489ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Unexpected token `div`. Expected jsx identifier
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:127:1]
+ 127 │         : "max-w-[min(200px,45vw)]";
+ 128 │ 
+ 129 │   return (
+ 130 │     <div
+     ·      ───
+ 131 │       className={`relative w-full aspect-[3/4] mx-auto rounded-2xl overflow-hidden bg-neutral-300 ${sizeClass}`}
+ 132 │     >
+ 132 │       {/* 1) 재킷 베이스 레이어 */}
+     ╰────
+
+Caused by:
+    Syntax Error @ webpack-internal:///./node_modules/next/dist/client/components/react-dev-overlay/internal/helpers/hydration-error-info.js:62
+[ 1297771ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Unexpected token `div`. Expected jsx identifier
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:127:1]
+ 127 │         : "max-w-[min(200px,45vw)]";
+ 128 │ 
+ 129 │   return (
+ 130 │     <div
+     ·      ───
+ 131 │       className={`relative w-full aspect-[3/4] mx-auto rounded-2xl overflow-hidden bg-neutral-300 ${sizeClass}`}
+ 132 │     >
+ 132 │       {/* 1) 재킷 베이스 레이어 */}
+     ╰────
+
+Caused by:
+    Syntax Error @ webpack-internal:///./node_modules/next/dist/client/components/react-dev-overlay/internal/helpers/hydration-error-info.js:62
+[ 1397278ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Unexpected token `div`. Expected jsx identifier
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:127:1]
+ 127 │         : "max-w-[min(200px,45vw)]";
+ 128 │ 
+ 129 │   return (
+ 130 │     <div
+     ·      ───
+ 131 │       className={`relative w-full aspect-[3/4] mx-auto rounded-2xl overflow-hidden bg-neutral-300 ${sizeClass}`}
+ 132 │     >
+ 132 │       {/* 1) 재킷 베이스 레이어 */}
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/mockup/LayerPreview.tsx
+./src/app/page.tsx @ webpack-internal:///./node_modules/next/dist/client/components/react-dev-overlay/internal/helpers/hydration-error-info.js:62
+[ 1397793ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Unexpected token `div`. Expected jsx identifier
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:127:1]
+ 127 │         : "max-w-[min(200px,45vw)]";
+ 128 │ 
+ 129 │   return (
+ 130 │     <div
+     ·      ───
+ 131 │       className={`relative w-full aspect-[3/4] mx-auto rounded-2xl overflow-hidden bg-neutral-300 ${sizeClass}`}
+ 132 │     >
+ 132 │       {/* Base layers */}
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/mockup/LayerPreview.tsx
+./src/app/page.tsx @ webpack-internal:///./node_modules/next/dist/client/components/react-dev-overlay/internal/helpers/hydration-error-info.js:62
+[ 1398363ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Unexpected token `div`. Expected jsx identifier
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:127:1]
+ 127 │         : "max-w-[min(200px,45vw)]";
+ 128 │ 
+ 129 │   return (
+ 130 │     <div
+     ·      ───
+ 131 │       className={`relative w-full aspect-[3/4] mx-auto rounded-2xl overflow-hidden bg-neutral-300 ${sizeClass}`}
+ 132 │     >
+ 132 │       {/* Base layers */}
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/mockup/LayerPreview.tsx
+./src/app/page.tsx @ webpack-internal:///./node_modules/next/dist/client/components/react-dev-overlay/internal/helpers/hydration-error-info.js:62
+[ 1399877ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Unexpected token `div`. Expected jsx identifier
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:127:1]
+ 127 │         : "max-w-[min(200px,45vw)]";
+ 128 │ 
+ 129 │   return (
+ 130 │     <div
+     ·      ───
+ 131 │       className={`relative w-full aspect-[3/4] mx-auto rounded-2xl overflow-hidden bg-neutral-300 ${sizeClass}`}
+ 132 │     >
+ 132 │       {/* Base layers */}
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/mockup/LayerPreview.tsx
+./src/app/page.tsx @ webpack-internal:///./node_modules/next/dist/client/components/react-dev-overlay/internal/helpers/hydration-error-info.js:62
+[ 1400758ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Unexpected token `div`. Expected jsx identifier
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:127:1]
+ 127 │         : "max-w-[min(200px,45vw)]";
+ 128 │ 
+ 129 │   return (
+ 130 │     <div
+     ·      ───
+ 131 │       className={`relative w-full aspect-[3/4] mx-auto rounded-2xl overflow-hidden bg-neutral-300 ${sizeClass}`}
+ 132 │     >
+ 132 │       {/* Base layers */}
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/mockup/LayerPreview.tsx
+./src/app/page.tsx @ webpack-internal:///./node_modules/next/dist/client/components/react-dev-overlay/internal/helpers/hydration-error-info.js:62
+[ 1401867ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Unexpected token `div`. Expected jsx identifier
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:127:1]
+ 127 │         : "max-w-[min(200px,45vw)]";
+ 128 │ 
+ 129 │   return (
+ 130 │     <div
+     ·      ───
+ 131 │       className={`relative w-full aspect-[3/4] mx-auto rounded-2xl overflow-hidden bg-neutral-300 ${sizeClass}`}
+ 132 │     >
+ 132 │       {/* Base layers */}
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/mockup/LayerPreview.tsx
+./src/app/page.tsx @ webpack-internal:///./node_modules/next/dist/client/components/react-dev-overlay/internal/helpers/hydration-error-info.js:62
+[ 1430573ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Unexpected token `div`. Expected jsx identifier
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:127:1]
+ 127 │         : "max-w-[min(200px,45vw)]";
+ 128 │ 
+ 129 │   return (
+ 130 │     <div
+     ·      ───
+ 131 │       className={"relative w-full aspect-[3/4] mx-auto rounded-2xl overflow-hidden bg-neutral-300 " + sizeClass}
+ 132 │     >
+ 132 │       {/* Base layers */}
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/mockup/LayerPreview.tsx
+./src/app/page.tsx @ webpack-internal:///./node_modules/next/dist/client/components/react-dev-overlay/internal/helpers/hydration-error-info.js:62
+[ 1453587ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Unexpected token `div`. Expected jsx identifier
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:124:1]
+ 124 │         : "max-w-[min(200px,45vw)]";
+ 125 │ 
+ 126 │   return (
+ 127 │     <div
+     ·      ───
+ 128 │       className={"relative w-full aspect-[3/4] mx-auto rounded-2xl overflow-hidden bg-neutral-300 " + sizeClass}
+ 129 │     >
+ 129 │       {/* Base layers */}
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/mockup/LayerPreview.tsx
+./src/app/page.tsx @ webpack-internal:///./node_modules/next/dist/client/components/react-dev-overlay/internal/helpers/hydration-error-info.js:62
+[ 1469782ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Unexpected token `div`. Expected jsx identifier
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:124:1]
+ 124 │         : "max-w-[min(200px,45vw)]";
+ 125 │ 
+ 126 │   return (
+ 127 │     <div
+     ·      ───
+ 128 │       className={"relative w-full aspect-[3/4] mx-auto rounded-2xl overflow-hidden bg-neutral-300 " + sizeClass}
+ 129 │     >
+ 129 │       {/* Base layers */}
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/mockup/LayerPreview.tsx
+./src/app/page.tsx @ webpack-internal:///./node_modules/next/dist/client/components/react-dev-overlay/internal/helpers/hydration-error-info.js:62
+[ 1471906ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Expected ',', got '}'
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:160:1]
+ 160 │             aria-hidden
+ 161 │           />
+ 162 │         );
+ 163 │       })}
+     ·         ─
+ 164 │ 
+ 165 │       {/* Print area patches */}
+ 165 │       {printAreas &&
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/mockup/LayerPreview.tsx
+./src/app/page.tsx @ webpack-internal:///./node_modules/next/dist/client/components/react-dev-overlay/internal/helpers/hydration-error-info.js:62
+[ 1477050ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Expected ',', got '}'
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:160:1]
+ 160 │             aria-hidden
+ 161 │           />
+ 162 │         );
+ 163 │       })}
+     ·         ─
+ 164 │ 
+ 165 │       {/* Print area patches */}
+ 165 │       {printAreas &&
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/mockup/LayerPreview.tsx
+./src/app/page.tsx @ webpack-internal:///./node_modules/next/dist/client/components/react-dev-overlay/internal/helpers/hydration-error-info.js:62
+[ 1479329ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Expression expected
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:124:1]
+ 124 │         : "max-w-[min(200px,45vw)]";
+ 125 │ 
+ 126 │   return (
+ 127 │     <>
+     ·      ─
+ 128 │     <div
+ 129 │       className={"relative w-full aspect-[3/4] mx-auto rounded-2xl overflow-hidden bg-neutral-300 " + sizeClass}
+ 129 │     >
+     ╰────
+
+  × Expected ',', got '}'
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:216:1]
+ 216 │               )}
+ 217 │             </div>
+ 218 │           )}
+ 219 │         })}
+     ·         ─
+ 220 │       {/* Active print area dashed border */}
+ 221 │       {boxStyle && (
+ 221 │         <div
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/mockup/LayerPreview.tsx
+./src/app/page.tsx @ webpack-internal:///./node_modules/next/dist/client/components/react-dev-overlay/internal/helpers/hydration-error-info.js:62
+[ 1488250ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Expression expected
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:124:1]
+ 124 │         : "max-w-[min(200px,45vw)]";
+ 125 │ 
+ 126 │   return (
+ 127 │     <>
+     ·      ─
+ 128 │     <div
+ 129 │       className={"relative w-full aspect-[3/4] mx-auto rounded-2xl overflow-hidden bg-neutral-300 " + sizeClass}
+ 129 │     >
+     ╰────
+
+  × Expected ',', got '}'
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:216:1]
+ 216 │               )}
+ 217 │             </div>
+ 218 │           )}
+ 219 │         })}
+     ·         ─
+ 220 │       {/* Active print area dashed border */}
+ 221 │       {boxStyle && (
+ 221 │         <div
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/mockup/LayerPreview.tsx
+./src/app/page.tsx @ webpack-internal:///./node_modules/next/dist/client/components/react-dev-overlay/internal/helpers/hydration-error-info.js:62
+[ 1511063ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Unexpected token `div`. Expected jsx identifier
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:124:1]
+ 124 │         : "max-w-[min(200px,45vw)]";
+ 125 │ 
+ 126 │   return (
+ 127 │     <div
+     ·      ───
+ 128 │       className={"relative w-full aspect-[3/4] mx-auto rounded-2xl overflow-hidden bg-neutral-300 " + sizeClass}
+ 129 │     >
+ 129 │       {order.map((key) => {
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/mockup/LayerPreview.tsx
+./src/app/page.tsx @ webpack-internal:///./node_modules/next/dist/client/components/react-dev-overlay/internal/helpers/hydration-error-info.js:62
+[ 1511869ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Unexpected token `div`. Expected jsx identifier
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:124:1]
+ 124 │         : "max-w-[min(200px,45vw)]";
+ 125 │ 
+ 126 │   return (
+ 127 │     <div
+     ·      ───
+ 128 │       className={"relative w-full aspect-[3/4] mx-auto rounded-2xl overflow-hidden bg-neutral-300 " + sizeClass}
+ 129 │     >
+ 129 │       {order.map((key) => {
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/mockup/LayerPreview.tsx
+./src/app/page.tsx @ webpack-internal:///./node_modules/next/dist/client/components/react-dev-overlay/internal/helpers/hydration-error-info.js:62
+[ 1512864ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Unexpected token `div`. Expected jsx identifier
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:125:1]
+ 125 │         : "max-w-[min(200px,45vw)]";
+ 126 │ 
+ 127 │   return (
+ 128 │     <div
+     ·      ───
+ 129 │       className={"relative w-full aspect-[3/4] mx-auto rounded-2xl overflow-hidden bg-neutral-300 " + sizeClass}
+ 130 │     >
+ 130 │       {order.map((key) => {
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/mockup/LayerPreview.tsx
+./src/app/page.tsx @ webpack-internal:///./node_modules/next/dist/client/components/react-dev-overlay/internal/helpers/hydration-error-info.js:62
+[ 1514646ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Unexpected token `div`. Expected jsx identifier
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:125:1]
+ 125 │         : "max-w-[min(200px,45vw)]";
+ 126 │ 
+ 127 │   return (
+ 128 │     <div
+     ·      ───
+ 129 │       className={"relative w-full aspect-[3/4] mx-auto rounded-2xl overflow-hidden bg-neutral-300 " + sizeClass}
+ 130 │     >
+ 130 │       {order.map((key) => {
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/mockup/LayerPreview.tsx
+./src/app/page.tsx @ webpack-internal:///./node_modules/next/dist/client/components/react-dev-overlay/internal/helpers/hydration-error-info.js:62
+[ 1536911ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Unexpected token `div`. Expected jsx identifier
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:141:1]
+ 141 │         : "max-w-[min(200px,45vw)]";
+ 142 │ 
+ 143 │   return (
+ 144 │     <div
+     ·      ───
+ 145 │       className={"relative w-full aspect-[3/4] mx-auto rounded-2xl overflow-hidden bg-neutral-300 " + sizeClass}
+ 146 │     >
+ 146 │       {order.map((key) => {
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/mockup/LayerPreview.tsx
+./src/app/page.tsx @ webpack-internal:///./node_modules/next/dist/client/components/react-dev-overlay/internal/helpers/hydration-error-info.js:62
+[ 1537568ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Unexpected token `div`. Expected jsx identifier
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:141:1]
+ 141 │         : "max-w-[min(200px,45vw)]";
+ 142 │ 
+ 143 │   return (
+ 144 │     <div
+     ·      ───
+ 145 │       className={"relative w-full aspect-[3/4] mx-auto rounded-2xl overflow-hidden bg-neutral-300 " + sizeClass}
+ 146 │     >
+ 146 │       {order.map((key) => {
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/mockup/LayerPreview.tsx
+./src/app/page.tsx @ webpack-internal:///./node_modules/next/dist/client/components/react-dev-overlay/internal/helpers/hydration-error-info.js:62
+[ 1539750ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Unexpected token `PreviewBox`. Expected jsx identifier
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:141:1]
+ 141 │         : "max-w-[min(200px,45vw)]";
+ 142 │ 
+ 143 │   return (
+ 144 │     <PreviewBox sizeClass={sizeClass}>
+     ·      ──────────
+ 145 │       {order.map((key) => {
+ 146 │         const url = getImageByKey(images, key);
+ 146 │         const color = colors[key as keyof typeof colors];
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/mockup/LayerPreview.tsx
+./src/app/page.tsx @ webpack-internal:///./node_modules/next/dist/client/components/react-dev-overlay/internal/helpers/hydration-error-info.js:62
+[ 1540344ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Unexpected token `PreviewBox`. Expected jsx identifier
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:141:1]
+ 141 │         : "max-w-[min(200px,45vw)]";
+ 142 │ 
+ 143 │   return (
+ 144 │     <PreviewBox sizeClass={sizeClass}>
+     ·      ──────────
+ 145 │       {order.map((key) => {
+ 146 │         const url = getImageByKey(images, key);
+ 146 │         const color = colors[key as keyof typeof colors];
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/mockup/LayerPreview.tsx
+./src/app/page.tsx @ webpack-internal:///./node_modules/next/dist/client/components/react-dev-overlay/internal/helpers/hydration-error-info.js:62
+[ 1579718ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Expected ',', got '}'
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:175:1]
+ 175 │             aria-hidden
+ 176 │           />
+ 177 │         );
+ 178 │       })}
+     ·         ─
+ 179 │ 
+ 180 │       {/* Print area patches */}
+ 180 │       {printAreas &&
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/mockup/LayerPreview.tsx
+./src/app/page.tsx @ webpack-internal:///./node_modules/next/dist/client/components/react-dev-overlay/internal/helpers/hydration-error-info.js:62
+[ 1632709ms] [ERROR] ./src/components/mockup/LayerPreview.tsx
+Error: 
+  × Expected ',', got '}'
+     ╭─[C:\Users\그리고\Desktop\MODOO\modoogwajam\src\components\mockup\LayerPreview.tsx:229:1]
+ 229 │               )}
+ 230 │             </div>
+ 231 │           )}
+ 232 │         })}
+     ·         ─
+ 233 │       {/* Active print area dashed border */}
+ 234 │       {boxStyle && (
+ 234 │         <div
+     ╰────
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/mockup/LayerPreview.tsx
+./src/app/page.tsx @ webpack-internal:///./node_modules/next/dist/client/components/react-dev-overlay/internal/helpers/hydration-error-info.js:62
+[ 1656041ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:3000/_next/static/webpack/52adbdbed8b526c6.webpack.hot-update.json:0
+[ 1656041ms] [WARNING] [Fast Refresh] performing full reload because your application had an unrecoverable error @ webpack-internal:///./node_modules/next/dist/client/components/react-dev-overlay/pages/hot-reloader-client.js:349
+[ 1657620ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:3000/_next/static/chunks/main-app.js?v=1771938192584:0
