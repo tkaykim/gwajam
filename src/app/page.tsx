@@ -588,7 +588,7 @@ export default function HomePage() {
       {/* 단계 1~13: 설정 드로어 - 툴팁은 드로어 안에만 표시(중복 방지), 인쇄 단계는 있음/없음을 헤더에 */}
       <Drawer open={drawerOpen} onOpenChange={setDrawerOpen}>
         <DrawerContent>
-          <DrawerHeader className="flex shrink-0 flex-row items-center justify-between gap-3 text-left border-b border-border px-4 py-3">
+          <DrawerHeader className="flex shrink-0 flex-row items-center justify-between gap-3 text-left border-b border-border px-4 py-2">
             <DrawerTitle className="!mt-0">{FLOW_STEPS[step - 1]?.title ?? ""}</DrawerTitle>
             {step >= 6 && step <= 13 && FLOW_STEPS[step - 1]?.key && (() => {
               const key = FLOW_STEPS[step - 1].key as PrintAreaKey;
@@ -630,7 +630,7 @@ export default function HomePage() {
               );
             })()}
           </DrawerHeader>
-          <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 py-4 pb-2">
+          <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 py-3 pb-2 flex flex-col gap-0">
             {step >= 1 && step <= 5 && FLOW_STEPS[step - 1]?.key && (
               <SingleColorStepContent
                 colorKey={FLOW_STEPS[step - 1].key as ColorStepKey}
@@ -763,7 +763,7 @@ export default function HomePage() {
               </div>
             )}
           </div>
-          <DrawerFooter className="flex shrink-0 flex-row gap-2 border-t border-border pt-3">
+          <DrawerFooter className="flex shrink-0 flex-row gap-2 border-t border-border pt-2 pb-3">
             {step > 1 ? (
               <Button
                 type="button"

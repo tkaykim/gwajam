@@ -44,12 +44,12 @@ const DrawerContent = React.forwardRef<
     <VaulDrawer.Content
       ref={ref}
       className={cn(
-        "fixed inset-x-0 bottom-0 z-50 mt-24 flex h-[60vh] max-h-[60vh] flex-col rounded-t-2xl border border-border bg-background",
+        "fixed inset-x-0 bottom-0 z-50 mt-24 flex h-[45vh] max-h-[45vh] flex-col rounded-t-2xl border border-border bg-background",
         className
       )}
       {...props}
     >
-      <div className="mx-auto mt-4 h-1.5 w-12 shrink-0 rounded-full bg-muted" />
+      <div className="mx-auto mt-2 h-1.5 w-12 shrink-0 rounded-full bg-muted" />
       <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
         {children}
       </div>
