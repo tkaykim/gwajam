@@ -15,7 +15,7 @@ import type { FrontColors, BackColors, PrintAreaKey, PrintAreaState } from "@/ty
 import type { InquiryPayload, PrintAreaStatePayload } from "@/types/mockup";
 import { HeaderLogoMenu } from "@/components/HeaderLogoMenu";
 import { PHONE_NUMBER, KAKAO_CHAT_URL, HOMEPAGE_URL } from "@/components/QuickMenuPanel";
-import { Phone, MessageCircle, Home, Info, ChevronLeft, ChevronRight, ChevronUp, ChevronDown } from "lucide-react";
+import { Phone, MessageCircle, Home, ChevronLeft, ChevronRight, ChevronUp, ChevronDown } from "lucide-react";
 import {
   Drawer,
   DrawerContent,
@@ -630,19 +630,6 @@ export default function HomePage() {
               );
             })()}
           </DrawerHeader>
-          {/* 툴팁: 단계별로 여기서만 한 번만 표시 */}
-          <div className="shrink-0 px-4 pt-3 pb-0">
-            <div className="rounded-xl border border-primary/20 bg-primary/5 shadow-sm ring-1 ring-primary/10 px-4 py-3 flex gap-3 items-start">
-              <span className="flex-shrink-0 mt-0.5 rounded-full bg-primary/15 p-1.5">
-                <Info className="h-4 w-4 text-primary" aria-hidden />
-              </span>
-              <p className="text-xs text-foreground/90 leading-relaxed whitespace-pre-line">
-                {step <= 5
-                  ? "정확한 색상을 모르시더라도 괜찮습니다.\n담당자가 직접 확인 및 상담 후 제작에 들어갑니다."
-                  : "이미지가 없는 경우 설명을 남겨주시면 담당자가 찾아 시안작업을 도와드립니다."}
-              </p>
-            </div>
-          </div>
           <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 py-4 pb-2">
             {step >= 1 && step <= 5 && FLOW_STEPS[step - 1]?.key && (
               <SingleColorStepContent

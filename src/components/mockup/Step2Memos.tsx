@@ -421,7 +421,8 @@ export function Step2Memos({
                       <textarea
                         value={area.text ?? ""}
                         onChange={(e) => updateArea(key, { text: e.target.value || null })}
-                        placeholder="쓰일 텍스트, 또는 요청사항을 자유롭게 작성해주세요"
+                        placeholder={`여기를 클릭해 텍스트 또는 이미지를 삽입해주세요.
+이미지나 폰트가 없는 경우 설명을 남겨주시면 담당자가 확인 후 시안작업을 진행해드립니다.`}
                         rows={2}
                         className="flex min-h-[80px] w-full rounded-lg border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 resize-none"
                       />
