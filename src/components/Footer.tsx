@@ -46,7 +46,7 @@ export function Footer() {
           <section>
             <h3 className="font-semibold text-foreground mb-2">고객 지원</h3>
             <ul className="space-y-1">
-              <li>운영시간: 평일 10:00 ~ 18:00</li>
+              <li>운영시간: 평일 10시~22시</li>
               <li>점심시간: 12:00 ~ 13:00</li>
               <li>주말/공휴일 휴무</li>
             </ul>
