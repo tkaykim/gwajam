@@ -243,8 +243,6 @@ interface Step2MemosProps {
   onActiveChange?: (key: PrintAreaKey) => void;
   /** 'front' = 앞면 4곳만, 'back' = 뒷면 4곳만, 'all' = 8곳 모두 */
   side?: "front" | "back" | "all";
-  /** 지정 시 해당 영역 하나만 노출 (마이크로 스텝용) */
-  singleKey?: PrintAreaKey;
 }
 
 export function Step2Memos({
@@ -253,22 +251,16 @@ export function Step2Memos({
   onImageUpload,
   onActiveChange,
   side = "all",
-  singleKey,
 }: Step2MemosProps) {
-  const order: PrintAreaKey[] = singleKey
-    ? [singleKey]
-    : side === "front"
-      ? [...FRONT_PRINT_KEYS]
-      : side === "back"
-        ? [...BACK_PRINT_KEYS]
-        : [...PRINT_AREA_ORDER];
+  const order: PrintAreaKey[] =
+    side === "front" ? [...FRONT_PRINT_KEYS] : side === "back" ? [...BACK_PRINT_KEYS] : [...PRINT_AREA_ORDER];
   const firstKey = order[0];
 
   const fileInputRefs = useRef<Record<PrintAreaKey, HTMLInputElement | null>>(
     {} as Record<PrintAreaKey, HTMLInputElement | null>
   );
   const [openSections, setOpenSections] = useState<Record<PrintAreaKey, boolean>>(
-    order.reduce((acc, key) => ({ ...acc, [key]: true }), {} as Record<PrintAreaKey, boolean>)
+    order.reduce((acc, key) => ({ ...acc, [key]: key === firstKey }), {} as Record<PrintAreaKey, boolean>)
   );
 
   const updateArea = (key: PrintAreaKey, updates: Partial<PrintAreaState>) => {

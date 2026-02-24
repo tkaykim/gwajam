@@ -14,9 +14,8 @@ import { Input } from "@/components/ui/input";
 import type { FrontColors, BackColors, PrintAreaKey, PrintAreaState } from "@/types/mockup";
 import type { InquiryPayload, PrintAreaStatePayload } from "@/types/mockup";
 import { HeaderLogoMenu } from "@/components/HeaderLogoMenu";
-import { BottomDrawer } from "@/components/BottomDrawer";
 import { PHONE_NUMBER, KAKAO_CHAT_URL, HOMEPAGE_URL } from "@/components/QuickMenuPanel";
-import { Phone, MessageCircle, Home, Info } from "lucide-react";
+import { Phone, MessageCircle, Home, Info, ChevronUp, ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
 
 const PRINT_AREA_BOX_STORAGE_KEY = "modoo-print-area-boxes";
 
@@ -51,22 +50,11 @@ function loadPrintAreaBoxOverrides(): Record<string, { left: number; top: number
   return getDefaultPrintAreaBoxOverrides();
 }
 
-const TOTAL_STEPS = 14;
-const MICRO_STEPS: { id: number; title: string; type: "color" | "lining" | "print" | "contact"; singleStep?: "body" | "sleeve" | "ribbing" | "button" | "lining"; printKey?: PrintAreaKey }[] = [
-  { id: 1, title: "몸통색", type: "color", singleStep: "body" },
-  { id: 2, title: "팔색", type: "color", singleStep: "sleeve" },
-  { id: 3, title: "시보리색", type: "color", singleStep: "ribbing" },
-  { id: 4, title: "단추색", type: "color", singleStep: "button" },
-  { id: 5, title: "안감 두께", type: "lining", singleStep: "lining" },
-  { id: 6, title: "앞면 왼쪽 가슴", type: "print", printKey: "front_left_chest" },
-  { id: 7, title: "앞면 오른쪽 가슴", type: "print", printKey: "front_right_chest" },
-  { id: 8, title: "왼팔뚝", type: "print", printKey: "front_left_sleeve" },
-  { id: 9, title: "오른팔뚝", type: "print", printKey: "front_right_sleeve" },
-  { id: 10, title: "뒷면 상단", type: "print", printKey: "back_top" },
-  { id: 11, title: "뒷면 상단2", type: "print", printKey: "back_top2" },
-  { id: 12, title: "뒷면 중단", type: "print", printKey: "back_mid" },
-  { id: 13, title: "뒷면 하단", type: "print", printKey: "back_bottom" },
-  { id: 14, title: "확인 및 문의", type: "contact" },
+const STEPS = [
+  { id: 1, title: "색상 설정" },
+  { id: 2, title: "앞면 인쇄" },
+  { id: 3, title: "뒷면 인쇄" },
+  { id: 4, title: "확인 및 문의" },
 ];
 
 function printAreaToPayload(a: PrintAreaState): PrintAreaStatePayload {
@@ -147,7 +135,7 @@ export default function HomePage() {
   const [printAreas, setPrintAreas] = useState<Record<PrintAreaKey, PrintAreaState>>(getDefaultPrintAreas());
   /** 인쇄 단계에서 선택된 부위 (캔버스에 점선 테두리 표시) */
   const [activePrintArea, setActivePrintArea] = useState<PrintAreaKey | null>(null);
-  /** 점선 박스 위치: localStorage 저장값을 고정으로 사용 (조정 UI 제거됨) */
+  /** 점선 박스 위치 (% 숫자). 화살표로 조정 후 저장 시 localStorage에 반영 */
   const [printAreaBoxOverrides, setPrintAreaBoxOverrides] = useState<
     Record<string, { left: number; top: number; width: number; height: number }>
   >(() => getDefaultPrintAreaBoxOverrides());
@@ -166,8 +154,6 @@ export default function HomePage() {
   const [submitStatus, setSubmitStatus] = useState<"idle" | "loading" | "done" | "error">("idle");
   /** 문의 접수 완료 팝업 표시 */
   const [showSuccessModal, setShowSuccessModal] = useState(false);
-  /** 하단 드로어 열림 */
-  const [drawerOpen, setDrawerOpen] = useState(true);
   /** 개인정보 활용 동의 (필수) */
   const [privacyConsentAgreed, setPrivacyConsentAgreed] = useState(false);
   /** 필수 항목 검증 시 해당 섹션에 툴팁으로 표시 */
@@ -180,8 +166,8 @@ export default function HomePage() {
   }>({});
 
   useEffect(() => {
-    if (step >= 6 && step <= 9) setActivePrintArea(FRONT_PRINT_KEYS[step - 6]);
-    else if (step >= 10 && step <= 13) setActivePrintArea(BACK_PRINT_KEYS[step - 10]);
+    if (step === 2) setActivePrintArea(FRONT_PRINT_KEYS[0]);
+    else if (step === 3) setActivePrintArea(BACK_PRINT_KEYS[0]);
     else setActivePrintArea(null);
   }, [step]);
 
@@ -208,10 +194,9 @@ export default function HomePage() {
     return data.url ?? null;
   }, []);
 
-  /** Step 6-9 = 앞면만, Step 10-13 = 뒷면만, 그 외 = 양면 */
-  const showOnlyFront = step >= 6 && step <= 9;
-  const showOnlyBack = step >= 10 && step <= 13;
-  const currentStepDef = MICRO_STEPS[step - 1];
+  /** Step2 = 앞면만, Step3 = 뒷면만, Step1·4 = 양면 */
+  const showOnlyFront = step === 2;
+  const showOnlyBack = step === 3;
 
   const handleSubmit = async () => {
     setFieldErrors({});
@@ -271,6 +256,32 @@ export default function HomePage() {
       setSubmitStatus("error");
     }
   };
+
+  const STEP_PERCENT = 1;
+  const movePrintAreaBox = useCallback(
+    (dir: "up" | "down" | "left" | "right") => {
+      if (!activePrintArea) return;
+      setPrintAreaBoxOverrides((prev) => {
+        const cur = prev[activePrintArea] ?? { left: 0, top: 0, width: 20, height: 20 };
+        const next = { ...cur };
+        if (dir === "up") next.top = Math.max(0, cur.top - STEP_PERCENT);
+        if (dir === "down") next.top = Math.min(100 - (cur.height || 20), cur.top + STEP_PERCENT);
+        if (dir === "left") next.left = Math.max(0, cur.left - STEP_PERCENT);
+        if (dir === "right") next.left = Math.min(100 - (cur.width || 20), cur.left + STEP_PERCENT);
+        return { ...prev, [activePrintArea]: next };
+      });
+    },
+    [activePrintArea]
+  );
+
+  const savePrintAreaBoxes = useCallback(() => {
+    try {
+      localStorage.setItem(PRINT_AREA_BOX_STORAGE_KEY, JSON.stringify(printAreaBoxOverrides));
+      toast.success("점선 박스 위치가 저장되었습니다.");
+    } catch {
+      toast.error("저장에 실패했습니다.");
+    }
+  }, [printAreaBoxOverrides]);
 
   const printAreaBoxOverridesAsStrings = useMemo(
     () =>
@@ -346,21 +357,21 @@ export default function HomePage() {
         </div>
       )}
 
-      <header className="sticky top-0 z-10 bg-background/98 backdrop-blur-sm border-b border-border flex-shrink-0">
-        <div className="px-3 py-2">
+      <header className="sticky top-0 z-10 bg-background/98 backdrop-blur-sm border-b border-border">
+        <div className="px-4 py-3">
           <div className="flex items-center justify-between">
-            <HeaderLogoMenu height={28} />
-            <span className="text-muted-foreground text-xs tabular-nums">{step}/{TOTAL_STEPS}</span>
+            <HeaderLogoMenu height={32} />
+            <span className="text-muted-foreground text-sm tabular-nums">{step}/4</span>
           </div>
         </div>
       </header>
 
-      <section className="flex-1 min-h-0 flex flex-col px-3 py-2 pb-14 bg-background">
+      <section className="sticky top-14 z-[9] flex-shrink-0 px-4 py-3 pb-4 bg-background border-b border-border/50">
         <div
           className={
             showOnlyFront || showOnlyBack
-              ? "max-w-[min(280px,75vw)] mx-auto flex-shrink-0"
-              : "grid grid-cols-2 gap-2 max-w-xl mx-auto flex-shrink-0"
+              ? "max-w-[min(280px,75vw)] mx-auto"
+              : "grid grid-cols-2 gap-3 max-w-xl mx-auto"
           }
         >
           {!showOnlyBack && (
@@ -414,15 +425,69 @@ export default function HomePage() {
             </div>
           )}
             </div>
-        {/* 캔버스 바로 밑 고정 툴팁 박스 (색상/인쇄 스텝) */}
-        {step < 14 && (
-          <div className="max-w-xl mx-auto mt-2">
-            <div className="rounded-xl border border-primary/20 bg-primary/5 shadow-sm ring-1 ring-primary/10 px-3 py-2 flex gap-2 items-start">
-              <span className="flex-shrink-0 mt-0.5 rounded-full bg-primary/15 p-1">
-                <Info className="h-3.5 w-3.5 text-primary" aria-hidden />
+        {/* 점선 박스 위치 조정 (step 2·3, 부위 선택 시) */}
+        {(step === 2 || step === 3) && activePrintArea && (
+          <div className="max-w-xl mx-auto mt-3 flex flex-col items-center gap-1">
+            <span className="text-muted-foreground text-xs">점선 박스 위치 조정</span>
+            <div className="flex flex-col items-center gap-0.5">
+              <Button
+                type="button"
+                variant="outline"
+                size="icon"
+                className="h-8 w-8 rounded-lg"
+                onClick={() => movePrintAreaBox("up")}
+                aria-label="위로"
+              >
+                <ChevronUp className="h-4 w-4" />
+              </Button>
+              <div className="flex items-center gap-0.5">
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="icon"
+                  className="h-8 w-8 rounded-lg"
+                  onClick={() => movePrintAreaBox("left")}
+                  aria-label="왼쪽으로"
+                >
+                  <ChevronLeft className="h-4 w-4" />
+                </Button>
+                <span className="h-8 w-8 flex items-center justify-center text-muted-foreground/50 text-xs">·</span>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="icon"
+                  className="h-8 w-8 rounded-lg"
+                  onClick={() => movePrintAreaBox("right")}
+                  aria-label="오른쪽으로"
+                >
+                  <ChevronRight className="h-4 w-4" />
+                </Button>
+              </div>
+              <Button
+                type="button"
+                variant="outline"
+                size="icon"
+                className="h-8 w-8 rounded-lg"
+                onClick={() => movePrintAreaBox("down")}
+                aria-label="아래로"
+              >
+                <ChevronDown className="h-4 w-4" />
+              </Button>
+            </div>
+            <Button type="button" variant="default" size="sm" className="rounded-lg mt-1" onClick={savePrintAreaBoxes}>
+              저장
+            </Button>
+          </div>
+        )}
+        {/* 캔버스 바로 밑 고정 툴팁 박스 (step 1~3) */}
+        {step <= 3 && (
+          <div className="max-w-xl mx-auto mt-3">
+            <div className="rounded-xl border border-primary/20 bg-primary/5 shadow-sm ring-1 ring-primary/10 px-4 py-3 flex gap-3 items-start">
+              <span className="flex-shrink-0 mt-0.5 rounded-full bg-primary/15 p-1.5">
+                <Info className="h-4 w-4 text-primary" aria-hidden />
               </span>
               <p className="text-xs text-foreground/90 leading-relaxed whitespace-pre-line">
-                {step <= 5
+                {step === 1
                   ? "정확한 색상을 모르시더라도 괜찮습니다.\n담당자가 직접 확인 및 상담 후 제작에 들어갑니다."
                   : "인쇄 영역을 설정해주세요.\n원하시는 텍스트나 이미지를 넣어주세요.\n이미지가 없는 경우 설명을 남겨주시면 담당자가 찾아 시안작업을 도와드립니다."}
               </p>
@@ -431,181 +496,179 @@ export default function HomePage() {
         )}
       </section>
 
-      <BottomDrawer
-        open={drawerOpen}
-        onOpenChange={setDrawerOpen}
-        title={currentStepDef?.title ?? ""}
-        stepLabel={`${step}/${TOTAL_STEPS}`}
-        maxHeight="58vh"
-      >
-        <div className="space-y-4 pb-6">
-          {step >= 1 && step <= 5 && (
-            <Step1Colors
-              frontColors={frontColors}
-              backColors={backColors}
-              liningOz={liningOz}
-              onFrontColorsChange={setFrontColors}
-              onBackColorsChange={setBackColors}
-              onLiningOzChange={setLiningOz}
-              singleStep={currentStepDef?.singleStep}
+      <section className="px-4 py-4 flex-1 max-w-xl mx-auto w-full">
+        {step === 1 && (
+          <Step1Colors
+            frontColors={frontColors}
+            backColors={backColors}
+            liningOz={liningOz}
+            onFrontColorsChange={setFrontColors}
+            onBackColorsChange={setBackColors}
+            onLiningOzChange={setLiningOz}
+          />
+        )}
+        {step === 2 && (
+          <Step2Memos
+            printAreas={printAreas}
+            onPrintAreasChange={setPrintAreas}
+            onImageUpload={handleImageUpload}
+            onActiveChange={setActivePrintArea}
+            side="front"
+          />
+        )}
+        {step === 3 && (
+          <Step2Memos
+            printAreas={printAreas}
+            onPrintAreasChange={setPrintAreas}
+            onImageUpload={handleImageUpload}
+            onActiveChange={setActivePrintArea}
+            side="back"
+          />
+        )}
+        {step === 4 && (
+          <div className="space-y-6">
+            <p className="text-muted-foreground text-sm">
+              설정을 확인한 뒤 아래 정보를 입력하고 문의를 제출해 주세요.
+            </p>
+            <Step3Contact
+              groupName={groupName}
+              representativeName={representativeName}
+              contact={contact}
+              email={contactEmail}
+              onGroupNameChange={setGroupName}
+              onRepresentativeNameChange={setRepresentativeName}
+              onContactChange={setContact}
+              onEmailChange={setContactEmail}
+              groupNameError={fieldErrors.groupName}
+              representativeNameError={fieldErrors.representativeName}
+              contactError={fieldErrors.contact}
             />
-          )}
-          {step >= 6 && step <= 9 && currentStepDef?.printKey && (
-            <Step2Memos
-              printAreas={printAreas}
-              onPrintAreasChange={setPrintAreas}
-              onImageUpload={handleImageUpload}
-              onActiveChange={setActivePrintArea}
-              side="front"
-              singleKey={currentStepDef.printKey}
+            <Step4Quantity
+              quantity={quantity}
+              onQuantityChange={setQuantity}
+              quantityError={fieldErrors.quantity}
             />
-          )}
-          {step >= 10 && step <= 13 && currentStepDef?.printKey && (
-            <Step2Memos
-              printAreas={printAreas}
-              onPrintAreasChange={setPrintAreas}
-              onImageUpload={handleImageUpload}
-              onActiveChange={setActivePrintArea}
-              side="back"
-              singleKey={currentStepDef.printKey}
-            />
-          )}
-          {step === 14 && (
-            <div className="space-y-4">
-              <p className="text-muted-foreground text-sm">
-                설정을 확인한 뒤 아래 정보를 입력하고 문의를 제출해 주세요.
-              </p>
-              <Step3Contact
-                groupName={groupName}
-                representativeName={representativeName}
-                contact={contact}
-                email={contactEmail}
-                onGroupNameChange={setGroupName}
-                onRepresentativeNameChange={setRepresentativeName}
-                onContactChange={setContact}
-                onEmailChange={setContactEmail}
-                groupNameError={fieldErrors.groupName}
-                representativeNameError={fieldErrors.representativeName}
-                contactError={fieldErrors.contact}
-              />
-              <Step4Quantity
-                quantity={quantity}
-                onQuantityChange={setQuantity}
-                quantityError={fieldErrors.quantity}
-              />
-              <Card>
-                <CardContent className="pt-4 space-y-2">
-                  <Label htmlFor="desiredDeliveryDate">수령 희망일</Label>
-                  <Input
-                    id="desiredDeliveryDate"
-                    type="date"
-                    value={desiredDeliveryDate}
-                    onChange={(e) => setDesiredDeliveryDate(e.target.value)}
-                  />
-                </CardContent>
-              </Card>
-              <Card>
-                <CardContent className="pt-4 space-y-3">
-                  <Label htmlFor="additionalNote">부가설명</Label>
-                  <textarea
-                    id="additionalNote"
-                    value={additionalNoteText}
-                    onChange={(e) => setAdditionalNoteText(e.target.value)}
-                    placeholder="제작에 참고할만한 내용이 있다면 남겨주세요 (ex. 이전 제작사례 이미지, 재질에 대한 궁금증, 기타 참고사항 등)"
-                    rows={4}
-                    className="flex min-h-[100px] w-full rounded-lg border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 resize-none"
-                  />
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <input
-                      type="file"
-                      accept="image/*"
-                      className="hidden"
-                      id="additional-note-image"
-                      onChange={async (e) => {
-                        const file = e.target.files?.[0];
-                        if (!file) return;
-                        const url = await handleAdditionalNoteImageUpload(file);
-                        if (url) setAdditionalNoteImageUrl(url);
-                        e.target.value = "";
-                      }}
-                    />
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="sm"
-                      onClick={() => document.getElementById("additional-note-image")?.click()}
-                    >
-                      이미지 첨부
-                    </Button>
-                    {additionalNoteImageUrl && (
-                      <span className="flex items-center gap-2">
-                        <img
-                          src={additionalNoteImageUrl}
-                          alt="부가설명 이미지 미리보기"
-                          className="w-14 h-14 rounded-lg object-cover border border-border shrink-0"
-                        />
-                        <span className="text-xs text-green-600">첨부됨</span>
-                      </span>
-                    )}
-                  </div>
-                </CardContent>
-              </Card>
-              <label
-                className={`flex items-start gap-3 rounded-lg border p-3 cursor-pointer transition-colors ${
-                  fieldErrors.privacyConsent ? "border-destructive bg-destructive/5" : "border-border hover:bg-muted/30"
-                }`}
-              >
-                <input
-                  type="checkbox"
-                  checked={privacyConsentAgreed}
-                  onChange={(e) => {
-                    setPrivacyConsentAgreed(e.target.checked);
-                    if (fieldErrors.privacyConsent) setFieldErrors((prev) => ({ ...prev, privacyConsent: undefined }));
-                  }}
-                  className="mt-0.5 h-4 w-4 rounded border-border text-primary focus:ring-primary shrink-0"
-                  aria-describedby="privacy-consent-desc"
+            <Card>
+              <CardContent className="pt-4 space-y-2">
+                <Label htmlFor="desiredDeliveryDate">수령 희망일</Label>
+                <Input
+                  id="desiredDeliveryDate"
+                  type="date"
+                  value={desiredDeliveryDate}
+                  onChange={(e) => setDesiredDeliveryDate(e.target.value)}
                 />
-                <span id="privacy-consent-desc" className="text-sm text-foreground leading-snug">
-                  <span className="font-medium">[필수] 개인정보 활용 동의</span>
-                  <span className="text-muted-foreground">
-                    {" "}문의 확인 및 응대 목적으로만 사용되며, 이용자 요청 시 파기합니다.
-                  </span>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardContent className="pt-4 space-y-3">
+                <Label htmlFor="additionalNote">부가설명</Label>
+                <textarea
+                  id="additionalNote"
+                  value={additionalNoteText}
+                  onChange={(e) => setAdditionalNoteText(e.target.value)}
+                  placeholder="제작에 참고할만한 내용이 있다면 남겨주세요 (ex. 이전 제작사례 이미지, 재질에 대한 궁금증, 기타 참고사항 등)"
+                  rows={4}
+                  className="flex min-h-[100px] w-full rounded-lg border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 resize-none"
+                />
+                <div className="flex items-center gap-2 flex-wrap">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    id="additional-note-image"
+                    onChange={async (e) => {
+                      const file = e.target.files?.[0];
+                      if (!file) return;
+                      const url = await handleAdditionalNoteImageUpload(file);
+                      if (url) setAdditionalNoteImageUrl(url);
+                      e.target.value = "";
+                    }}
+                  />
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => document.getElementById("additional-note-image")?.click()}
+                  >
+                    이미지 첨부
+                  </Button>
+                  {additionalNoteImageUrl && (
+                    <span className="flex items-center gap-2">
+                      <img
+                        src={additionalNoteImageUrl}
+                        alt="부가설명 이미지 미리보기"
+                        className="w-14 h-14 rounded-lg object-cover border border-border shrink-0"
+                      />
+                      <span className="text-xs text-green-600">첨부됨</span>
+                    </span>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+            <label
+              className={`flex items-start gap-3 rounded-lg border p-3 cursor-pointer transition-colors ${
+                fieldErrors.privacyConsent ? "border-destructive bg-destructive/5" : "border-border hover:bg-muted/30"
+              }`}
+            >
+              <input
+                type="checkbox"
+                checked={privacyConsentAgreed}
+                onChange={(e) => {
+                  setPrivacyConsentAgreed(e.target.checked);
+                  if (fieldErrors.privacyConsent) setFieldErrors((prev) => ({ ...prev, privacyConsent: undefined }));
+                }}
+                className="mt-0.5 h-4 w-4 rounded border-border text-primary focus:ring-primary shrink-0"
+                aria-describedby="privacy-consent-desc"
+              />
+              <span id="privacy-consent-desc" className="text-sm text-foreground leading-snug">
+                <span className="font-medium">[필수] 개인정보 활용 동의</span>
+                <span className="text-muted-foreground">
+                  {" "}문의 확인 및 응대 목적으로만 사용되며, 이용자 요청 시 파기합니다.
                 </span>
-              </label>
-              {fieldErrors.privacyConsent && (
-                <p className="text-destructive text-xs -mt-2 flex items-center gap-1" role="alert">
-                  <span className="inline-block w-1 h-1 rounded-full bg-destructive" aria-hidden />
-                  {fieldErrors.privacyConsent}
-                </p>
-              )}
-            </div>
-          )}
-          {/* 이전 / 다음 (드로어 내부) */}
-          <div className="flex gap-3 pt-2 sticky bottom-0 bg-background pb-[env(safe-area-inset-bottom)]">
-            {step > 1 ? (
-              <Button type="button" variant="outline" className="flex-1" onClick={() => setStep((s) => s - 1)}>
-                이전
-              </Button>
-            ) : (
-              <span className="flex-1" />
-            )}
-            {step < 14 ? (
-              <Button type="button" className="flex-1" onClick={() => setStep((s) => s + 1)}>
-                다음
-              </Button>
-            ) : (
-              <Button
-                type="button"
-                className="flex-1"
-                disabled={submitStatus === "loading"}
-                onClick={handleSubmit}
-              >
-                {submitStatus === "loading" ? "제출 중…" : "문의 제출하기"}
-              </Button>
+              </span>
+            </label>
+            {fieldErrors.privacyConsent && (
+              <p className="text-destructive text-xs -mt-2 flex items-center gap-1" role="alert">
+                <span className="inline-block w-1 h-1 rounded-full bg-destructive" aria-hidden />
+                {fieldErrors.privacyConsent}
+              </p>
             )}
           </div>
+        )}
+      </section>
+
+      <footer className="fixed bottom-0 left-0 right-0 p-4 bg-background/98 backdrop-blur-sm border-t border-border pb-[max(1rem,env(safe-area-inset-bottom))]">
+        <div className="max-w-xl mx-auto flex gap-3">
+          {step > 1 && (
+            <Button
+              type="button"
+              variant="outline"
+              className="flex-1"
+              onClick={() => setStep((s) => s - 1)}
+            >
+              이전
+            </Button>
+          )}
+          {step < 4 ? (
+            <Button
+              type="button"
+              className="flex-1"
+              onClick={() => setStep((s) => s + 1)}
+            >
+              다음
+            </Button>
+          ) : (
+            <Button
+              type="button"
+              className="flex-1"
+              disabled={submitStatus === "loading"}
+              onClick={handleSubmit}
+            >
+              {submitStatus === "loading" ? "제출 중…" : "문의 제출하기"}
+            </Button>
+          )}
         </div>
-      </BottomDrawer>
+      </footer>
     </main>
   );
 }
