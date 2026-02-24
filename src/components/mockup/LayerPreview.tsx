@@ -30,14 +30,14 @@ const BACK_PATCH_ORDER: PrintAreaKey[] = [
 ];
 /** 인쇄 영역별 캔버스 내 상대 위치 (%, 점선 테두리용). 사용자 입장 왼/오른 = 의류 거울모드이므로 반대로 매핑 */
 const PRINT_AREA_BOXES: Record<string, { left: string; top: string; width: string; height: string }> = {
-  front_left_chest: { left: "64%", top: "30%", width: "24%", height: "20%" },
-  front_right_chest: { left: "12%", top: "30%", width: "24%", height: "20%" },
+  front_left_chest: { left: "52%", top: "27%", width: "24%", height: "20%" },
+  front_right_chest: { left: "1%", top: "27%", width: "24%", height: "20%" },
   front_left_sleeve: { left: "72%", top: "28%", width: "26%", height: "45%" },
   front_right_sleeve: { left: "2%", top: "28%", width: "26%", height: "45%" },
-  back_top: { left: "28%", top: "18%", width: "44%", height: "22%" },
-  back_top2: { left: "28%", top: "38%", width: "44%", height: "14%" },
-  back_mid: { left: "22%", top: "50%", width: "56%", height: "28%" },
-  back_bottom: { left: "28%", top: "76%", width: "44%", height: "16%" },
+  back_top: { left: "28%", top: "23%", width: "44%", height: "15%" },
+  back_top2: { left: "33%", top: "32%", width: "36%", height: "10%" },
+  back_mid: { left: "22%", top: "38%", width: "56%", height: "28%" },
+  back_bottom: { left: "28%", top: "65%", width: "44%", height: "9%" },
 };
 
 const LAYER_LABELS: Record<string, string> = {
@@ -234,16 +234,23 @@ export function LayerPreview({
           );
         }),
     boxStyle &&
-      React.createElement("div", {
-        className: "absolute border-2 border-dashed border-primary pointer-events-none rounded-sm",
-        style: {
-          left: boxStyle.left,
-          top: boxStyle.top,
-          width: boxStyle.width,
-          height: boxStyle.height,
-        },
-        "aria-hidden": true,
-      })
+      (() => {
+        const { left, top, width, height } = boxStyle;
+        const l = parseFloat(left);
+        const t = parseFloat(top);
+        const w = parseFloat(width);
+        const h = parseFloat(height);
+        return React.createElement("div", {
+          className: "absolute box-border pointer-events-none rounded-sm border-2 border-dashed border-primary",
+          style: {
+            left,
+            top,
+            right: `${100 - l - w}%`,
+            bottom: `${100 - t - h}%`,
+          },
+          "aria-hidden": true,
+        });
+      })()
   );
 }
 

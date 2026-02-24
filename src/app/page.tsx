@@ -15,7 +15,7 @@ import type { FrontColors, BackColors, PrintAreaKey, PrintAreaState } from "@/ty
 import type { InquiryPayload, PrintAreaStatePayload } from "@/types/mockup";
 import { HeaderLogoMenu } from "@/components/HeaderLogoMenu";
 import { PHONE_NUMBER, KAKAO_CHAT_URL, HOMEPAGE_URL } from "@/components/QuickMenuPanel";
-import { Phone, MessageCircle, Home, Info } from "lucide-react";
+import { Phone, MessageCircle, Home, Info, ChevronLeft, ChevronRight, ChevronUp, ChevronDown } from "lucide-react";
 import {
   Drawer,
   DrawerContent,
@@ -55,6 +55,15 @@ function loadPrintAreaBoxOverrides(): Record<string, { left: number; top: number
     /* ignore */
   }
   return getDefaultPrintAreaBoxOverrides();
+}
+
+function savePrintAreaBoxOverrides(data: Record<string, { left: number; top: number; width: number; height: number }>) {
+  if (typeof window === "undefined") return;
+  try {
+    localStorage.setItem(PRINT_AREA_BOX_STORAGE_KEY, JSON.stringify(data));
+  } catch {
+    /* ignore */
+  }
 }
 
 const FLOW_STEPS: { id: number; title: string; type: "color" | "print" | "contact"; key?: ColorStepKey | PrintAreaKey }[] = [
@@ -225,6 +234,39 @@ export default function HomePage() {
   const showOnlyFront = step >= 6 && step <= 9;
   const showOnlyBack = step >= 10 && step <= 13;
 
+  const NUDGE_STEP = 1;
+  const nudgePrintAreaBox = useCallback(
+    (key: PrintAreaKey, field: "left" | "top" | "width" | "height", delta: number) => {
+      setPrintAreaBoxOverrides((prev) => {
+        const cur = prev[key] ?? getDefaultPrintAreaBoxOverrides()[key]!;
+        let { left, top, width, height } = cur;
+        if (field === "left") left = Math.max(0, Math.min(100 - width, left + delta));
+        else if (field === "top") top = Math.max(0, Math.min(100 - height, top + delta));
+        else if (field === "width") width = Math.max(1, Math.min(100 - left, width + delta));
+        else height = Math.max(1, Math.min(100 - top, height + delta));
+        return { ...prev, [key]: { left, top, width, height } };
+      });
+    },
+    []
+  );
+
+  const handleSavePrintAreaBoxes = useCallback(async () => {
+    const defaults = getDefaultPrintAreaBoxOverrides();
+    const boxes = { ...defaults, ...printAreaBoxOverrides };
+    const res = await fetch("/api/save-print-area-boxes", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ boxes }),
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      toast.error(data.error ?? "저장에 실패했습니다.");
+      return;
+    }
+    savePrintAreaBoxOverrides(boxes);
+    toast.success("점선 위치를 코드에 반영했습니다.");
+  }, [printAreaBoxOverrides]);
+
   const handleSubmit = async () => {
     setFieldErrors({});
     const errors: typeof fieldErrors = {};
@@ -359,18 +401,12 @@ export default function HomePage() {
       )}
 
       <header className="sticky top-0 z-10 bg-background/98 backdrop-blur-sm border-b border-border">
-        <div className="px-4 py-3 relative flex items-center">
-          <div className="flex-1 flex justify-start">
-            <HeaderLogoMenu height={32} />
-          </div>
-          <span className="absolute left-1/2 -translate-x-1/2 text-muted-foreground text-sm tabular-nums" aria-live="polite">
-            {step}/{TOTAL_STEPS}
-          </span>
-          <div className="flex-1" aria-hidden />
+        <div className="px-4 py-1.5 md:py-3 flex items-center justify-center">
+          <HeaderLogoMenu height={32} />
         </div>
       </header>
 
-      <section className="sticky top-14 z-[9] flex-shrink-0 px-4 py-3 pb-4 bg-background border-b border-border/50">
+      <section className="sticky top-11 md:top-14 z-[9] flex-shrink-0 px-4 py-3 pb-4 bg-background border-b border-border/50">
         <div
           className={
             showOnlyFront || showOnlyBack
@@ -634,6 +670,110 @@ export default function HomePage() {
                 hideNextButton
                 visibleToggleInHeader
               />
+            )}
+            {/* 인쇄 단계: 점선 위치 화살표 조정 + 저장 (개발 환경에서만 표시) */}
+            {process.env.NODE_ENV === "development" && step >= 6 && step <= 13 && activePrintArea && (
+              <div className="mt-4 pt-4 border-t border-border space-y-3">
+                <p className="text-sm font-medium text-foreground">점선 위치 조정</p>
+                <p className="text-xs text-muted-foreground">
+                  위 캔버스의 점선을 화살표로 맞춘 뒤 &quot;저장&quot;하면 다음 방문 시에도 적용됩니다.
+                </p>
+                <div className="grid grid-cols-2 gap-2">
+                  <div className="flex items-center gap-1">
+                    <span className="text-xs text-muted-foreground w-12 shrink-0">위치</span>
+                    <div className="flex flex-1 gap-0.5">
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="icon"
+                        className="h-8 w-8 shrink-0"
+                        onClick={() => nudgePrintAreaBox(activePrintArea, "left", -NUDGE_STEP)}
+                        aria-label="왼쪽으로"
+                      >
+                        <ChevronLeft className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="icon"
+                        className="h-8 w-8 shrink-0"
+                        onClick={() => nudgePrintAreaBox(activePrintArea, "left", NUDGE_STEP)}
+                        aria-label="오른쪽으로"
+                      >
+                        <ChevronRight className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="icon"
+                        className="h-8 w-8 shrink-0"
+                        onClick={() => nudgePrintAreaBox(activePrintArea, "top", -NUDGE_STEP)}
+                        aria-label="위로"
+                      >
+                        <ChevronUp className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="icon"
+                        className="h-8 w-8 shrink-0"
+                        onClick={() => nudgePrintAreaBox(activePrintArea, "top", NUDGE_STEP)}
+                        aria-label="아래로"
+                      >
+                        <ChevronDown className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <span className="text-xs text-muted-foreground w-12 shrink-0">크기</span>
+                    <div className="flex flex-1 gap-0.5">
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="icon"
+                        className="h-8 w-8 shrink-0"
+                        onClick={() => nudgePrintAreaBox(activePrintArea, "width", -NUDGE_STEP)}
+                        aria-label="가로 줄이기"
+                      >
+                        <ChevronLeft className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="icon"
+                        className="h-8 w-8 shrink-0"
+                        onClick={() => nudgePrintAreaBox(activePrintArea, "width", NUDGE_STEP)}
+                        aria-label="가로 넓히기"
+                      >
+                        <ChevronRight className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="icon"
+                        className="h-8 w-8 shrink-0"
+                        onClick={() => nudgePrintAreaBox(activePrintArea, "height", -NUDGE_STEP)}
+                        aria-label="세로 줄이기"
+                      >
+                        <ChevronDown className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="icon"
+                        className="h-8 w-8 shrink-0"
+                        onClick={() => nudgePrintAreaBox(activePrintArea, "height", NUDGE_STEP)}
+                        aria-label="세로 늘리기"
+                      >
+                        <ChevronUp className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+                <Button type="button" className="w-full" onClick={handleSavePrintAreaBoxes}>
+                  위치 저장
+                </Button>
+              </div>
             )}
           </div>
           <DrawerFooter className="flex shrink-0 flex-row gap-2 border-t border-border pt-3">
