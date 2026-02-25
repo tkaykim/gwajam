@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { ConditionalChrome } from "@/components/ConditionalChrome";
 import { Toaster } from "sonner";
+import { Analytics } from "@vercel/analytics/next";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -27,6 +28,7 @@ export default function RootLayout({
         <main className="flex-1">{children}</main>
         <ConditionalChrome />
         <Toaster position="top-center" richColors closeButton />
+        <Analytics />
       </body>
     </html>
   );

@@ -184,6 +184,8 @@ export default function HomePage() {
   const [submitStatus, setSubmitStatus] = useState<"idle" | "loading" | "done" | "error">("idle");
   /** 문의 접수 완료 팝업 표시 */
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  /** 웰컴 팝업 표시 */
+  const [showWelcomeModal, setShowWelcomeModal] = useState(true);
   /** 개인정보 활용 동의 (필수) */
   const [privacyConsentAgreed, setPrivacyConsentAgreed] = useState(false);
   /** 필수 항목 검증 시 해당 섹션에 툴팁으로 표시 */
@@ -201,11 +203,12 @@ export default function HomePage() {
     else setActivePrintArea(null);
   }, [step]);
 
-  /** 단계 1~13 진입 시 드로어 자동 오픈 */
+  /** 단계 1~13 진입 시 드로어 자동 오픈 (웰컴 팝업이 닫힌 후에만) */
   useEffect(() => {
+    if (showWelcomeModal) return;
     if (step >= 1 && step <= 13) setDrawerOpen(true);
     else setDrawerOpen(false);
-  }, [step]);
+  }, [step, showWelcomeModal]);
 
   const handleImageUpload = useCallback(
     async (section: PrintAreaKey, file: File): Promise<string | null> => {
@@ -339,6 +342,29 @@ export default function HomePage() {
 
   return (
     <main className="min-h-dvh flex flex-col pb-28 bg-background">
+      {/* 웰컴 팝업 */}
+      {showWelcomeModal && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-6 bg-black/50"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="welcome-modal-title"
+        >
+          <div className="bg-background rounded-2xl shadow-xl max-w-sm w-full p-7 space-y-5 text-center">
+            <h2 id="welcome-modal-title" className="text-lg font-bold text-foreground leading-snug">
+              색상, 디자인 위치, 수량만 알려주시면<br />빠르게 견적과 시안을 전달드리겠습니다.
+            </h2>
+            <Button
+              type="button"
+              className="w-full"
+              onClick={() => setShowWelcomeModal(false)}
+            >
+              확인
+            </Button>
+          </div>
+        </div>
+      )}
+
       {/* 문의 접수 완료 팝업 */}
       {showSuccessModal && (
         <div

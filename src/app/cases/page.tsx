@@ -88,9 +88,7 @@ export default async function CasesPage() {
                       </div>
                     ))}
                   </div>
-                ) : (
-                  <p className="px-4 pb-4 text-muted-foreground text-sm">등록된 사진이 없습니다.</p>
-                )}
+                ) : null}
               </li>
             );
           })}
