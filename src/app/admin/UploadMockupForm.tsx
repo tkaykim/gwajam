@@ -11,6 +11,7 @@ const LAYER_KEYS = [
   { key: "front_lining", label: "앞면 안감" },
   { key: "front_buttons", label: "앞면 단추" },
   { key: "back_body", label: "뒷면 몸통" },
+  { key: "back_ribbing", label: "뒷면 시보리" },
   { key: "back_sleeves", label: "뒷면 팔" },
   { key: "front_left_chest", label: "왼쪽 가슴 (인쇄)" },
   { key: "front_right_chest", label: "오른쪽 가슴 (인쇄)" },

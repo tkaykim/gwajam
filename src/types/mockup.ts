@@ -4,7 +4,7 @@ export type FrontLayerKey =
   | "front_ribbing"
   | "front_lining"
   | "front_buttons";
-export type BackLayerKey = "back_body" | "back_sleeves";
+export type BackLayerKey = "back_ribbing" | "back_body" | "back_sleeves";
 
 /** 인쇄 영역 8개 (목업 패치 레이어 + 사용자 면/테두리/내용) */
 export type PrintAreaKey =

@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import type { MockupImageRow } from "@/types/mockup";
-import type { FrontColors, BackColors, PrintAreaKey, PrintAreaState } from "@/types/mockup";
+import type { FrontColors, BackColors, BackLayerKey, PrintAreaKey, PrintAreaState } from "@/types/mockup";
 import { createClient } from "@/lib/supabase/client";
 
 const FRONT_LAYER_ORDER: (keyof FrontColors)[] = [
@@ -12,7 +12,8 @@ const FRONT_LAYER_ORDER: (keyof FrontColors)[] = [
   "front_lining",
   "front_buttons",
 ];
-const BACK_LAYER_ORDER: (keyof BackColors)[] = ["back_sleeves", "back_body"];
+/** 뒷면 레이어 순서: 시보리(맨 아래) → 몸통 → 팔(맨 위) */
+const BACK_LAYER_ORDER: BackLayerKey[] = ["back_ribbing", "back_body", "back_sleeves"];
 
 /** 앞면 인쇄 영역 순서 */
 const FRONT_PATCH_ORDER: PrintAreaKey[] = [
@@ -46,6 +47,7 @@ const LAYER_LABELS: Record<string, string> = {
   front_ribbing: "목 & 몸통 시보리",
   front_lining: "안감",
   front_buttons: "단추",
+  back_ribbing: "시보리",
   back_body: "몸통",
   back_sleeves: "팔",
 };
@@ -126,6 +128,11 @@ export function LayerPreview({
   const active = activePrintArea ?? null;
   const order = side === "front" ? FRONT_LAYER_ORDER : BACK_LAYER_ORDER;
   const colors = side === "front" ? frontColors : backColors;
+  /** 뒷면 시보리는 앞면 시보리 색상과 연동 */
+  const getLayerColor = (key: string) => {
+    if (side === "back" && key === "back_ribbing") return frontColors.front_ribbing;
+    return colors[key as keyof typeof colors];
+  };
   const patchOrder = side === "front" ? FRONT_PATCH_ORDER : BACK_PATCH_ORDER;
   const isActiveForThisSide =
     active &&
@@ -148,7 +155,7 @@ export function LayerPreview({
     { sizeClass },
     order.map((key) => {
         const url = getImageByKey(images, key);
-        const color = colors[key as keyof typeof colors];
+        const color = getLayerColor(key);
         if (!url) return null;
         if (color) {
           return (
