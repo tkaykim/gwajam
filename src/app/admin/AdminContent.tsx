@@ -21,7 +21,7 @@ type InquirySubTab = "inquiries" | "board" | "cases";
 export function AdminContent() {
   const [inquiries, setInquiries] = useState<InquiryRow[]>([]);
   const [loading, setLoading] = useState(true);
-  const [mainTab, setMainTab] = useState<MainTab>("mockup");
+  const [mainTab, setMainTab] = useState<MainTab>("inquiry");
   const [inquirySubTab, setInquirySubTab] = useState<InquirySubTab>("inquiries");
   const [caseStudies, setCaseStudies] = useState<{ id: string; title: string; created_at: string }[]>([]);
   const [newCaseTitle, setNewCaseTitle] = useState("");

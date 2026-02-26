@@ -66,21 +66,14 @@ function savePrintAreaBoxOverrides(data: Record<string, { left: number; top: num
   }
 }
 
+/** 진행 순서: 팝업 → 이름/연락처 수집 → 몸통색~안감 → 안감 선택 후 바로 제출 (인쇄 단계 스킵) */
 const FLOW_STEPS: { id: number; title: string; type: "color" | "print" | "contact"; key?: ColorStepKey | PrintAreaKey }[] = [
-  { id: 1, title: "몸통색", type: "color", key: "body" },
-  { id: 2, title: "팔색", type: "color", key: "sleeve" },
-  { id: 3, title: "시보리색", type: "color", key: "ribbing" },
-  { id: 4, title: "단추색", type: "color", key: "button" },
-  { id: 5, title: "안감 두께", type: "color", key: "liningOz" },
-  { id: 6, title: "앞면 왼쪽 가슴", type: "print", key: "front_left_chest" },
-  { id: 7, title: "앞면 오른쪽 가슴", type: "print", key: "front_right_chest" },
-  { id: 8, title: "왼팔뚝", type: "print", key: "front_left_sleeve" },
-  { id: 9, title: "오른팔뚝", type: "print", key: "front_right_sleeve" },
-  { id: 10, title: "뒷면 상단", type: "print", key: "back_top" },
-  { id: 11, title: "뒷면 상단2", type: "print", key: "back_top2" },
-  { id: 12, title: "뒷면 중단", type: "print", key: "back_mid" },
-  { id: 13, title: "뒷면 하단", type: "print", key: "back_bottom" },
-  { id: 14, title: "확인 및 문의", type: "contact" },
+  { id: 1, title: "확인 및 문의", type: "contact" },
+  { id: 2, title: "몸통색", type: "color", key: "body" },
+  { id: 3, title: "팔색", type: "color", key: "sleeve" },
+  { id: 4, title: "시보리색", type: "color", key: "ribbing" },
+  { id: 5, title: "단추색", type: "color", key: "button" },
+  { id: 6, title: "안감 두께", type: "color", key: "liningOz" },
 ];
 
 const TOTAL_STEPS = FLOW_STEPS.length;
@@ -157,7 +150,7 @@ function printAreasToPayload(printAreas: Record<PrintAreaKey, PrintAreaState>) {
 export default function HomePage() {
   const { images, loading: imagesLoading, error: imagesError } = useMockupImages();
   const [step, setStep] = useState(1);
-  /** 단계 1~13에서 설정 드로어 표시 (진입 시 자동 오픈) */
+  /** 단계 2~6(색상 설정)에서 설정 드로어 표시 (진입 시 자동 오픈) */
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [frontColors, setFrontColors] = useState<FrontColors>(DEFAULT_COLORS);
   const [backColors, setBackColors] = useState<BackColors>(DEFAULT_COLORS);
@@ -182,6 +175,8 @@ export default function HomePage() {
   const [additionalNoteText, setAdditionalNoteText] = useState("");
   const [additionalNoteImageUrl, setAdditionalNoteImageUrl] = useState<string | null>(null);
   const [submitStatus, setSubmitStatus] = useState<"idle" | "loading" | "done" | "error">("idle");
+  /** 1단계(연락처)에서 다음 클릭 시 백그라운드 저장된 문의 id → 최종 제출 시 PATCH에 사용 */
+  const [inquiryId, setInquiryId] = useState<string | null>(null);
   /** 문의 접수 완료 팝업 표시 */
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   /** 웰컴 팝업 표시 */
@@ -198,17 +193,22 @@ export default function HomePage() {
   }>({});
 
   useEffect(() => {
-    if (step >= 6 && step <= 9) setActivePrintArea(FLOW_STEPS[step - 1]?.key as PrintAreaKey);
-    else if (step >= 10 && step <= 13) setActivePrintArea(FLOW_STEPS[step - 1]?.key as PrintAreaKey);
-    else setActivePrintArea(null);
+    setActivePrintArea(null);
   }, [step]);
 
-  /** 단계 1~13 진입 시 드로어 자동 오픈 (웰컴 팝업이 닫힌 후에만) */
+  /** 단계 2~6(색상 설정) 진입 시 드로어 자동 오픈 (웰컴 팝업이 닫힌 후에만) */
   useEffect(() => {
     if (showWelcomeModal) return;
-    if (step >= 1 && step <= 13) setDrawerOpen(true);
+    if (step >= 2 && step <= 6) setDrawerOpen(true);
     else setDrawerOpen(false);
   }, [step, showWelcomeModal]);
+
+  /** 1단계(정보 입력) 다음으로 넘어갈 때 스크롤을 최상단으로 올려 새 단계 콘텐츠가 잘리지 않도록 */
+  useEffect(() => {
+    if (step >= 2) {
+      window.scrollTo({ top: 0, behavior: "auto" });
+    }
+  }, [step]);
 
   const handleImageUpload = useCallback(
     async (section: PrintAreaKey, file: File): Promise<string | null> => {
@@ -233,9 +233,9 @@ export default function HomePage() {
     return data.url ?? null;
   }, []);
 
-  /** Step2 = 앞면만, Step3 = 뒷면만, Step1·4 = 양면 */
-  const showOnlyFront = step >= 6 && step <= 9;
-  const showOnlyBack = step >= 10 && step <= 13;
+  /** 인쇄 단계 스킵으로 항상 양면 표시 */
+  const showOnlyFront = false;
+  const showOnlyBack = false;
 
   const NUDGE_STEP = 1;
   const nudgePrintAreaBox = useCallback(
@@ -270,10 +270,10 @@ export default function HomePage() {
     toast.success("점선 위치를 코드에 반영했습니다.");
   }, [printAreaBoxOverrides]);
 
-  const handleSubmit = async () => {
+  /** 1단계(연락처)에서 다음 클릭 시: 검증 후 step 2로 이동. 이미 문의 건이 있으면 PATCH, 없으면 POST로 드래프트 저장 */
+  const handleContactNext = useCallback(() => {
     setFieldErrors({});
     const errors: typeof fieldErrors = {};
-
     if (!groupName.trim()) errors.groupName = "단체명을 입력해 주세요.";
     if (!representativeName.trim()) errors.representativeName = "대표자명을 입력해 주세요.";
     if (!contact.trim()) errors.contact = "연락처를 입력해 주세요.";
@@ -284,7 +284,78 @@ export default function HomePage() {
     if (!privacyConsentAgreed) {
       errors.privacyConsent = "개인정보 활용에 동의해 주세요.";
     }
+    if (Object.keys(errors).length > 0) {
+      setFieldErrors(errors);
+      toast.error("필수 항목을 입력해 주세요.");
+      return;
+    }
+    setStep(2);
+    setDrawerOpen(true);
+    const { print_areas, ...flat } = printAreasToPayload(printAreas);
+    const draftPayload: InquiryPayload = {
+      front_colors: frontColors,
+      back_colors: backColors,
+      ...flat,
+      print_areas: print_areas ?? null,
+      group_name: groupName.trim(),
+      representative_name: representativeName.trim(),
+      contact: contact.trim(),
+      email: contactEmail.trim() || null,
+      quantity: qty,
+      quantity_note: "최종 수량은 상담 후 결정하셔도 됩니다. 사이즈별 수량 파악은 상담 후 양식을 제공드립니다. (사이즈표 포함)",
+      desired_delivery_date: desiredDeliveryDate.trim() || null,
+      additional_note_text: additionalNoteText.trim() || null,
+      additional_note_image_url: additionalNoteImageUrl || null,
+      lining_oz: liningOz,
+    };
+    if (inquiryId) {
+      fetch(`/api/inquiries/${inquiryId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(draftPayload),
+      }).catch(() => {});
+    } else {
+      fetch("/api/inquiries", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(draftPayload),
+      })
+        .then((res) => res.json())
+        .then((data: { ok?: boolean; id?: string }) => {
+          if (data?.ok && data?.id) setInquiryId(data.id);
+        })
+        .catch(() => {});
+    }
+  }, [
+    inquiryId,
+    groupName,
+    representativeName,
+    contact,
+    contactEmail,
+    quantity,
+    privacyConsentAgreed,
+    desiredDeliveryDate,
+    additionalNoteText,
+    additionalNoteImageUrl,
+    frontColors,
+    backColors,
+    printAreas,
+    liningOz,
+  ]);
 
+  const handleSubmit = async () => {
+    setFieldErrors({});
+    const errors: typeof fieldErrors = {};
+    if (!groupName.trim()) errors.groupName = "단체명을 입력해 주세요.";
+    if (!representativeName.trim()) errors.representativeName = "대표자명을 입력해 주세요.";
+    if (!contact.trim()) errors.contact = "연락처를 입력해 주세요.";
+    const qty = parseInt(quantity, 10);
+    if (!Number.isInteger(qty) || qty < 1) {
+      errors.quantity = "제작 수량을 1 이상 숫자로 입력해 주세요.";
+    }
+    if (!privacyConsentAgreed) {
+      errors.privacyConsent = "개인정보 활용에 동의해 주세요.";
+    }
     if (Object.keys(errors).length > 0) {
       setFieldErrors(errors);
       toast.error("필수 항목을 입력해 주세요.");
@@ -294,11 +365,11 @@ export default function HomePage() {
     setSubmitStatus("loading");
     try {
       const { print_areas, ...flat } = printAreasToPayload(printAreas);
-      const payload: InquiryPayload = {
+      const payload = {
         front_colors: frontColors,
         back_colors: backColors,
         ...flat,
-        print_areas,
+        print_areas: print_areas ?? null,
         group_name: groupName.trim(),
         representative_name: representativeName.trim(),
         contact: contact.trim(),
@@ -310,16 +381,31 @@ export default function HomePage() {
         additional_note_image_url: additionalNoteImageUrl || null,
         lining_oz: liningOz,
       };
-      const res = await fetch("/api/inquiries", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        toast.error(data.error || "제출에 실패했습니다.");
-        setSubmitStatus("error");
-        return;
+
+      if (inquiryId) {
+        const res = await fetch(`/api/inquiries/${inquiryId}`, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          toast.error(data.error || "제출에 실패했습니다.");
+          setSubmitStatus("error");
+          return;
+        }
+      } else {
+        const res = await fetch("/api/inquiries", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          toast.error(data.error || "제출에 실패했습니다.");
+          setSubmitStatus("error");
+          return;
+        }
       }
       setSubmitStatus("done");
       setShowSuccessModal(true);
@@ -494,15 +580,15 @@ export default function HomePage() {
       </section>
 
       <section className="px-4 py-4 flex-1 max-w-xl mx-auto w-full">
-        {step <= 13 && (
+        {step >= 2 && step <= 6 && (
           <p className="text-muted-foreground text-sm text-center py-4">
             아래에서 현재 단계를 설정한 뒤 &quot;다음&quot;을 눌러 진행하세요.
           </p>
         )}
-        {step === 14 && (
+        {step === 1 && (
           <div className="space-y-6">
             <p className="text-muted-foreground text-sm">
-              설정을 확인한 뒤 아래 정보를 입력하고 문의를 제출해 주세요.
+              아래 정보를 입력한 뒤 다음을 눌러 색상 선택 단계로 진행하세요.
             </p>
             <Step3Contact
               groupName={groupName}
@@ -611,53 +697,14 @@ export default function HomePage() {
         )}
       </section>
 
-      {/* 단계 1~13: 설정 드로어 - 툴팁은 드로어 안에만 표시(중복 방지), 인쇄 단계는 있음/없음을 헤더에 */}
+      {/* 단계 2~6: 색상 설정 드로어 */}
       <Drawer open={drawerOpen} onOpenChange={setDrawerOpen}>
         <DrawerContent>
           <DrawerHeader className="flex shrink-0 flex-row items-center justify-between gap-3 text-left border-b border-border px-4 py-2">
             <DrawerTitle className="!mt-0">{FLOW_STEPS[step - 1]?.title ?? ""}</DrawerTitle>
-            {step >= 6 && step <= 13 && FLOW_STEPS[step - 1]?.key && (() => {
-              const key = FLOW_STEPS[step - 1].key as PrintAreaKey;
-              const area = printAreas[key];
-              const visible = area?.visible ?? true;
-              const setVisible = (value: boolean) => {
-                setPrintAreas((prev) => {
-                  const current = prev[key] ?? { ...DEFAULT_PRINT_AREA_STATE };
-                  return {
-                    ...prev,
-                    [key]: { ...DEFAULT_PRINT_AREA_STATE, ...current, visible: value },
-                  };
-                });
-              };
-              return (
-                <div className="flex items-center gap-2 shrink-0">
-                  <span className="text-sm text-muted-foreground">인쇄</span>
-                  <div className="flex rounded-lg border border-input p-0.5 bg-muted/30">
-                    <button
-                      type="button"
-                      onClick={() => setVisible(true)}
-                      className={`px-3 py-1.5 text-sm rounded-md transition ${
-                        visible ? "bg-background shadow text-foreground" : "text-muted-foreground"
-                      }`}
-                    >
-                      있음
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setVisible(false)}
-                      className={`px-3 py-1.5 text-sm rounded-md transition ${
-                        !visible ? "bg-background shadow text-foreground" : "text-muted-foreground"
-                      }`}
-                    >
-                      없음
-                    </button>
-                  </div>
-                </div>
-              );
-            })()}
           </DrawerHeader>
           <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 py-3 pb-2 flex flex-col gap-0">
-            {step >= 1 && step <= 5 && FLOW_STEPS[step - 1]?.key && (
+            {step >= 2 && step <= 6 && FLOW_STEPS[step - 1]?.key && (
               <SingleColorStepContent
                 colorKey={FLOW_STEPS[step - 1].key as ColorStepKey}
                 frontColors={frontColors}
@@ -670,22 +717,7 @@ export default function HomePage() {
                 hideNextButton
               />
             )}
-            {step >= 6 && step <= 13 && FLOW_STEPS[step - 1]?.key && (
-              <Step2Memos
-                key={`print-${step}-${FLOW_STEPS[step - 1].key}`}
-                printAreas={printAreas}
-                onPrintAreasChange={setPrintAreas}
-                onImageUpload={handleImageUpload}
-                onActiveChange={setActivePrintArea}
-                side={step <= 9 ? "front" : "back"}
-                singleKey={FLOW_STEPS[step - 1].key as PrintAreaKey}
-                onNext={() => {}}
-                hideNextButton
-                visibleToggleInHeader
-              />
-            )}
-            {/* 인쇄 단계: 점선 위치 화살표 조정 + 저장 (개발 환경에서만 표시) */}
-            {process.env.NODE_ENV === "development" && step >= 6 && step <= 13 && activePrintArea && (
+            {process.env.NODE_ENV === "development" && step >= 2 && step <= 6 && activePrintArea && (
               <div className="mt-4 pt-4 border-t border-border space-y-3">
                 <p className="text-sm font-medium text-foreground">점선 위치 조정</p>
                 <p className="text-xs text-muted-foreground">
@@ -808,12 +840,17 @@ export default function HomePage() {
             <Button
               type="button"
               className="flex-1"
+              disabled={step === 6 && submitStatus === "loading"}
               onClick={() => {
                 setDrawerOpen(false);
-                setStep((s) => Math.min(TOTAL_STEPS, s + 1));
+                if (step === 6) {
+                  handleSubmit();
+                } else {
+                  setStep((s) => Math.min(TOTAL_STEPS, s + 1));
+                }
               }}
             >
-              다음
+              {step === 6 ? (submitStatus === "loading" ? "제출 중…" : "문의 제출하기") : "다음"}
             </Button>
           </DrawerFooter>
         </DrawerContent>
@@ -826,12 +863,19 @@ export default function HomePage() {
               type="button"
               variant="outline"
               className="flex-1"
-              onClick={() => setStep((s) => s - 1)}
+              onClick={() => {
+                if (step === 2) setDrawerOpen(false);
+                setStep((s) => s - 1);
+              }}
             >
               이전
             </Button>
           )}
-          {step < 14 ? (
+          {step === 1 ? (
+            <Button type="button" className="flex-1" onClick={handleContactNext}>
+              다음
+            </Button>
+          ) : step < 6 ? (
             <Button
               type="button"
               className="flex-1"
