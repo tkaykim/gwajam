@@ -16,11 +16,11 @@ export function Step4Quantity({ quantity, onQuantityChange, quantityError }: Ste
 
   return (
     <div className="space-y-4">
-      <p className="text-muted-foreground text-sm">총 제작 수량을 입력해 주세요.</p>
+      <p className="text-muted-foreground text-sm">예상 수량을 입력해 주세요.</p>
       <Card>
         <CardContent className="pt-4 space-y-2">
           <div className="space-y-2">
-            <Label htmlFor="quantity">제작 수량 *</Label>
+            <Label htmlFor="quantity">예상 수량 *</Label>
             <Input
               id="quantity"
               type="text"

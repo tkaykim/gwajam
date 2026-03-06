@@ -35,9 +35,16 @@ export async function POST(request: NextRequest) {
       lining_oz,
     } = body;
 
-    if (!group_name?.trim() || !representative_name?.trim() || !contact?.trim()) {
+    if (!group_name?.trim() || !representative_name?.trim()) {
       return NextResponse.json(
-        { error: "단체명, 대표자명, 연락처는 필수입니다." },
+        { error: "단체명, 대표자명은 필수입니다." },
+        { status: 400 }
+      );
+    }
+    const contactOrEmail = (contact?.trim() || email?.trim()) as string | undefined;
+    if (!contactOrEmail) {
+      return NextResponse.json(
+        { error: "연락처 또는 이메일 중 하나는 필수입니다." },
         { status: 400 }
       );
     }
@@ -72,7 +79,7 @@ export async function POST(request: NextRequest) {
         back_bottom_image_url: back_bottom_image_url || null,
         group_name: group_name.trim(),
         representative_name: representative_name.trim(),
-        contact: contact.trim(),
+        contact: (contact?.trim() || email?.trim()) ?? "",
         email: email?.trim() || null,
         quantity: qty,
         quantity_note: quantity_note || null,

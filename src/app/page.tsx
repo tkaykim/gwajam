@@ -3,26 +3,18 @@
 import { useState, useCallback, useEffect, useMemo } from "react";
 import { toast } from "sonner";
 import { LayerPreview, useMockupImages, PRINT_AREA_BOXES } from "@/components/mockup/LayerPreview";
-import { Step1Colors, DEFAULT_COLORS, SingleColorStepContent, type LiningOz, type ColorStepKey } from "@/components/mockup/Step1Colors";
-import { Step2Memos, getDefaultPrintAreas, DEFAULT_PRINT_AREA_STATE, FRONT_PRINT_KEYS, BACK_PRINT_KEYS } from "@/components/mockup/Step2Memos";
-import { Step3Contact } from "@/components/mockup/Step3Contact";
+import { Step1Colors, DEFAULT_COLORS, type LiningOz } from "@/components/mockup/Step1Colors";
+import { getDefaultPrintAreas } from "@/components/mockup/Step2Memos";
+import { Step3Contact, type PreferredContact } from "@/components/mockup/Step3Contact";
 import { Step4Quantity } from "@/components/mockup/Step4Quantity";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
 import type { FrontColors, BackColors, PrintAreaKey, PrintAreaState } from "@/types/mockup";
 import type { InquiryPayload, PrintAreaStatePayload } from "@/types/mockup";
 import { HeaderLogoMenu } from "@/components/HeaderLogoMenu";
 import { PHONE_NUMBER, KAKAO_CHAT_URL, HOMEPAGE_URL } from "@/components/QuickMenuPanel";
-import { Phone, MessageCircle, Home, ChevronLeft, ChevronRight, ChevronUp, ChevronDown } from "lucide-react";
-import {
-  Drawer,
-  DrawerContent,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerFooter,
-} from "@/components/ui/drawer";
+import { Phone, MessageCircle, Home } from "lucide-react";
 
 const PRINT_AREA_BOX_STORAGE_KEY = "modoo-print-area-boxes";
 
@@ -66,17 +58,6 @@ function savePrintAreaBoxOverrides(data: Record<string, { left: number; top: num
   }
 }
 
-/** 진행 순서: 팝업 → 이름/연락처 수집 → 몸통색~안감 → 안감 선택 후 바로 제출 (인쇄 단계 스킵) */
-const FLOW_STEPS: { id: number; title: string; type: "color" | "print" | "contact"; key?: ColorStepKey | PrintAreaKey }[] = [
-  { id: 1, title: "확인 및 문의", type: "contact" },
-  { id: 2, title: "몸통색", type: "color", key: "body" },
-  { id: 3, title: "팔색", type: "color", key: "sleeve" },
-  { id: 4, title: "시보리색", type: "color", key: "ribbing" },
-  { id: 5, title: "단추색", type: "color", key: "button" },
-  { id: 6, title: "안감 두께", type: "color", key: "liningOz" },
-];
-
-const TOTAL_STEPS = FLOW_STEPS.length;
 
 function printAreaToPayload(a: PrintAreaState): PrintAreaStatePayload {
   return {
@@ -149,16 +130,11 @@ function printAreasToPayload(printAreas: Record<PrintAreaKey, PrintAreaState>) {
 
 export default function HomePage() {
   const { images, loading: imagesLoading, error: imagesError } = useMockupImages();
-  const [step, setStep] = useState(1);
-  /** 단계 2~6(색상 설정)에서 설정 드로어 표시 (진입 시 자동 오픈) */
-  const [drawerOpen, setDrawerOpen] = useState(false);
   const [frontColors, setFrontColors] = useState<FrontColors>(DEFAULT_COLORS);
   const [backColors, setBackColors] = useState<BackColors>(DEFAULT_COLORS);
   const [liningOz, setLiningOz] = useState<LiningOz>(4);
   const [printAreas, setPrintAreas] = useState<Record<PrintAreaKey, PrintAreaState>>(getDefaultPrintAreas());
-  /** 인쇄 단계에서 선택된 부위 (캔버스에 점선 테두리 표시) */
   const [activePrintArea, setActivePrintArea] = useState<PrintAreaKey | null>(null);
-  /** 점선 박스 위치 (% 숫자). 저장된 값을 localStorage에서 로드해 고정 사용 */
   const [printAreaBoxOverrides, setPrintAreaBoxOverrides] = useState<
     Record<string, { left: number; top: number; width: number; height: number }>
   >(() => getDefaultPrintAreaBoxOverrides());
@@ -168,47 +144,27 @@ export default function HomePage() {
   }, []);
   const [groupName, setGroupName] = useState("");
   const [representativeName, setRepresentativeName] = useState("");
+  const [preferredContact, setPreferredContact] = useState<PreferredContact>(null);
   const [contact, setContact] = useState("");
   const [contactEmail, setContactEmail] = useState("");
   const [quantity, setQuantity] = useState("");
-  const [desiredDeliveryDate, setDesiredDeliveryDate] = useState("");
   const [additionalNoteText, setAdditionalNoteText] = useState("");
   const [additionalNoteImageUrl, setAdditionalNoteImageUrl] = useState<string | null>(null);
   const [submitStatus, setSubmitStatus] = useState<"idle" | "loading" | "done" | "error">("idle");
-  /** 1단계(연락처)에서 다음 클릭 시 백그라운드 저장된 문의 id → 최종 제출 시 PATCH에 사용 */
-  const [inquiryId, setInquiryId] = useState<string | null>(null);
-  /** 문의 접수 완료 팝업 표시 */
   const [showSuccessModal, setShowSuccessModal] = useState(false);
-  /** 웰컴 팝업 표시 */
   const [showWelcomeModal, setShowWelcomeModal] = useState(true);
-  /** 개인정보 활용 동의 (필수) */
   const [privacyConsentAgreed, setPrivacyConsentAgreed] = useState(false);
-  /** 필수 항목 검증 시 해당 섹션에 툴팁으로 표시 */
+  /** 색상 변경하기 패널 열림 여부 */
+  const [showColorPanel, setShowColorPanel] = useState(false);
   const [fieldErrors, setFieldErrors] = useState<{
     groupName?: string;
     representativeName?: string;
     contact?: string;
+    email?: string;
     quantity?: string;
     privacyConsent?: string;
   }>({});
 
-  useEffect(() => {
-    setActivePrintArea(null);
-  }, [step]);
-
-  /** 단계 2~6(색상 설정) 진입 시 드로어 자동 오픈 (웰컴 팝업이 닫힌 후에만) */
-  useEffect(() => {
-    if (showWelcomeModal) return;
-    if (step >= 2 && step <= 6) setDrawerOpen(true);
-    else setDrawerOpen(false);
-  }, [step, showWelcomeModal]);
-
-  /** 1단계(정보 입력) 다음으로 넘어갈 때 스크롤을 최상단으로 올려 새 단계 콘텐츠가 잘리지 않도록 */
-  useEffect(() => {
-    if (step >= 2) {
-      window.scrollTo({ top: 0, behavior: "auto" });
-    }
-  }, [step]);
 
   const handleImageUpload = useCallback(
     async (section: PrintAreaKey, file: File): Promise<string | null> => {
@@ -237,121 +193,20 @@ export default function HomePage() {
   const showOnlyFront = false;
   const showOnlyBack = false;
 
-  const NUDGE_STEP = 1;
-  const nudgePrintAreaBox = useCallback(
-    (key: PrintAreaKey, field: "left" | "top" | "width" | "height", delta: number) => {
-      setPrintAreaBoxOverrides((prev) => {
-        const cur = prev[key] ?? getDefaultPrintAreaBoxOverrides()[key]!;
-        let { left, top, width, height } = cur;
-        if (field === "left") left = Math.max(0, Math.min(100 - width, left + delta));
-        else if (field === "top") top = Math.max(0, Math.min(100 - height, top + delta));
-        else if (field === "width") width = Math.max(1, Math.min(100 - left, width + delta));
-        else height = Math.max(1, Math.min(100 - top, height + delta));
-        return { ...prev, [key]: { left, top, width, height } };
-      });
-    },
-    []
-  );
-
-  const handleSavePrintAreaBoxes = useCallback(async () => {
-    const defaults = getDefaultPrintAreaBoxOverrides();
-    const boxes = { ...defaults, ...printAreaBoxOverrides };
-    const res = await fetch("/api/save-print-area-boxes", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ boxes }),
-    });
-    const data = await res.json().catch(() => ({}));
-    if (!res.ok) {
-      toast.error(data.error ?? "저장에 실패했습니다.");
-      return;
-    }
-    savePrintAreaBoxOverrides(boxes);
-    toast.success("점선 위치를 코드에 반영했습니다.");
-  }, [printAreaBoxOverrides]);
-
-  /** 1단계(연락처)에서 다음 클릭 시: 검증 후 step 2로 이동. 이미 문의 건이 있으면 PATCH, 없으면 POST로 드래프트 저장 */
-  const handleContactNext = useCallback(() => {
-    setFieldErrors({});
-    const errors: typeof fieldErrors = {};
-    if (!groupName.trim()) errors.groupName = "단체명을 입력해 주세요.";
-    if (!representativeName.trim()) errors.representativeName = "대표자명을 입력해 주세요.";
-    if (!contact.trim()) errors.contact = "연락처를 입력해 주세요.";
-    const qty = parseInt(quantity, 10);
-    if (!Number.isInteger(qty) || qty < 1) {
-      errors.quantity = "제작 수량을 1 이상 숫자로 입력해 주세요.";
-    }
-    if (!privacyConsentAgreed) {
-      errors.privacyConsent = "개인정보 활용에 동의해 주세요.";
-    }
-    if (Object.keys(errors).length > 0) {
-      setFieldErrors(errors);
-      toast.error("필수 항목을 입력해 주세요.");
-      return;
-    }
-    setStep(2);
-    setDrawerOpen(true);
-    const { print_areas, ...flat } = printAreasToPayload(printAreas);
-    const draftPayload: InquiryPayload = {
-      front_colors: frontColors,
-      back_colors: backColors,
-      ...flat,
-      print_areas: print_areas ?? null,
-      group_name: groupName.trim(),
-      representative_name: representativeName.trim(),
-      contact: contact.trim(),
-      email: contactEmail.trim() || null,
-      quantity: qty,
-      quantity_note: "최종 수량은 상담 후 결정하셔도 됩니다. 사이즈별 수량 파악은 상담 후 양식을 제공드립니다. (사이즈표 포함)",
-      desired_delivery_date: desiredDeliveryDate.trim() || null,
-      additional_note_text: additionalNoteText.trim() || null,
-      additional_note_image_url: additionalNoteImageUrl || null,
-      lining_oz: liningOz,
-    };
-    if (inquiryId) {
-      fetch(`/api/inquiries/${inquiryId}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(draftPayload),
-      }).catch(() => {});
-    } else {
-      fetch("/api/inquiries", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(draftPayload),
-      })
-        .then((res) => res.json())
-        .then((data: { ok?: boolean; id?: string }) => {
-          if (data?.ok && data?.id) setInquiryId(data.id);
-        })
-        .catch(() => {});
-    }
-  }, [
-    inquiryId,
-    groupName,
-    representativeName,
-    contact,
-    contactEmail,
-    quantity,
-    privacyConsentAgreed,
-    desiredDeliveryDate,
-    additionalNoteText,
-    additionalNoteImageUrl,
-    frontColors,
-    backColors,
-    printAreas,
-    liningOz,
-  ]);
-
   const handleSubmit = async () => {
     setFieldErrors({});
     const errors: typeof fieldErrors = {};
     if (!groupName.trim()) errors.groupName = "단체명을 입력해 주세요.";
     if (!representativeName.trim()) errors.representativeName = "대표자명을 입력해 주세요.";
-    if (!contact.trim()) errors.contact = "연락처를 입력해 주세요.";
+    if (!preferredContact) {
+      toast.error("연락 방법을 선택해 주세요. (전화 또는 이메일)");
+      return;
+    }
+    if (preferredContact === "phone" && !contact.trim()) errors.contact = "연락처를 입력해 주세요.";
+    if (preferredContact === "email" && !contactEmail.trim()) errors.email = "이메일을 입력해 주세요.";
     const qty = parseInt(quantity, 10);
     if (!Number.isInteger(qty) || qty < 1) {
-      errors.quantity = "제작 수량을 1 이상 숫자로 입력해 주세요.";
+      errors.quantity = "예상 수량을 1 이상 숫자로 입력해 주세요.";
     }
     if (!privacyConsentAgreed) {
       errors.privacyConsent = "개인정보 활용에 동의해 주세요.";
@@ -362,6 +217,7 @@ export default function HomePage() {
       return;
     }
 
+    const contactValue = preferredContact === "phone" ? contact.trim() : contactEmail.trim();
     setSubmitStatus("loading");
     try {
       const { print_areas, ...flat } = printAreasToPayload(printAreas);
@@ -372,40 +228,26 @@ export default function HomePage() {
         print_areas: print_areas ?? null,
         group_name: groupName.trim(),
         representative_name: representativeName.trim(),
-        contact: contact.trim(),
+        contact: contactValue,
         email: contactEmail.trim() || null,
         quantity: qty,
         quantity_note: "최종 수량은 상담 후 결정하셔도 됩니다. 사이즈별 수량 파악은 상담 후 양식을 제공드립니다. (사이즈표 포함)",
-        desired_delivery_date: desiredDeliveryDate.trim() || null,
+        desired_delivery_date: null,
         additional_note_text: additionalNoteText.trim() || null,
         additional_note_image_url: additionalNoteImageUrl || null,
         lining_oz: liningOz,
       };
 
-      if (inquiryId) {
-        const res = await fetch(`/api/inquiries/${inquiryId}`, {
-          method: "PATCH",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-        });
-        const data = await res.json();
-        if (!res.ok) {
-          toast.error(data.error || "제출에 실패했습니다.");
-          setSubmitStatus("error");
-          return;
-        }
-      } else {
-        const res = await fetch("/api/inquiries", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-        });
-        const data = await res.json();
-        if (!res.ok) {
-          toast.error(data.error || "제출에 실패했습니다.");
-          setSubmitStatus("error");
-          return;
-        }
+      const res = await fetch("/api/inquiries", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        toast.error(data.error || "제출에 실패했습니다.");
+        setSubmitStatus("error");
+        return;
       }
       setSubmitStatus("done");
       setShowSuccessModal(true);
@@ -579,320 +421,140 @@ export default function HomePage() {
             </div>
       </section>
 
-      <section className="px-4 py-4 flex-1 max-w-xl mx-auto w-full">
-        {step >= 2 && step <= 6 && (
-          <p className="text-muted-foreground text-sm text-center py-4">
-            아래에서 현재 단계를 설정한 뒤 &quot;다음&quot;을 눌러 진행하세요.
-          </p>
-        )}
-        {step === 1 && (
-          <div className="space-y-6">
-            <p className="text-muted-foreground text-sm">
-              아래 정보를 입력한 뒤 다음을 눌러 색상 선택 단계로 진행하세요.
-            </p>
-            <Step3Contact
-              groupName={groupName}
-              representativeName={representativeName}
-              contact={contact}
-              email={contactEmail}
-              onGroupNameChange={setGroupName}
-              onRepresentativeNameChange={setRepresentativeName}
-              onContactChange={setContact}
-              onEmailChange={setContactEmail}
-              groupNameError={fieldErrors.groupName}
-              representativeNameError={fieldErrors.representativeName}
-              contactError={fieldErrors.contact}
-            />
-            <Step4Quantity
-              quantity={quantity}
-              onQuantityChange={setQuantity}
-              quantityError={fieldErrors.quantity}
-            />
-            <Card>
-              <CardContent className="pt-4 space-y-2">
-                <Label htmlFor="desiredDeliveryDate">수령 희망일</Label>
-                <Input
-                  id="desiredDeliveryDate"
-                  type="date"
-                  value={desiredDeliveryDate}
-                  onChange={(e) => setDesiredDeliveryDate(e.target.value)}
-                />
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="pt-4 space-y-3">
-                <Label htmlFor="additionalNote">부가설명</Label>
-                <textarea
-                  id="additionalNote"
-                  value={additionalNoteText}
-                  onChange={(e) => setAdditionalNoteText(e.target.value)}
-                  placeholder="제작에 참고할만한 내용이 있다면 남겨주세요 (ex. 이전 제작사례 이미지, 재질에 대한 궁금증, 기타 참고사항 등)"
-                  rows={4}
-                  className="flex min-h-[100px] w-full rounded-lg border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 resize-none"
-                />
-                <div className="flex items-center gap-2 flex-wrap">
-                  <input
-                    type="file"
-                    accept="image/*"
-                    className="hidden"
-                    id="additional-note-image"
-                    onChange={async (e) => {
-                      const file = e.target.files?.[0];
-                      if (!file) return;
-                      const url = await handleAdditionalNoteImageUpload(file);
-                      if (url) setAdditionalNoteImageUrl(url);
-                      e.target.value = "";
-                    }}
-                  />
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    onClick={() => document.getElementById("additional-note-image")?.click()}
-                  >
-                    이미지 첨부
-                  </Button>
-                  {additionalNoteImageUrl && (
-                    <span className="flex items-center gap-2">
-                      <img
-                        src={additionalNoteImageUrl}
-                        alt="부가설명 이미지 미리보기"
-                        className="w-14 h-14 rounded-lg object-cover border border-border shrink-0"
-                      />
-                      <span className="text-xs text-green-600">첨부됨</span>
-                    </span>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
-            <label
-              className={`flex items-start gap-3 rounded-lg border p-3 cursor-pointer transition-colors ${
-                fieldErrors.privacyConsent ? "border-destructive bg-destructive/5" : "border-border hover:bg-muted/30"
-              }`}
-            >
-              <input
-                type="checkbox"
-                checked={privacyConsentAgreed}
-                onChange={(e) => {
-                  setPrivacyConsentAgreed(e.target.checked);
-                  if (fieldErrors.privacyConsent) setFieldErrors((prev) => ({ ...prev, privacyConsent: undefined }));
-                }}
-                className="mt-0.5 h-4 w-4 rounded border-border text-primary focus:ring-primary shrink-0"
-                aria-describedby="privacy-consent-desc"
-              />
-              <span id="privacy-consent-desc" className="text-sm text-foreground leading-snug">
-                <span className="font-medium">[필수] 개인정보 활용 동의</span>
-                <span className="text-muted-foreground">
-                  {" "}문의 확인 및 응대 목적으로만 사용되며, 이용자 요청 시 파기합니다.
-                </span>
-              </span>
-            </label>
-            {fieldErrors.privacyConsent && (
-              <p className="text-destructive text-xs -mt-2 flex items-center gap-1" role="alert">
-                <span className="inline-block w-1 h-1 rounded-full bg-destructive" aria-hidden />
-                {fieldErrors.privacyConsent}
-              </p>
-            )}
-          </div>
-        )}
-      </section>
-
-      {/* 단계 2~6: 색상 설정 드로어 */}
-      <Drawer open={drawerOpen} onOpenChange={setDrawerOpen}>
-        <DrawerContent>
-          <DrawerHeader className="flex shrink-0 flex-row items-center justify-between gap-3 text-left border-b border-border px-4 py-2">
-            <DrawerTitle className="!mt-0">{FLOW_STEPS[step - 1]?.title ?? ""}</DrawerTitle>
-          </DrawerHeader>
-          <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 py-3 pb-2 flex flex-col gap-0">
-            {step >= 2 && step <= 6 && FLOW_STEPS[step - 1]?.key && (
-              <SingleColorStepContent
-                colorKey={FLOW_STEPS[step - 1].key as ColorStepKey}
+      <section className="px-4 py-4 flex-1 max-w-xl mx-auto w-full space-y-6">
+        {/* 의류 캔버스 아래: 색상 변경하기 */}
+        <div className="space-y-3">
+          <Button
+            type="button"
+            variant="outline"
+            className="w-full rounded-xl py-6 text-base font-medium"
+            onClick={() => setShowColorPanel((v) => !v)}
+          >
+            {showColorPanel ? "색상 선택 접기" : "색상 변경하기"}
+          </Button>
+          {showColorPanel && (
+            <div className="pt-2">
+              <p className="text-muted-foreground text-sm mb-3">원하시는 제품 색상을 골라주세요.</p>
+              <Step1Colors
                 frontColors={frontColors}
                 backColors={backColors}
                 liningOz={liningOz}
                 onFrontColorsChange={setFrontColors}
                 onBackColorsChange={setBackColors}
                 onLiningOzChange={setLiningOz}
-                onNext={() => {}}
-                hideNextButton
               />
-            )}
-            {process.env.NODE_ENV === "development" && step >= 2 && step <= 6 && activePrintArea && (
-              <div className="mt-4 pt-4 border-t border-border space-y-3">
-                <p className="text-sm font-medium text-foreground">점선 위치 조정</p>
-                <p className="text-xs text-muted-foreground">
-                  위 캔버스의 점선을 화살표로 맞춘 뒤 &quot;저장&quot;하면 다음 방문 시에도 적용됩니다.
-                </p>
-                <div className="grid grid-cols-2 gap-2">
-                  <div className="flex items-center gap-1">
-                    <span className="text-xs text-muted-foreground w-12 shrink-0">위치</span>
-                    <div className="flex flex-1 gap-0.5">
-                      <Button
-                        type="button"
-                        variant="outline"
-                        size="icon"
-                        className="h-8 w-8 shrink-0"
-                        onClick={() => nudgePrintAreaBox(activePrintArea, "left", -NUDGE_STEP)}
-                        aria-label="왼쪽으로"
-                      >
-                        <ChevronLeft className="h-4 w-4" />
-                      </Button>
-                      <Button
-                        type="button"
-                        variant="outline"
-                        size="icon"
-                        className="h-8 w-8 shrink-0"
-                        onClick={() => nudgePrintAreaBox(activePrintArea, "left", NUDGE_STEP)}
-                        aria-label="오른쪽으로"
-                      >
-                        <ChevronRight className="h-4 w-4" />
-                      </Button>
-                      <Button
-                        type="button"
-                        variant="outline"
-                        size="icon"
-                        className="h-8 w-8 shrink-0"
-                        onClick={() => nudgePrintAreaBox(activePrintArea, "top", -NUDGE_STEP)}
-                        aria-label="위로"
-                      >
-                        <ChevronUp className="h-4 w-4" />
-                      </Button>
-                      <Button
-                        type="button"
-                        variant="outline"
-                        size="icon"
-                        className="h-8 w-8 shrink-0"
-                        onClick={() => nudgePrintAreaBox(activePrintArea, "top", NUDGE_STEP)}
-                        aria-label="아래로"
-                      >
-                        <ChevronDown className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <span className="text-xs text-muted-foreground w-12 shrink-0">크기</span>
-                    <div className="flex flex-1 gap-0.5">
-                      <Button
-                        type="button"
-                        variant="outline"
-                        size="icon"
-                        className="h-8 w-8 shrink-0"
-                        onClick={() => nudgePrintAreaBox(activePrintArea, "width", -NUDGE_STEP)}
-                        aria-label="가로 줄이기"
-                      >
-                        <ChevronLeft className="h-4 w-4" />
-                      </Button>
-                      <Button
-                        type="button"
-                        variant="outline"
-                        size="icon"
-                        className="h-8 w-8 shrink-0"
-                        onClick={() => nudgePrintAreaBox(activePrintArea, "width", NUDGE_STEP)}
-                        aria-label="가로 넓히기"
-                      >
-                        <ChevronRight className="h-4 w-4" />
-                      </Button>
-                      <Button
-                        type="button"
-                        variant="outline"
-                        size="icon"
-                        className="h-8 w-8 shrink-0"
-                        onClick={() => nudgePrintAreaBox(activePrintArea, "height", -NUDGE_STEP)}
-                        aria-label="세로 줄이기"
-                      >
-                        <ChevronDown className="h-4 w-4" />
-                      </Button>
-                      <Button
-                        type="button"
-                        variant="outline"
-                        size="icon"
-                        className="h-8 w-8 shrink-0"
-                        onClick={() => nudgePrintAreaBox(activePrintArea, "height", NUDGE_STEP)}
-                        aria-label="세로 늘리기"
-                      >
-                        <ChevronUp className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-                <Button type="button" className="w-full" onClick={handleSavePrintAreaBoxes}>
-                  위치 저장
-                </Button>
-              </div>
-            )}
-          </div>
-          <DrawerFooter className="flex shrink-0 flex-row gap-2 border-t border-border pt-2 pb-3">
-            {step > 1 ? (
+            </div>
+          )}
+        </div>
+
+        {/* 단체명, 대표자명, 연락방법 → 연락처/이메일, 예상 수량, 부가설명 */}
+        <Step3Contact
+          groupName={groupName}
+          representativeName={representativeName}
+          preferredContact={preferredContact}
+          contact={contact}
+          email={contactEmail}
+          onGroupNameChange={setGroupName}
+          onRepresentativeNameChange={setRepresentativeName}
+          onPreferredContactChange={setPreferredContact}
+          onContactChange={setContact}
+          onEmailChange={setContactEmail}
+          groupNameError={fieldErrors.groupName}
+          representativeNameError={fieldErrors.representativeName}
+          contactError={fieldErrors.contact}
+          emailError={fieldErrors.email}
+        />
+        <Step4Quantity
+          quantity={quantity}
+          onQuantityChange={setQuantity}
+          quantityError={fieldErrors.quantity}
+        />
+        <Card>
+          <CardContent className="pt-4 space-y-3">
+            <Label htmlFor="additionalNote">부가설명</Label>
+            <textarea
+              id="additionalNote"
+              value={additionalNoteText}
+              onChange={(e) => setAdditionalNoteText(e.target.value)}
+              placeholder="제작에 참고할만한 내용이 있다면 남겨주세요 (ex. 이전 제작사례 이미지, 재질에 대한 궁금증, 기타 참고사항 등)"
+              rows={4}
+              className="flex min-h-[100px] w-full rounded-lg border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 resize-none"
+            />
+            <div className="flex items-center gap-2 flex-wrap">
+              <input
+                type="file"
+                accept="image/*"
+                className="hidden"
+                id="additional-note-image"
+                onChange={async (e) => {
+                  const file = e.target.files?.[0];
+                  if (!file) return;
+                  const url = await handleAdditionalNoteImageUpload(file);
+                  if (url) setAdditionalNoteImageUrl(url);
+                  e.target.value = "";
+                }}
+              />
               <Button
                 type="button"
                 variant="outline"
-                className="flex-1"
-                onClick={() => {
-                  setDrawerOpen(false);
-                  setStep((s) => s - 1);
-                }}
+                size="sm"
+                onClick={() => document.getElementById("additional-note-image")?.click()}
               >
-                이전
+                이미지 첨부
               </Button>
-            ) : (
-              <span className="flex-1" />
-            )}
-            <Button
-              type="button"
-              className="flex-1"
-              disabled={step === 6 && submitStatus === "loading"}
-              onClick={() => {
-                setDrawerOpen(false);
-                if (step === 6) {
-                  handleSubmit();
-                } else {
-                  setStep((s) => Math.min(TOTAL_STEPS, s + 1));
-                }
-              }}
-            >
-              {step === 6 ? (submitStatus === "loading" ? "제출 중…" : "문의 제출하기") : "다음"}
-            </Button>
-          </DrawerFooter>
-        </DrawerContent>
-      </Drawer>
+              {additionalNoteImageUrl && (
+                <span className="flex items-center gap-2">
+                  <img
+                    src={additionalNoteImageUrl}
+                    alt="부가설명 이미지 미리보기"
+                    className="w-14 h-14 rounded-lg object-cover border border-border shrink-0"
+                  />
+                  <span className="text-xs text-green-600">첨부됨</span>
+                </span>
+              )}
+            </div>
+          </CardContent>
+        </Card>
+        <label
+          className={`flex items-start gap-3 rounded-lg border p-3 cursor-pointer transition-colors ${
+            fieldErrors.privacyConsent ? "border-destructive bg-destructive/5" : "border-border hover:bg-muted/30"
+          }`}
+        >
+          <input
+            type="checkbox"
+            checked={privacyConsentAgreed}
+            onChange={(e) => {
+              setPrivacyConsentAgreed(e.target.checked);
+              if (fieldErrors.privacyConsent) setFieldErrors((prev) => ({ ...prev, privacyConsent: undefined }));
+            }}
+            className="mt-0.5 h-4 w-4 rounded border-border text-primary focus:ring-primary shrink-0"
+            aria-describedby="privacy-consent-desc"
+          />
+          <span id="privacy-consent-desc" className="text-sm text-foreground leading-snug">
+            <span className="font-medium">[필수] 개인정보 활용 동의</span>
+            <span className="text-muted-foreground">
+              {" "}문의 확인 및 응대 목적으로만 사용되며, 이용자 요청 시 파기합니다.
+            </span>
+          </span>
+        </label>
+        {fieldErrors.privacyConsent && (
+          <p className="text-destructive text-xs -mt-2 flex items-center gap-1" role="alert">
+            <span className="inline-block w-1 h-1 rounded-full bg-destructive" aria-hidden />
+            {fieldErrors.privacyConsent}
+          </p>
+        )}
+      </section>
 
       <footer className="fixed bottom-0 left-0 right-0 p-4 bg-background/98 backdrop-blur-sm border-t border-border pb-[max(1rem,env(safe-area-inset-bottom))]">
-        <div className="max-w-xl mx-auto flex gap-3">
-          {step > 1 && (
-            <Button
-              type="button"
-              variant="outline"
-              className="flex-1"
-              onClick={() => {
-                if (step === 2) setDrawerOpen(false);
-                setStep((s) => s - 1);
-              }}
-            >
-              이전
-            </Button>
-          )}
-          {step === 1 ? (
-            <Button type="button" className="flex-1" onClick={handleContactNext}>
-              다음
-            </Button>
-          ) : step < 6 ? (
-            <Button
-              type="button"
-              className="flex-1"
-              onClick={() => setDrawerOpen(true)}
-            >
-              설정하기
-            </Button>
-          ) : (
-            <Button
-              type="button"
-              className="flex-1"
-              disabled={submitStatus === "loading"}
-              onClick={handleSubmit}
-            >
-              {submitStatus === "loading" ? "제출 중…" : "문의 제출하기"}
-            </Button>
-          )}
+        <div className="max-w-xl mx-auto">
+          <Button
+            type="button"
+            className="w-full"
+            disabled={submitStatus === "loading"}
+            onClick={handleSubmit}
+          >
+            {submitStatus === "loading" ? "제출 중…" : "견적 요청하기"}
+          </Button>
         </div>
       </footer>
     </main>
