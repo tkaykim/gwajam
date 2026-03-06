@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import { HexColorPicker } from "react-colorful";
 import type { FrontColors, BackColors } from "@/types/mockup";
 import { Card, CardContent } from "@/components/ui/card";
@@ -111,6 +111,7 @@ function ExpandPanel({
   onChange,
   extraButtons,
   showOther,
+  panelRef,
 }: {
   openKey: OpenKey;
   onClose?: () => void;
@@ -119,6 +120,7 @@ function ExpandPanel({
   onChange: (hex: string | undefined) => void;
   extraButtons?: { label: string; onClick: () => void }[];
   showOther?: boolean;
+  panelRef?: React.RefObject<HTMLDivElement>;
 }) {
   const [showPicker, setShowPicker] = useState(false);
   const isNone = value == null || value === "";
@@ -127,7 +129,10 @@ function ExpandPanel({
   if (!openKey) return null;
 
   return (
-    <div className="pt-5 mt-5 border-t border-border/60 space-y-4">
+    <div
+      ref={panelRef}
+      className="pt-5 mt-5 border-t border-border/60 space-y-4 scroll-mt-4"
+    >
       <div className="flex flex-wrap gap-2.5 items-center">
         {presets.map((p) => (
           <button
@@ -173,7 +178,10 @@ function ExpandPanel({
       </div>
       {showOther && showPicker && (
         <div className="space-y-3">
-          <HexColorPicker color={value || "#333333"} onChange={onChange} style={{ width: "100%" }} />
+          {/* 모바일에서 팔레트가 화면 밖으로 나가지 않도록 높이 제한 */}
+          <div className="max-h-[min(50vh,280px)] overflow-auto rounded-lg border border-border/60 p-2 bg-muted/30">
+            <HexColorPicker color={value || "#333333"} onChange={onChange} style={{ width: "100%" }} />
+          </div>
           <Input
             type="text"
             value={value ?? ""}
@@ -323,6 +331,17 @@ export function Step1Colors({
   onLiningOzChange,
 }: Step1ColorsProps) {
   const [openKey, setOpenKey] = useState<OpenKey>(null);
+  const expandPanelRef = useRef<HTMLDivElement>(null);
+
+  /** 모바일: 색상 행 펼칠 때 해당 패널이 화면 안으로 스크롤 */
+  useEffect(() => {
+    if (!openKey) return;
+    const id = requestAnimationFrame(() => {
+      expandPanelRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    });
+    return () => cancelAnimationFrame(id);
+  }, [openKey]);
+
   const bodyColor = frontColors.front_body;
   const sleeveColor = frontColors.front_sleeves;
   const buttonColor = frontColors.front_buttons;
@@ -420,6 +439,7 @@ export function Step1Colors({
               value={bodyColor}
               onChange={setBodyColor}
               showOther
+              panelRef={expandPanelRef}
             />
           )}
           {openKey === "sleeve" && (
@@ -431,6 +451,7 @@ export function Step1Colors({
               onChange={setSleeveColor}
               extraButtons={[{ label: "몸통색과 통일", onClick: () => setSleeveColor(bodyColor) }]}
               showOther
+              panelRef={expandPanelRef}
             />
           )}
           {openKey === "ribbing" && (
@@ -442,6 +463,7 @@ export function Step1Colors({
               onChange={setRibbingColor}
               extraButtons={[{ label: "몸통색과 통일", onClick: () => setRibbingColor(bodyColor) }]}
               showOther
+              panelRef={expandPanelRef}
             />
           )}
           {openKey === "button" && (
@@ -452,6 +474,7 @@ export function Step1Colors({
               value={buttonColor}
               onChange={setButtonColor}
               showOther
+              panelRef={expandPanelRef}
             />
           )}
         </CardContent>

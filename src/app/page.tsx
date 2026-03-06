@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useEffect, useMemo } from "react";
+import { useState, useCallback, useEffect, useMemo, useRef } from "react";
 import { toast } from "sonner";
 import { LayerPreview, useMockupImages, PRINT_AREA_BOXES } from "@/components/mockup/LayerPreview";
 import { Step1Colors, DEFAULT_COLORS, type LiningOz } from "@/components/mockup/Step1Colors";
@@ -156,6 +156,7 @@ export default function HomePage() {
   const [privacyConsentAgreed, setPrivacyConsentAgreed] = useState(false);
   /** 색상 변경하기 패널 열림 여부 */
   const [showColorPanel, setShowColorPanel] = useState(false);
+  const colorPanelRef = useRef<HTMLDivElement>(null);
   const [fieldErrors, setFieldErrors] = useState<{
     groupName?: string;
     representativeName?: string;
@@ -192,6 +193,15 @@ export default function HomePage() {
   /** 인쇄 단계 스킵으로 항상 양면 표시 */
   const showOnlyFront = false;
   const showOnlyBack = false;
+
+  /** 모바일: 색상 패널 열릴 때 화면 안으로 스크롤 */
+  useEffect(() => {
+    if (!showColorPanel) return;
+    const t = requestAnimationFrame(() => {
+      colorPanelRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+    return () => cancelAnimationFrame(t);
+  }, [showColorPanel]);
 
   const handleSubmit = async () => {
     setFieldErrors({});
@@ -423,7 +433,7 @@ export default function HomePage() {
 
       <section className="px-4 py-4 flex-1 max-w-xl mx-auto w-full space-y-6">
         {/* 의류 캔버스 아래: 색상 변경하기 */}
-        <div className="space-y-3">
+        <div className="space-y-3" ref={colorPanelRef}>
           <Button
             type="button"
             variant="outline"
